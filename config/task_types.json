@@ -1,0 +1,83 @@
+{
+  "schema_version": "0.1.0",
+  "scope": {
+    "input_origin": "cluster_task_preallocated_to_single_uav",
+    "description": "This project handles single-UAV semantic task parameters after upstream cluster task allocation."
+  },
+  "global_constraints": {
+    "max_payloads_per_uav": 1,
+    "payload_field": "payload",
+    "stage_rule": "each output stage must contain exactly one ROBOT_CTRL and zero or more SVR components",
+    "final_output_format": "structured_stage_sequence"
+  },
+  "semantic_input_contract": {
+    "required_fields": [
+      "uav_id",
+      "task_type",
+      "role",
+      "assigned_area",
+      "route_mode",
+      "payload",
+      "flight",
+      "capabilities",
+      "safety"
+    ],
+    "field_groups": {
+      "identity": ["uav_id", "task_type", "role"],
+      "assignment": ["assigned_area", "assigned_route", "route_mode"],
+      "platform": ["payload"],
+      "flight": ["height_m", "speed_mps", "hover_sec", "return_home"],
+      "capabilities": ["object_detection", "target_tracking", "obstacle_avoidance", "thermal_scan", "image_capture"],
+      "safety": ["preflight_check", "battery_monitor", "min_battery_percent"]
+    },
+    "capability_schema": {
+      "object_detection": {
+        "enabled": "boolean",
+        "target_classes": "array<string>",
+        "notes": "Target classes such as person, vehicle, tower, insulator, or fire must be explicit when enabled."
+      },
+      "target_tracking": {
+        "enabled": "boolean",
+        "target_class": "string|null",
+        "notes": "Tracking requires an explicit target class and normally depends on object_detection."
+      },
+      "obstacle_avoidance": {
+        "enabled": "boolean",
+        "obstacle_level": "low|medium|high|null",
+        "notes": "Obstacle avoidance maps to radar scan plus obstacle_avoid_flight when the payload supports it."
+      },
+      "thermal_scan": {
+        "enabled": "boolean",
+        "notes": "Thermal scanning requires an infrared payload."
+      },
+      "image_capture": {
+        "enabled": "boolean",
+        "capture_mode": "photo|video|continuous_photo|null",
+        "notes": "Image capture requires a camera-capable payload."
+      }
+    }
+  },
+  "task_types": [
+    {
+      "id": "single_uav_area_search",
+      "name": "single UAV area search",
+      "roles": ["search_unit", "observer"],
+      "route_modes": ["waypoint", "grid", "lawnmower"],
+      "typical_capabilities": ["image_capture", "object_detection", "target_tracking", "thermal_scan", "obstacle_avoidance"]
+    },
+    {
+      "id": "single_uav_route_inspection",
+      "name": "single UAV route inspection",
+      "roles": ["inspection_unit"],
+      "route_modes": ["waypoint", "line_follow"],
+      "typical_capabilities": ["image_capture", "object_detection", "thermal_scan", "obstacle_avoidance"]
+    },
+    {
+      "id": "single_uav_fixed_point_observation",
+      "name": "single UAV fixed-point observation",
+      "roles": ["observer"],
+      "route_modes": ["goto_point", "hover"],
+      "typical_capabilities": ["image_capture", "object_detection", "target_tracking", "thermal_scan"]
+    }
+  ]
+}
