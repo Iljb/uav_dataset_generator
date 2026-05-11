@@ -1,6 +1,97 @@
 {
-  "total": 0,
-  "by_task_type": {},
-  "by_complexity": {},
-  "by_source": {}
+  "generated_at": "2026-05-11T08:17:52.384799+00:00",
+  "generator_version": "0.1.0",
+  "seed": 42,
+  "requested_total": 30,
+  "total": 30,
+  "valid": true,
+  "validation_error_count": 0,
+  "validation_errors": [],
+  "by_task_type": {
+    "single_uav_area_search": 10,
+    "single_uav_fixed_point_observation": 12,
+    "single_uav_route_inspection": 8
+  },
+  "by_payload": {
+    "infrared_camera": 4,
+    "radar": 10,
+    "visible_camera": 16
+  },
+  "by_route_mode": {
+    "goto_point": 6,
+    "grid": 3,
+    "hover": 6,
+    "lawnmower": 3,
+    "line_follow": 4,
+    "waypoint": 8
+  },
+  "by_stage_count": {
+    "5": 17,
+    "6": 12,
+    "7": 1
+  },
+  "by_action_count": {
+    "9": 7,
+    "10": 10,
+    "11": 7,
+    "12": 5,
+    "13": 1
+  },
+  "by_component": {
+    "battery_level": 30,
+    "battery_warning": 30,
+    "get_gnss_position": 18,
+    "gnss_to_position_3d": 18,
+    "goto_point": 8,
+    "hover": 6,
+    "land": 30,
+    "object_detect": 11,
+    "obstacle_avoid_flight": 10,
+    "preflight_check": 30,
+    "return_home": 30,
+    "sensor_camera_scan": 16,
+    "sensor_ir_scan": 4,
+    "sensor_radar_scan": 10,
+    "takeoff": 30,
+    "target_tracking": 8,
+    "waypoint_flight": 12,
+    "waypoint_list_create": 12
+  },
+  "by_robot_ctrl": {
+    "goto_point": 8,
+    "hover": 6,
+    "land": 30,
+    "obstacle_avoid_flight": 10,
+    "preflight_check": 30,
+    "return_home": 30,
+    "takeoff": 30,
+    "target_tracking": 8,
+    "waypoint_flight": 12
+  },
+  "by_svr": {
+    "battery_level": 30,
+    "battery_warning": 30,
+    "get_gnss_position": 18,
+    "gnss_to_position_3d": 18,
+    "object_detect": 11,
+    "sensor_camera_scan": 16,
+    "sensor_ir_scan": 4,
+    "sensor_radar_scan": 10,
+    "waypoint_list_create": 12
+  },
+  "invariants": {
+    "stage_continuous": true,
+    "exactly_one_robot_ctrl_start_per_stage": true,
+    "prev_events": [
+      "success",
+      "failed"
+    ],
+    "prev_source_types": [
+      "ROBOT_CTRL"
+    ],
+    "svr_start_once_per_task": true,
+    "svr_stop_generated": false,
+    "component_params_generated": false,
+    "component_uuid_generated": false
+  }
 }

@@ -7,8 +7,18 @@
   "global_constraints": {
     "max_payloads_per_uav": 1,
     "payload_field": "payload",
-    "stage_rule": "each output stage must contain exactly one ROBOT_CTRL and zero or more SVR components",
-    "final_output_format": "structured_stage_sequence"
+    "stage_rule": "each stage is a compact control phase; each stage must contain exactly one ROBOT_CTRL start action and may contain zero or more SVR actions",
+    "final_output_format": "staged_component_actions",
+    "output_contains_component_params": false,
+    "component_parameter_filling": "downstream_rule_based_step",
+    "output_contains_explicit_predecessor": true,
+    "component_uuid_policy": "downstream_compiler_assigns_uuid",
+    "topology_prev_source_types": ["ROBOT_CTRL"],
+    "topology_prev_events": ["success", "failed"],
+    "svr_control_outputs": false,
+    "svr_can_drive_control_flow": false,
+    "svr_start_once_per_task": true,
+    "svr_stop_generated": false
   },
   "semantic_input_contract": {
     "required_fields": [
@@ -24,11 +34,11 @@
     ],
     "field_groups": {
       "identity": ["uav_id", "task_type", "role"],
-      "assignment": ["assigned_area", "assigned_route", "route_mode"],
+      "assignment": ["assigned_area", "route_mode"],
       "platform": ["payload"],
-      "flight": ["height_m", "speed_mps", "hover_sec", "return_home"],
+      "flight": ["height_level", "speed_level", "hover_required", "return_home"],
       "capabilities": ["object_detection", "target_tracking", "obstacle_avoidance", "thermal_scan", "image_capture"],
-      "safety": ["preflight_check", "battery_monitor", "min_battery_percent"]
+      "safety": ["preflight_check", "battery_monitor", "battery_risk_level", "gps_required"]
     },
     "capability_schema": {
       "object_detection": {

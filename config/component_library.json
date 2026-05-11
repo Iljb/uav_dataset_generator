@@ -1,29 +1,54 @@
 {
   "metadata": {
     "source": "component.md",
-    "updated_at": "2026-05-06",
-    "component_count": 23
+    "updated_at": "2026-05-10",
+    "component_count": 22,
+    "robot_ctrl_count": 12,
+    "svr_count": 10
   },
   "scheduling_rules": {
     "stage_model": {
-      "robot_ctrl_per_stage": 1,
+      "stage_definition": "Compact control phase for topology-only model output",
+      "robot_ctrl_start_per_stage": "exactly_one",
       "svr_per_stage": "zero_or_more",
-      "description": "Each execution stage must contain exactly one ROBOT_CTRL component. SVR components may run in parallel with that ROBOT_CTRL stage."
+      "description": "Each stage groups exactly one ROBOT_CTRL start action plus zero or more SVR service starts. A required SVR is inserted at or before the first ROBOT_CTRL that consumes its topic and is not inserted again."
+    },
+    "control_flow": {
+      "prev_source_component_types": ["ROBOT_CTRL"],
+      "prev_events": ["success", "failed"],
+      "svr_can_drive_control_flow": false,
+      "svr_control_outputs": [],
+      "svr_start_once_per_task": true,
+      "svr_stop_generated": false,
+      "data_channels_are_not_control_edges": true
     },
     "component_types": {
       "ROBOT_CTRL": {
-        "description": "Flight-control component that sends movement commands to the flight controller.",
+        "description": "Flight-control component. It may emit success or failed control outputs and can trigger later component actions.",
         "parallel_limit": 1,
-        "required_per_active_stage": true
+        "required_per_active_flight_phase": true,
+        "can_drive_control_flow": true
       },
       "SVR": {
-        "description": "Data, perception, trigger, or communication component. It does not directly control aircraft motion.",
+        "description": "Data, perception, or communication component. It has no control outputs, cannot trigger control flow, and should be treated as a reusable service node.",
         "parallel_limit": null,
-        "required_per_active_stage": false
+        "required_per_active_flight_phase": false,
+        "can_drive_control_flow": false,
+        "lifecycle": "starts once when first needed and keeps publishing through ROS topics; generated topology does not emit SVR stop actions"
       }
     }
   },
   "components": [
+    {
+      "id": "preflight_check",
+      "type": "ROBOT_CTRL",
+      "launch_command": "roslaunch preflight_check preflight_check.launch",
+      "control_port": {"start": true, "stop": true},
+      "input_channels": [],
+      "output_channels": [],
+      "control_outputs": ["success", "failed"],
+      "params": ["timeout_sec", "min_battery_percent", "require_gps_fix", "max_gps_horizontal_std_m"]
+    },
     {
       "id": "takeoff",
       "type": "ROBOT_CTRL",
@@ -124,10 +149,17 @@
       "type": "ROBOT_CTRL",
       "launch_command": "roslaunch return_home return_home.launch",
       "control_port": {"start": true, "stop": false},
-      "input_channels": [],
+      "input_channels": [
+        {"topic": "/battery_level/state", "message_type": "sensor_msgs/BatteryState", "optional": true}
+      ],
       "output_channels": [],
       "control_outputs": ["success", "failed"],
-      "params": ["timeout_sec", "landed_height_threshold"]
+      "params": [
+        "timeout_sec",
+        "landed_height_threshold",
+        "enable_low_battery_auto_return",
+        "low_battery_threshold_percent"
+      ]
     },
     {
       "id": "obstacle_avoid_flight",
@@ -162,26 +194,35 @@
       ]
     },
     {
-      "id": "preflight_check",
-      "type": "SVR",
-      "launch_command": "roslaunch preflight_check preflight_check.launch",
+      "id": "target_tracking",
+      "type": "ROBOT_CTRL",
+      "launch_command": "roslaunch target_tracking target_tracking.launch",
       "control_port": {"start": true, "stop": true},
-      "input_channels": [],
+      "input_channels": [
+        {"topic": "/vision/object_detect/bounding_boxes", "message_type": "object_detect/BoundingBoxes"}
+      ],
       "output_channels": [],
       "control_outputs": ["success", "failed"],
-      "params": ["timeout_sec", "min_battery_percent", "require_gps_fix", "max_gps_horizontal_std_m"]
+      "params": [
+        "target_class_id",
+        "min_confidence",
+        "min_iou_for_association",
+        "max_center_distance_px",
+        "max_lost_time_sec",
+        "smoothing_alpha"
+      ]
     },
     {
       "id": "battery_level",
       "type": "SVR",
       "launch_command": "roslaunch battery_level battery_level.launch",
-      "control_port": {"start": true, "stop": false},
+      "control_port": {"start": true, "stop": true},
       "input_channels": [],
       "output_channels": [
         {"topic": "/battery_level/state", "message_type": "sensor_msgs/BatteryState"},
         {"topic": "/battery_level/percentage", "message_type": "std_msgs/Float32"}
       ],
-      "control_outputs": ["success", "failed"],
+      "control_outputs": [],
       "params": []
     },
     {
@@ -189,58 +230,52 @@
       "type": "SVR",
       "launch_command": "roslaunch battery_warning battery_warning.launch",
       "control_port": {"start": true, "stop": true},
-      "input_channels": [],
-      "output_channels": [],
-      "control_outputs": ["success", "failed"],
+      "input_channels": [
+        {"topic": "/battery_level/percentage", "message_type": "std_msgs/Float32"}
+      ],
+      "output_channels": [
+        {"topic": "/battery_warning/warning", "message_type": "std_msgs/Bool"}
+      ],
+      "control_outputs": [],
       "params": ["warning_threshold_percent"]
     },
     {
       "id": "get_gnss_position",
       "type": "SVR",
       "launch_command": "roslaunch get_gnss_position get_gnss_position.launch",
-      "control_port": {"start": true, "stop": false},
+      "control_port": {"start": true, "stop": true},
       "input_channels": [],
       "output_channels": [
         {"topic": "/position/gnss_postion", "message_type": "sensor_msgs/NavSatFix"}
       ],
-      "control_outputs": ["success", "failed"],
+      "control_outputs": [],
       "params": ["gnss_system", "max_horizontal_std_m", "max_vertical_std_m"]
     },
     {
       "id": "gnss_to_position_3d",
       "type": "SVR",
       "launch_command": "roslaunch gnss_to_position_3d gnss_to_position_3d.launch",
-      "control_port": {"start": true, "stop": false},
+      "control_port": {"start": true, "stop": true},
       "input_channels": [
         {"topic": "/position/gnss_postion", "message_type": "sensor_msgs/NavSatFix"}
       ],
       "output_channels": [
         {"topic": "/position/positon_3d", "message_type": "geometry_msgs/PoseStamped"}
       ],
-      "control_outputs": ["success", "failed"],
+      "control_outputs": [],
       "params": ["origin_latitude_deg", "origin_longitude_deg", "origin_altitude_m"]
     },
     {
       "id": "waypoint_list_create",
       "type": "SVR",
       "launch_command": "roslaunch waypoint_list_create waypoint_list_create.launch",
-      "control_port": {"start": true, "stop": false},
+      "control_port": {"start": true, "stop": true},
       "input_channels": [],
       "output_channels": [
         {"topic": "/position/positon_3d_array", "message_type": "gnss_to_position_3d/Position3DWaypointArray"}
       ],
-      "control_outputs": ["success", "failed"],
+      "control_outputs": [],
       "params": ["gnss_waypoints", "origin_latitude_deg", "origin_longitude_deg", "origin_altitude_m"]
-    },
-    {
-      "id": "sensor_camera_init",
-      "type": "SVR",
-      "launch_command": "roslaunch sensor_camera_init sensor_camera_init.launch",
-      "control_port": {"start": true, "stop": false},
-      "input_channels": [],
-      "output_channels": [],
-      "control_outputs": ["success", "failed"],
-      "params": ["ready_timeout_sec"]
     },
     {
       "id": "sensor_camera_scan",
@@ -249,11 +284,10 @@
       "control_port": {"start": true, "stop": true},
       "input_channels": [],
       "output_channels": [
-        {"topic": "/visible_camera/capture_image", "message_type": "sensor_msgs/Image"},
         {"topic": "/visible_camera/video_frame", "message_type": "sensor_msgs/Image"}
       ],
-      "control_outputs": ["success", "failed"],
-      "params": ["capture_mode", "continuous_photo_count", "video_duration_sec"]
+      "control_outputs": [],
+      "params": ["frame_rate_hz", "resolution_width", "resolution_height"]
     },
     {
       "id": "sensor_radar_scan",
@@ -292,7 +326,9 @@
       "type": "SVR",
       "launch_command": "roslaunch object_detect object_detect.launch",
       "control_port": {"start": true, "stop": true},
-      "input_channels": [],
+      "input_channels": [
+        {"topic": "/visible_camera/video_frame", "message_type": "sensor_msgs/Image"}
+      ],
       "output_channels": [
         {"topic": "/vision/object_detect/bounding_boxes", "message_type": "object_detect/BoundingBoxes"},
         {"topic": "/vision/object_detect/visualized_image", "message_type": "sensor_msgs/Image"}
@@ -307,25 +343,6 @@
         "input_width",
         "input_height",
         "max_detections"
-      ]
-    },
-    {
-      "id": "target_tracking",
-      "type": "SVR",
-      "launch_command": "roslaunch target_tracking target_tracking.launch",
-      "control_port": {"start": true, "stop": true},
-      "input_channels": [
-        {"topic": "/vision/object_detect/bounding_boxes", "message_type": "object_detect/BoundingBoxes"}
-      ],
-      "output_channels": [],
-      "control_outputs": [],
-      "params": [
-        "target_class_id",
-        "min_confidence",
-        "min_iou_for_association",
-        "max_center_distance_px",
-        "max_lost_time_sec",
-        "smoothing_alpha"
       ]
     },
     {
