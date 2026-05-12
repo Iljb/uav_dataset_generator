@@ -1,6 +1,6 @@
 [
   {
-    "sample_id": "sample_8a2321c40f64",
+    "sample_id": "sample_ef4c9f778960",
     "semantic_input": {
       "uav_id": "uav_05",
       "task_type": "single_uav_route_inspection",
@@ -80,25 +80,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -108,8 +90,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -120,9 +120,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -670,7 +692,7 @@
     }
   },
   {
-    "sample_id": "sample_2c907a93cff8",
+    "sample_id": "sample_6823ce61c1c2",
     "semantic_input": {
       "uav_id": "uav_05",
       "task_type": "single_uav_fixed_point_observation",
@@ -751,25 +773,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -779,8 +783,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -791,9 +813,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -807,7 +851,7 @@
     }
   },
   {
-    "sample_id": "sample_2c31865866a8",
+    "sample_id": "sample_8d4565c8fdb6",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_fixed_point_observation",
@@ -888,25 +932,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -916,8 +942,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -928,9 +972,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -1097,7 +1152,7 @@
     }
   },
   {
-    "sample_id": "sample_7b7e0feb06cb",
+    "sample_id": "sample_3a9eeb645e5e",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_area_search",
@@ -1177,25 +1232,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -1205,8 +1242,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -1217,9 +1272,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -1364,7 +1430,7 @@
     }
   },
   {
-    "sample_id": "sample_7c95a1feff8b",
+    "sample_id": "sample_f4638ce9e36d",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_route_inspection",
@@ -1450,19 +1516,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -1472,8 +1526,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -1484,9 +1550,31 @@
           "component": [
             {
               "id": "c8",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -1500,7 +1588,7 @@
     }
   },
   {
-    "sample_id": "sample_1fafe899956f",
+    "sample_id": "sample_4e35057b0b60",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_fixed_point_observation",
@@ -1581,25 +1669,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -1609,8 +1679,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -1621,9 +1709,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -1637,7 +1736,7 @@
     }
   },
   {
-    "sample_id": "sample_918be39b2fd8",
+    "sample_id": "sample_b8b697825f28",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_area_search",
@@ -1717,25 +1816,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -1745,8 +1826,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -1757,9 +1856,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -1773,7 +1894,7 @@
     }
   },
   {
-    "sample_id": "sample_885ab1ad44b6",
+    "sample_id": "sample_71d63d25ae66",
     "semantic_input": {
       "uav_id": "uav_01",
       "task_type": "single_uav_fixed_point_observation",
@@ -1853,25 +1974,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -1881,8 +1984,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -1893,9 +2014,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -2040,7 +2172,7 @@
     }
   },
   {
-    "sample_id": "sample_86a6266f07a5",
+    "sample_id": "sample_5f540f96d596",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_route_inspection",
@@ -2121,19 +2253,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -2143,8 +2263,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2155,9 +2287,31 @@
           "component": [
             {
               "id": "c8",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -2171,7 +2325,7 @@
     }
   },
   {
-    "sample_id": "sample_a16547dd227a",
+    "sample_id": "sample_54b9a5b946b9",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_route_inspection",
@@ -2257,25 +2411,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -2285,8 +2421,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2297,9 +2451,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -2313,7 +2489,7 @@
     }
   },
   {
-    "sample_id": "sample_11a2b7e1555b",
+    "sample_id": "sample_bb9f6c7a8696",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_fixed_point_observation",
@@ -2399,31 +2575,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c8",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -2433,8 +2585,32 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c9",
-              "name": "return_home",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2445,9 +2621,20 @@
           "component": [
             {
               "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -2461,7 +2648,7 @@
     }
   },
   {
-    "sample_id": "sample_143748e79ad5",
+    "sample_id": "sample_a01228596ee4",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_fixed_point_observation",
@@ -2541,25 +2728,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -2569,8 +2738,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "hover",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2581,9 +2768,9 @@
           "component": [
             {
               "id": "c9",
-              "name": "return_home",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -2592,9 +2779,20 @@
           "component": [
             {
               "id": "c10",
-              "name": "land",
+              "name": "return_home",
               "cmd": "start",
               "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
             }
           ]
         }
@@ -2608,7 +2806,7 @@
     }
   },
   {
-    "sample_id": "sample_ef232135a577",
+    "sample_id": "sample_c48ba13c5edf",
     "semantic_input": {
       "uav_id": "uav_05",
       "task_type": "single_uav_area_search",
@@ -2694,25 +2892,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -2722,8 +2902,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "target_tracking",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2734,9 +2932,9 @@
           "component": [
             {
               "id": "c9",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -2745,9 +2943,20 @@
           "component": [
             {
               "id": "c10",
-              "name": "land",
+              "name": "return_home",
               "cmd": "start",
               "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
             }
           ]
         }
@@ -2761,7 +2970,7 @@
     }
   },
   {
-    "sample_id": "sample_56b54545b87d",
+    "sample_id": "sample_e42f6572ef5f",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_fixed_point_observation",
@@ -2847,19 +3056,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -2869,14 +3066,20 @@
           "stage": 3,
           "component": [
             {
-              "id": "c7",
-              "name": "hover",
+              "id": "c5",
+              "name": "goto_point",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
-              "id": "c8",
-              "name": "sensor_camera_scan",
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2886,10 +3089,16 @@
           "stage": 4,
           "component": [
             {
-              "id": "c9",
-              "name": "return_home",
+              "id": "c8",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c5.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c5.success"
             }
           ]
         },
@@ -2898,9 +3107,31 @@
           "component": [
             {
               "id": "c10",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c12",
               "name": "land",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c11.success"
             }
           ]
         }
@@ -2914,7 +3145,7 @@
     }
   },
   {
-    "sample_id": "sample_d8fad04cf764",
+    "sample_id": "sample_bd879736e3bb",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_area_search",
@@ -2995,19 +3226,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -3017,8 +3236,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -3029,9 +3260,20 @@
           "component": [
             {
               "id": "c8",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c8.success"
             }
           ]
         }
@@ -3045,7 +3287,7 @@
     }
   },
   {
-    "sample_id": "sample_a39df297bc13",
+    "sample_id": "sample_a3d6178e1ccc",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_fixed_point_observation",
@@ -3125,25 +3367,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -3153,8 +3377,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -3165,9 +3407,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -3181,7 +3434,7 @@
     }
   },
   {
-    "sample_id": "sample_b2bae5d6aadd",
+    "sample_id": "sample_a78d30ce09e5",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_route_inspection",
@@ -3267,25 +3520,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -3295,8 +3530,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "target_tracking",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -3307,9 +3560,9 @@
           "component": [
             {
               "id": "c9",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -3318,9 +3571,31 @@
           "component": [
             {
               "id": "c10",
-              "name": "land",
+              "name": "descend",
               "cmd": "start",
               "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
             }
           ]
         }
@@ -3334,7 +3609,7 @@
     }
   },
   {
-    "sample_id": "sample_2f78806cb39a",
+    "sample_id": "sample_948a8cd8fb3c",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_area_search",
@@ -3420,25 +3695,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -3448,8 +3705,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -3460,9 +3735,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -3618,7 +3904,7 @@
     }
   },
   {
-    "sample_id": "sample_50dd0aceb832",
+    "sample_id": "sample_9294ac56ed4f",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_area_search",
@@ -3699,19 +3985,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -3721,8 +3995,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -3733,9 +4019,31 @@
           "component": [
             {
               "id": "c8",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -3749,7 +4057,7 @@
     }
   },
   {
-    "sample_id": "sample_e9008f2d192d",
+    "sample_id": "sample_1a656a5503cb",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_area_search",
@@ -3829,25 +4137,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -3857,8 +4147,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -3869,9 +4177,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -4168,7 +4498,7 @@
     }
   },
   {
-    "sample_id": "sample_2fc490a59b99",
+    "sample_id": "sample_0b117d0f78ce",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_fixed_point_observation",
@@ -4254,19 +4584,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -4276,14 +4594,20 @@
           "stage": 3,
           "component": [
             {
-              "id": "c7",
-              "name": "hover",
+              "id": "c5",
+              "name": "goto_point",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
-              "id": "c8",
-              "name": "sensor_camera_scan",
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -4293,10 +4617,16 @@
           "stage": 4,
           "component": [
             {
-              "id": "c9",
-              "name": "return_home",
+              "id": "c8",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c5.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c5.success"
             }
           ]
         },
@@ -4305,9 +4635,31 @@
           "component": [
             {
               "id": "c10",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c12",
               "name": "land",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c11.success"
             }
           ]
         }
@@ -4321,7 +4673,7 @@
     }
   },
   {
-    "sample_id": "sample_4feb794da327",
+    "sample_id": "sample_29fa85257d2b",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_area_search",
@@ -4407,19 +4759,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -4429,8 +4769,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -4441,9 +4793,31 @@
           "component": [
             {
               "id": "c8",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -4593,7 +4967,7 @@
     }
   },
   {
-    "sample_id": "sample_7a264dd78ab3",
+    "sample_id": "sample_6eee83156f2c",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_fixed_point_observation",
@@ -4679,31 +5053,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c8",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -4713,8 +5063,32 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c9",
-              "name": "return_home",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -4725,9 +5099,20 @@
           "component": [
             {
               "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -4877,7 +5262,7 @@
     }
   },
   {
-    "sample_id": "sample_06b780ee649d",
+    "sample_id": "sample_9ecee435f65a",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_route_inspection",
@@ -4963,19 +5348,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -4985,8 +5358,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -4997,9 +5382,20 @@
           "component": [
             {
               "id": "c8",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c8.success"
             }
           ]
         }
@@ -5166,7 +5562,7 @@
     }
   },
   {
-    "sample_id": "sample_cc5e7632c7a0",
+    "sample_id": "sample_437ee1bdc08b",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_area_search",
@@ -5246,25 +5642,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -5274,8 +5652,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -5286,9 +5682,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -5302,7 +5709,7 @@
     }
   },
   {
-    "sample_id": "sample_3470fb411639",
+    "sample_id": "sample_ac9a1678300a",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_fixed_point_observation",
@@ -5388,19 +5795,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -5410,20 +5805,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "hover",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c9",
-              "name": "object_detect",
+              "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -5433,10 +5828,22 @@
           "stage": 4,
           "component": [
             {
-              "id": "c10",
-              "name": "target_tracking",
+              "id": "c8",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c5.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c5.success"
+            },
+            {
+              "id": "c10",
+              "name": "object_detect",
+              "cmd": "start",
+              "prev": "c5.success"
             }
           ]
         },
@@ -5445,9 +5852,9 @@
           "component": [
             {
               "id": "c11",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c10.success"
+              "prev": "c8.success"
             }
           ]
         },
@@ -5456,9 +5863,20 @@
           "component": [
             {
               "id": "c12",
-              "name": "land",
+              "name": "return_home",
               "cmd": "start",
               "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c12.success"
             }
           ]
         }
@@ -5472,7 +5890,7 @@
     }
   },
   {
-    "sample_id": "sample_5edb59204c0a",
+    "sample_id": "sample_c27129596e41",
     "semantic_input": {
       "uav_id": "uav_01",
       "task_type": "single_uav_fixed_point_observation",
@@ -5552,25 +5970,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -5580,8 +5980,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -5592,9 +6010,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -5755,7 +6195,7 @@
     }
   },
   {
-    "sample_id": "sample_4d6104bfeb65",
+    "sample_id": "sample_27d5a0a2e2be",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_route_inspection",
@@ -5841,19 +6281,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -5863,8 +6291,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -5875,9 +6315,20 @@
           "component": [
             {
               "id": "c8",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c8.success"
             }
           ]
         }
@@ -6311,7 +6762,7 @@
     }
   },
   {
-    "sample_id": "sample_de61ad2dfa61",
+    "sample_id": "sample_b5e7e87e4069",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_area_search",
@@ -6391,25 +6842,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -6419,8 +6852,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -6431,9 +6882,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -6595,7 +7057,7 @@
     }
   },
   {
-    "sample_id": "sample_f1bed31ccf11",
+    "sample_id": "sample_5d9ed0400822",
     "semantic_input": {
       "uav_id": "uav_05",
       "task_type": "single_uav_area_search",
@@ -6676,19 +7138,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -6698,8 +7148,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -6710,9 +7172,31 @@
           "component": [
             {
               "id": "c8",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -6726,7 +7210,7 @@
     }
   },
   {
-    "sample_id": "sample_9a4b7fbef47a",
+    "sample_id": "sample_af0b0e5997d3",
     "semantic_input": {
       "uav_id": "uav_01",
       "task_type": "single_uav_fixed_point_observation",
@@ -6807,19 +7291,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -6829,14 +7301,20 @@
           "stage": 3,
           "component": [
             {
-              "id": "c7",
-              "name": "hover",
+              "id": "c5",
+              "name": "goto_point",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
-              "id": "c8",
-              "name": "sensor_ir_scan",
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -6846,10 +7324,16 @@
           "stage": 4,
           "component": [
             {
-              "id": "c9",
-              "name": "return_home",
+              "id": "c8",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c5.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_ir_scan",
+              "cmd": "start",
+              "prev": "c5.success"
             }
           ]
         },
@@ -6858,9 +7342,20 @@
           "component": [
             {
               "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -7021,7 +7516,7 @@
     }
   },
   {
-    "sample_id": "sample_aa5c2251e0a6",
+    "sample_id": "sample_99a28d191ad5",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_fixed_point_observation",
@@ -7107,31 +7602,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c8",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -7141,8 +7612,32 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c9",
-              "name": "target_tracking",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -7153,9 +7648,9 @@
           "component": [
             {
               "id": "c10",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -7164,9 +7659,31 @@
           "component": [
             {
               "id": "c11",
-              "name": "land",
+              "name": "descend",
               "cmd": "start",
               "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c12.success"
             }
           ]
         }
@@ -7180,7 +7697,7 @@
     }
   },
   {
-    "sample_id": "sample_a3623909b0ec",
+    "sample_id": "sample_531fc183f747",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_fixed_point_observation",
@@ -7266,19 +7783,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -7288,20 +7793,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "hover",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c9",
-              "name": "object_detect",
+              "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -7311,10 +7816,22 @@
           "stage": 4,
           "component": [
             {
-              "id": "c10",
-              "name": "return_home",
+              "id": "c8",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c5.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c5.success"
+            },
+            {
+              "id": "c10",
+              "name": "object_detect",
+              "cmd": "start",
+              "prev": "c5.success"
             }
           ]
         },
@@ -7323,9 +7840,31 @@
           "component": [
             {
               "id": "c11",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c13",
               "name": "land",
               "cmd": "start",
-              "prev": "c10.success"
+              "prev": "c12.success"
             }
           ]
         }
@@ -7339,7 +7878,7 @@
     }
   },
   {
-    "sample_id": "sample_075cd043c2ce",
+    "sample_id": "sample_55ae05c817ea",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_route_inspection",
@@ -7425,25 +7964,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -7453,8 +7974,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -7465,9 +8004,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -7481,7 +8031,7 @@
     }
   },
   {
-    "sample_id": "sample_c19368d829c7",
+    "sample_id": "sample_cd36ae803a1b",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_fixed_point_observation",
@@ -7567,19 +8117,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -7589,20 +8127,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "hover",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c9",
-              "name": "object_detect",
+              "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -7612,10 +8150,22 @@
           "stage": 4,
           "component": [
             {
-              "id": "c10",
-              "name": "return_home",
+              "id": "c8",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c5.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c5.success"
+            },
+            {
+              "id": "c10",
+              "name": "object_detect",
+              "cmd": "start",
+              "prev": "c5.success"
             }
           ]
         },
@@ -7624,9 +8174,31 @@
           "component": [
             {
               "id": "c11",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c13",
               "name": "land",
               "cmd": "start",
-              "prev": "c10.success"
+              "prev": "c12.success"
             }
           ]
         }
@@ -7640,7 +8212,7 @@
     }
   },
   {
-    "sample_id": "sample_94e48830398d",
+    "sample_id": "sample_b7944443deea",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_fixed_point_observation",
@@ -7720,25 +8292,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -7748,8 +8302,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "hover",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -7760,9 +8332,9 @@
           "component": [
             {
               "id": "c9",
-              "name": "return_home",
+              "name": "hover",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -7771,9 +8343,20 @@
           "component": [
             {
               "id": "c10",
-              "name": "land",
+              "name": "return_home",
               "cmd": "start",
               "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
             }
           ]
         }
@@ -7787,7 +8370,7 @@
     }
   },
   {
-    "sample_id": "sample_602f5cb278f2",
+    "sample_id": "sample_29e0e9a12826",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_area_search",
@@ -7873,25 +8456,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -7901,8 +8466,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -7913,9 +8496,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -7929,7 +8523,7 @@
     }
   },
   {
-    "sample_id": "sample_85eb860412fe",
+    "sample_id": "sample_3c89f74bf895",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_fixed_point_observation",
@@ -8015,31 +8609,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c8",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -8049,8 +8619,32 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c9",
-              "name": "target_tracking",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -8061,9 +8655,9 @@
           "component": [
             {
               "id": "c10",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -8072,9 +8666,31 @@
           "component": [
             {
               "id": "c11",
-              "name": "land",
+              "name": "descend",
               "cmd": "start",
               "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c12.success"
             }
           ]
         }
@@ -8088,7 +8704,7 @@
     }
   },
   {
-    "sample_id": "sample_0d4e1b2ab3d2",
+    "sample_id": "sample_46beedd57e46",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_area_search",
@@ -8168,25 +8784,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -8196,8 +8794,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -8208,9 +8824,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -8224,7 +8862,7 @@
     }
   },
   {
-    "sample_id": "sample_565d4c4d233a",
+    "sample_id": "sample_2a0c9a4869bc",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_route_inspection",
@@ -8304,25 +8942,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -8332,8 +8952,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -8344,9 +8982,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -8360,7 +9020,7 @@
     }
   },
   {
-    "sample_id": "sample_84b5c26c92d7",
+    "sample_id": "sample_5cd6f7a98774",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_route_inspection",
@@ -8446,19 +9106,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -8468,8 +9116,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -8480,9 +9140,20 @@
           "component": [
             {
               "id": "c8",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c8.success"
             }
           ]
         }
@@ -8632,7 +9303,7 @@
     }
   },
   {
-    "sample_id": "sample_6deee1402c73",
+    "sample_id": "sample_dc87472555fb",
     "semantic_input": {
       "uav_id": "uav_03",
       "task_type": "single_uav_fixed_point_observation",
@@ -8718,31 +9389,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c8",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -8752,8 +9399,32 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c9",
-              "name": "target_tracking",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -8764,9 +9435,9 @@
           "component": [
             {
               "id": "c10",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -8775,9 +9446,20 @@
           "component": [
             {
               "id": "c11",
-              "name": "land",
+              "name": "return_home",
               "cmd": "start",
               "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
             }
           ]
         }
@@ -9097,7 +9779,7 @@
     }
   },
   {
-    "sample_id": "sample_e34ed6632f7e",
+    "sample_id": "sample_b6f3d8b2fce3",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_route_inspection",
@@ -9177,25 +9859,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -9205,8 +9869,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -9217,9 +9899,20 @@
           "component": [
             {
               "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -9516,7 +10209,7 @@
     }
   },
   {
-    "sample_id": "sample_876ec1451877",
+    "sample_id": "sample_98b265d064be",
     "semantic_input": {
       "uav_id": "uav_01",
       "task_type": "single_uav_fixed_point_observation",
@@ -9602,25 +10295,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -9630,8 +10305,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -9642,9 +10335,31 @@
           "component": [
             {
               "id": "c9",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
             }
           ]
         }
@@ -9789,7 +10504,7 @@
     }
   },
   {
-    "sample_id": "sample_902aa519d004",
+    "sample_id": "sample_912f9a295d15",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_route_inspection",
@@ -9875,19 +10590,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -9897,8 +10600,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -9909,9 +10624,20 @@
           "component": [
             {
               "id": "c8",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c8.success"
             }
           ]
         }
@@ -9925,7 +10651,7 @@
     }
   },
   {
-    "sample_id": "sample_d7d1450aebb7",
+    "sample_id": "sample_6cfe70180a5e",
     "semantic_input": {
       "uav_id": "uav_02",
       "task_type": "single_uav_route_inspection",
@@ -10011,25 +10737,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -10039,8 +10747,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "target_tracking",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -10051,9 +10777,9 @@
           "component": [
             {
               "id": "c9",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -10062,9 +10788,31 @@
           "component": [
             {
               "id": "c10",
-              "name": "land",
+              "name": "descend",
               "cmd": "start",
               "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
             }
           ]
         }
@@ -10685,7 +11433,7 @@
     }
   },
   {
-    "sample_id": "sample_02e0c592e8e5",
+    "sample_id": "sample_e7bac19314c2",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_route_inspection",
@@ -10766,19 +11514,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -10788,8 +11524,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -10800,9 +11548,31 @@
           "component": [
             {
               "id": "c8",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c10",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c9.success"
             }
           ]
         }
@@ -10816,7 +11586,7 @@
     }
   },
   {
-    "sample_id": "sample_49ed55fbb504",
+    "sample_id": "sample_cac0aaf6e27c",
     "semantic_input": {
       "uav_id": "uav_01",
       "task_type": "single_uav_route_inspection",
@@ -10902,25 +11672,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "object_detect",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -10930,8 +11682,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "target_tracking",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -10942,9 +11712,9 @@
           "component": [
             {
               "id": "c9",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c5.success"
             }
           ]
         },
@@ -10953,9 +11723,31 @@
           "component": [
             {
               "id": "c10",
-              "name": "land",
+              "name": "descend",
               "cmd": "start",
               "prev": "c9.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
             }
           ]
         }
@@ -11247,7 +12039,7 @@
     }
   },
   {
-    "sample_id": "sample_2c9c686ee0a8",
+    "sample_id": "sample_207167369977",
     "semantic_input": {
       "uav_id": "uav_04",
       "task_type": "single_uav_route_inspection",
@@ -11328,19 +12120,7 @@
           "component": [
             {
               "id": "c4",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "sensor_ir_scan",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -11350,8 +12130,20 @@
           "stage": 3,
           "component": [
             {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c7",
-              "name": "return_home",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -11362,9 +12154,20 @@
           "component": [
             {
               "id": "c8",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c9",
               "name": "land",
               "cmd": "start",
-              "prev": "c7.success"
+              "prev": "c8.success"
             }
           ]
         }

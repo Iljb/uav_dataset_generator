@@ -187,10 +187,13 @@ def build_robot_ctrl_chain(
     if _capability_enabled(semantic_input, "obstacle_avoidance"):
         route_sequence = _replace_primary_navigation(route_sequence)
 
-    chain = ["preflight_check", "takeoff", *route_sequence]
+    chain = ["preflight_check", "takeoff"]
+    chain.extend(_height_entry_variants(semantic_input))
+    chain.extend(route_sequence)
     if _capability_enabled(semantic_input, "target_tracking"):
         chain.append("target_tracking")
 
+    chain.extend(_height_exit_variants(semantic_input))
     chain.extend(["return_home", "land"])
     return chain
 
@@ -364,6 +367,7 @@ def _load_task_templates(path: Path) -> dict[str, Any]:
         "TASK_TEMPLATES": module.TASK_TEMPLATES,
         "ROUTE_MODE_RULES": module.ROUTE_MODE_RULES,
         "CAPABILITY_RULES": module.CAPABILITY_RULES,
+        "MOTION_VARIANT_RULES": module.MOTION_VARIANT_RULES,
         "SVR_SERVICE_RULES": module.SVR_SERVICE_RULES,
         "TOPOLOGY_ASSEMBLY_RULES": module.TOPOLOGY_ASSEMBLY_RULES,
     }
@@ -454,6 +458,20 @@ def _replace_primary_navigation(route_sequence: list[str]) -> list[str]:
     if not replaced:
         output.append("obstacle_avoid_flight")
     return output
+
+
+def _height_entry_variants(semantic_input: dict[str, Any]) -> list[str]:
+    height_level = semantic_input.get("flight", {}).get("height_level")
+    if height_level in {"medium", "high"}:
+        return ["ascend"]
+    return []
+
+
+def _height_exit_variants(semantic_input: dict[str, Any]) -> list[str]:
+    height_level = semantic_input.get("flight", {}).get("height_level")
+    if height_level == "high":
+        return ["descend"]
+    return []
 
 
 def _first_consumer_stage(service: str, robot_ctrl_chain: list[str]) -> int:

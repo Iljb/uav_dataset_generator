@@ -1,6 +1,6 @@
 # Task Execution Log
 
-Updated: 2026-05-11
+Updated: 2026-05-12
 
 ## Current Scope
 
@@ -111,6 +111,18 @@ responsibilities and are not part of the first implementation.
   - rejected 0 samples
   - removed 0 duplicates
   - wrote 80 train samples and 20 validation samples
+- Added height-driven motion variants to improve template topology diversity:
+  - inserts `ascend` after `takeoff` when `flight.height_level` is `medium` or `high`
+  - inserts `descend` before `return_home` when `flight.height_level` is `high`
+  - keeps `rotate` deferred until a clearer observation or heading-alignment trigger is defined
+  - updated validator expected chains to enforce the same height-variant rules
+- Regenerated the dataset through the full `uv` pipeline after adding motion variants:
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - `ascend` appears in 65 samples
+  - `descend` appears in 30 samples
+  - remaining unused components: `rotate`, `gimbal_control`
 
 ## Current Output Shape
 
@@ -165,6 +177,9 @@ responsibilities and are not part of the first implementation.
   - confirm obstacle-avoidance replacement behavior for multi-waypoint routes
   - confirm whether return-home and land are mandatory for all generated tasks
   - confirm whether `target_tracking` should replace or follow `hover` in fixed-point tasks
+- Design deferred component usage:
+  - define a clear semantic trigger before introducing `rotate`
+  - decide whether `gimbal_control` belongs in topology generation or downstream parameter/payload control
 - Add automated tests for generator, validator, and pipeline smoke paths.
 
 ## Open Questions

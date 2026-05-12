@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-12T01:32:52.536078+00:00",
+  "generated_at": "2026-05-12T02:28:39.341432+00:00",
   "pipeline_version": "0.1.0",
   "generator_version": "0.1.0",
   "seed": 42,
@@ -28,20 +28,24 @@
     "waypoint": 23
   },
   "by_stage_count": {
-    "5": 69,
-    "6": 30,
-    "7": 1
+    "5": 23,
+    "6": 39,
+    "7": 26,
+    "8": 12
   },
   "by_action_count": {
-    "9": 24,
-    "10": 43,
-    "11": 24,
-    "12": 8,
-    "13": 1
+    "9": 7,
+    "10": 25,
+    "11": 33,
+    "12": 22,
+    "13": 8,
+    "14": 5
   },
   "by_component": {
+    "ascend": 65,
     "battery_level": 100,
     "battery_warning": 100,
+    "descend": 30,
     "get_gnss_position": 59,
     "gnss_to_position_3d": 59,
     "goto_point": 23,
@@ -60,6 +64,8 @@
     "waypoint_list_create": 41
   },
   "by_robot_ctrl": {
+    "ascend": 65,
+    "descend": 30,
     "goto_point": 23,
     "hover": 17,
     "land": 100,

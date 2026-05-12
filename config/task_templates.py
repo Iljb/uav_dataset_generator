@@ -92,6 +92,27 @@ PREFLIGHT_RULE = {
 }
 
 
+MOTION_VARIANT_RULES = {
+    "ascend": {
+        "component": "ascend",
+        "insert_after": "takeoff",
+        "conditions": ["flight.height_level in ['medium', 'high']"],
+        "reason": "adjust from takeoff altitude to mission altitude before the primary route or observation control stage",
+    },
+    "descend": {
+        "component": "descend",
+        "insert_before": "return_home",
+        "conditions": ["flight.height_level == 'high'"],
+        "reason": "leave a high-altitude task phase before return-home and landing sequence",
+    },
+    "rotate": {
+        "component": "rotate",
+        "status": "deferred",
+        "reason": "requires a clearer observation or heading-alignment semantic trigger before use",
+    },
+}
+
+
 SVR_SERVICE_RULES = {
     "battery_monitoring": {
         "components": ["battery_level", "battery_warning"],

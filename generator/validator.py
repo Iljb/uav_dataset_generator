@@ -834,9 +834,12 @@ def _expected_robot_ctrl_chain(
     if _capability_enabled(semantic_input, "obstacle_avoidance"):
         route_sequence = _replace_primary_navigation(route_sequence)
 
-    chain = ["preflight_check", "takeoff", *route_sequence]
+    chain = ["preflight_check", "takeoff"]
+    chain.extend(_height_entry_variants(semantic_input))
+    chain.extend(route_sequence)
     if _capability_enabled(semantic_input, "target_tracking"):
         chain.append("target_tracking")
+    chain.extend(_height_exit_variants(semantic_input))
     chain.extend(["return_home", "land"])
     return chain
 
@@ -873,6 +876,20 @@ def _replace_primary_navigation(route_sequence: list[str]) -> list[str]:
     if not replaced:
         output.append("obstacle_avoid_flight")
     return output
+
+
+def _height_entry_variants(semantic_input: dict[str, Any]) -> list[str]:
+    height_level = semantic_input.get("flight", {}).get("height_level")
+    if height_level in {"medium", "high"}:
+        return ["ascend"]
+    return []
+
+
+def _height_exit_variants(semantic_input: dict[str, Any]) -> list[str]:
+    height_level = semantic_input.get("flight", {}).get("height_level")
+    if height_level == "high":
+        return ["descend"]
+    return []
 
 
 def _build_report(
