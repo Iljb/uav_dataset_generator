@@ -82,6 +82,35 @@ responsibilities and are not part of the first implementation.
   - saved semantic seed inputs to `raw/seed_data.json`
   - saved full generated samples to `raw/template_generated.json`
   - saved validation and distribution summary to `stats/distribution_report.json`
+- Implemented `generator/validator.py`:
+  - validates sample envelope, semantic input, staged topology, control-flow refs, and semantic/component alignment
+  - filters generated data into valid and invalid sample sets
+  - enforces start-only output, stage continuity, exactly one `ROBOT_CTRL` per stage, no SVR `prev`, no duplicate SVR services, no UUIDs, and no component params
+  - provides file-level CLI: `python -m generator.validator --input raw/template_generated.json --output-dir processed --report stats/validation_report.json`
+  - saves valid samples to `processed/validated_samples.json`
+  - saves invalid samples with issues to `processed/invalid_samples.json`
+  - saves validation summary to `stats/validation_report.json`
+- Ran validator in the `uv` environment:
+  - checked 30 generated samples
+  - accepted 30 samples
+  - rejected 0 samples
+- Implemented `generator/pipeline.py`:
+  - orchestrates config loading, template generation, validation, invalid-sample filtering, deduplication, train/val splitting, and report writing
+  - defaults to 100 generated samples, seed `42`, validation ratio `0.2`, and no test split
+  - removes invalid samples and continues with valid samples by default
+  - writes raw seed inputs to `raw/seed_data.json`
+  - writes raw generated samples to `raw/template_generated.json`
+  - writes valid and invalid validation outputs to `processed/validated_samples.json` and `processed/invalid_samples.json`
+  - writes final splits to `processed/train.json` and `processed/val.json`
+  - writes distribution, validation, and pipeline reports to `stats/`
+  - exposes CLI usage through `python -m generator.pipeline`
+  - connects `main.py` to the same pipeline CLI
+- Ran the full pipeline in the `uv` environment:
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+  - wrote 80 train samples and 20 validation samples
 
 ## Current Output Shape
 
@@ -136,28 +165,7 @@ responsibilities and are not part of the first implementation.
   - confirm obstacle-avoidance replacement behavior for multi-waypoint routes
   - confirm whether return-home and land are mandatory for all generated tasks
   - confirm whether `target_tracking` should replace or follow `hover` in fixed-point tasks
-- Implement `generator/validator.py`:
-  - validate semantic input fields
-  - validate single-payload compatibility
-  - validate target detection and tracking constraints
-  - validate stage continuity
-  - validate compact stage ordering
-  - validate component `prev` references known component ids and valid events
-  - validate component `prev` uses only `success` or `failed`
-  - validate component `prev` references only `ROBOT_CTRL` sources
-  - validate each SVR appears at most once and has only `start` actions
-  - validate each stage has exactly one `ROBOT_CTRL` start action
-  - validate concurrent `ROBOT_CTRL` execution is not implied
-  - validate component ids against `component_library.json`
-- Implement `generator/pipeline.py`:
-  - load config
-  - generate raw samples
-  - validate and filter samples
-  - deduplicate samples
-  - split train and validation datasets
-  - write distribution report
-- Update `main.py` to call the template pipeline.
-- Add a small smoke test or sample generation command.
+- Add automated tests for generator, validator, and pipeline smoke paths.
 
 ## Open Questions
 

@@ -1,0 +1,32 @@
+{
+  "validated_at": "2026-05-12T01:32:52.530898+00:00",
+  "total": 100,
+  "valid": 100,
+  "invalid": 0,
+  "valid_rate": 1.0,
+  "issue_count": 0,
+  "issue_counts": {},
+  "by_task_type": {
+    "single_uav_area_search": 29,
+    "single_uav_fixed_point_observation": 35,
+    "single_uav_route_inspection": 36
+  },
+  "by_payload": {
+    "infrared_camera": 22,
+    "radar": 36,
+    "visible_camera": 42
+  },
+  "by_route_mode": {
+    "goto_point": 18,
+    "grid": 10,
+    "hover": 17,
+    "lawnmower": 11,
+    "line_follow": 21,
+    "waypoint": 23
+  },
+  "output_files": {
+    "valid_samples": "processed\\validated_samples.json",
+    "invalid_samples": "processed\\invalid_samples.json",
+    "report": "stats\\validation_report.json"
+  }
+}

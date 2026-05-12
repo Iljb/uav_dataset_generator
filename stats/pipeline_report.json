@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-05-12T01:32:52.536099+00:00",
+  "pipeline_version": "0.1.0",
+  "generator_version": "0.1.0",
+  "sample_count_requested": 100,
+  "seed": 42,
+  "val_ratio": 0.2,
+  "fail_on_invalid": false,
+  "generated_count": 100,
+  "valid_count": 100,
+  "invalid_count": 0,
+  "deduplicated_count": 100,
+  "duplicate_count": 0,
+  "train_count": 80,
+  "val_count": 20,
+  "validation_issue_count": 0,
+  "validation_issue_counts": {},
+  "duplicate_records": [],
+  "output_files": {
+    "seed_data": "raw\\seed_data.json",
+    "raw_samples": "raw\\template_generated.json",
+    "validated_samples": "processed\\validated_samples.json",
+    "invalid_samples": "processed\\invalid_samples.json",
+    "train": "processed\\train.json",
+    "val": "processed\\val.json",
+    "distribution_report": "stats\\distribution_report.json",
+    "validation_report": "stats\\validation_report.json",
+    "pipeline_report": "stats\\pipeline_report.json"
+  }
+}

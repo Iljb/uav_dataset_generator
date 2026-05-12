@@ -1238,5 +1238,2839 @@
       "battery_risk_level": "low",
       "gps_required": true
     }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B3",
+    "route_mode": "line_follow",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "animal"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": true,
+        "target_class": "animal",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B3",
+    "route_mode": "line_follow",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "none"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A3",
+    "route_mode": "lawnmower",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "fire_source"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "hover",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "slow",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "line_follow",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "hover",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "fast",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "low"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "line_follow",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "waypoint",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "continuous_photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "low"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "goto_point",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "slow",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "high"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": true,
+        "target_class": "vehicle",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A3",
+    "route_mode": "waypoint",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B3",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "continuous_photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": true,
+        "target_class": "vehicle",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A1",
+    "route_mode": "grid",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "waypoint",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "fire_source"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_area_search",
+    "role": "search_unit",
+    "assigned_area": "grid_A3",
+    "route_mode": "waypoint",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "continuous_photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "animal"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "animal",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A1",
+    "route_mode": "lawnmower",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_02",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "goto_point",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "slow",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C3",
+    "route_mode": "goto_point",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C3",
+    "route_mode": "goto_point",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "fire_source"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "waypoint",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_02",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "goto_point",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "goto_point",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "hover",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C3",
+    "route_mode": "hover",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "high"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "line_follow",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "fire_source"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_area_search",
+    "role": "search_unit",
+    "assigned_area": "grid_A2",
+    "route_mode": "waypoint",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "high"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "low"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_area_search",
+    "role": "search_unit",
+    "assigned_area": "grid_A2",
+    "route_mode": "lawnmower",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "animal"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": true,
+        "target_class": "animal",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_02",
+    "task_type": "single_uav_area_search",
+    "role": "search_unit",
+    "assigned_area": "grid_A1",
+    "route_mode": "grid",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_area_search",
+    "role": "search_unit",
+    "assigned_area": "grid_A2",
+    "route_mode": "lawnmower",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A1",
+    "route_mode": "grid",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "none"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C3",
+    "route_mode": "goto_point",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "goto_point",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "line_follow",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "hover",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "fast",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "high"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A2",
+    "route_mode": "lawnmower",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_area_search",
+    "role": "search_unit",
+    "assigned_area": "grid_A1",
+    "route_mode": "lawnmower",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_02",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "line_follow",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "high"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_area_search",
+    "role": "search_unit",
+    "assigned_area": "grid_A1",
+    "route_mode": "lawnmower",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "waypoint",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A3",
+    "route_mode": "grid",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "none"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A1",
+    "route_mode": "grid",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "none"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "goto_point",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "animal"
+        ],
+        "confidence_level": "low"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "animal",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "waypoint",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_02",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B3",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "waypoint",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "continuous_photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "hover",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "slow",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A2",
+    "route_mode": "grid",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "high"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B3",
+    "route_mode": "waypoint",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "continuous",
+        "target_temperature_hint": "fire_source"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "goto_point",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "continuous_photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "goto_point",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "fire_source"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_02",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "line_follow",
+    "payload": "radar",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "hover",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "normal",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_02",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B3",
+    "route_mode": "line_follow",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "animal"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": true,
+        "target_class": "animal",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A2",
+    "route_mode": "lawnmower",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C3",
+    "route_mode": "goto_point",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "slow",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": true,
+        "target_class": "person",
+        "tracking_priority": "low"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_03",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A3",
+    "route_mode": "grid",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "animal"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "animal",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "hover",
+    "payload": "infrared_camera",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": true,
+        "scan_mode": "single",
+        "target_temperature_hint": "human_body"
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_area_search",
+    "role": "observer",
+    "assigned_area": "grid_A2",
+    "route_mode": "waypoint",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B2",
+    "route_mode": "line_follow",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "high"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C2",
+    "route_mode": "hover",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "fast",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_01",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "waypoint",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "animal"
+        ],
+        "confidence_level": "low"
+      },
+      "target_tracking": {
+        "enabled": true,
+        "target_class": "animal",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "hover",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "fast",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "vehicle"
+        ],
+        "confidence_level": "high"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "vehicle",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "medium",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_05",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B3",
+    "route_mode": "waypoint",
+    "payload": "radar",
+    "flight": {
+      "height_level": "low",
+      "speed_level": "fast",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "medium"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "waypoint",
+    "payload": "radar",
+    "flight": {
+      "height_level": "medium",
+      "speed_level": "slow",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false
+      },
+      "target_tracking": {
+        "enabled": false
+      },
+      "obstacle_avoidance": {
+        "enabled": true,
+        "obstacle_level": "low"
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_04",
+    "task_type": "single_uav_route_inspection",
+    "role": "inspection_unit",
+    "assigned_area": "route_segment_B1",
+    "route_mode": "waypoint",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "normal",
+      "hover_required": false,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": false,
+        "capture_mode": "video"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": true,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "medium"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "high",
+      "gps_required": true
+    }
+  },
+  {
+    "uav_id": "uav_06",
+    "task_type": "single_uav_fixed_point_observation",
+    "role": "observer",
+    "assigned_area": "point_C1",
+    "route_mode": "hover",
+    "payload": "visible_camera",
+    "flight": {
+      "height_level": "high",
+      "speed_level": "slow",
+      "hover_required": true,
+      "return_home": true
+    },
+    "capabilities": {
+      "image_capture": {
+        "enabled": true,
+        "capture_mode": "continuous_photo"
+      },
+      "thermal_scan": {
+        "enabled": false
+      },
+      "object_detection": {
+        "enabled": false,
+        "target_classes": [
+          "person"
+        ],
+        "confidence_level": "medium"
+      },
+      "target_tracking": {
+        "enabled": false,
+        "target_class": "person",
+        "tracking_priority": "high"
+      },
+      "obstacle_avoidance": {
+        "enabled": false
+      }
+    },
+    "safety": {
+      "preflight_check": true,
+      "battery_monitor": true,
+      "battery_risk_level": "low",
+      "gps_required": true
+    }
   }
 ]
