@@ -15,7 +15,9 @@
     "svr_stop_generated": false,
     "topology_prev_source_types": ["ROBOT_CTRL"],
     "topology_prev_events": ["success", "failed"],
-    "exactly_one_robot_ctrl_start_per_stage": true,
+    "exactly_one_robot_ctrl_start_per_stage_when_failure_strategy_disabled": true,
+    "guarded_robot_ctrl_stage_allowed_when_failure_strategy_enabled": true,
+    "failure_strategy_default_enabled": true,
     "object_detection_requires_target_classes": true,
     "target_tracking_requires_target_class": true,
     "target_tracking_requires_object_detection": true
@@ -127,6 +129,32 @@
       "sequence": ["waypoint_flight"]
     }
   },
+  "route_to_roles": {
+    "goto_point": {
+      "target_types": ["point"],
+      "sequence": ["navigation.point"]
+    },
+    "hover": {
+      "target_types": ["point"],
+      "sequence": ["navigation.point", "observation.hover"]
+    },
+    "line_follow": {
+      "target_types": ["line"],
+      "sequence": ["navigation.line"]
+    },
+    "waypoint": {
+      "target_types": ["line", "area"],
+      "sequence": ["navigation.path"]
+    },
+    "grid": {
+      "target_types": ["area"],
+      "sequence": ["navigation.area"]
+    },
+    "lawnmower": {
+      "target_types": ["area"],
+      "sequence": ["navigation.area"]
+    }
+  },
   "flight": {
     "height_level": ["low", "medium", "high"],
     "speed_level": ["slow", "normal", "fast"],
@@ -214,6 +242,34 @@
   "mission_tail": {
     "return_home": ["return_home"],
     "land": ["land"]
+  },
+  "failure_strategy_rules": {
+    "enabled": true,
+    "default_policy": "none",
+    "max_branches_per_task": 3,
+    "policy_selection": "balanced_by_trigger_role",
+    "branch_count_by_complexity": {
+      "simple": [0, 1],
+      "medium": [1, 2],
+      "complex": [2, 3]
+    },
+    "policies": {
+      "safe_return": {
+        "trigger_roles": ["navigation.path", "navigation.line", "navigation.area", "navigation.point", "navigation.obstacle_avoid"],
+        "on_failed": ["flight.return", "flight.land"],
+        "selection_weight": 1.0
+      },
+      "safe_land": {
+        "trigger_roles": ["flight.takeoff", "flight.altitude_up"],
+        "on_failed": ["flight.land"],
+        "selection_weight": 0.5
+      },
+      "hold_then_return": {
+        "trigger_roles": ["tracking.target", "observation.hover"],
+        "on_failed": ["observation.hover", "flight.return", "flight.land"],
+        "selection_weight": 0.5
+      }
+    }
   },
   "compatibility_rules": [
     {

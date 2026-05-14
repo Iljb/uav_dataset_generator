@@ -12,6 +12,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from generator.config_linter import assert_valid_config
 from generator.template_generator import GENERATOR_VERSION, GeneratorConfig, generate_samples, load_configs
 from generator.validator import ValidationResult, save_validation_outputs, validate_samples
 
@@ -65,6 +66,7 @@ def run_pipeline(
     cfg = pipeline_config or PipelineConfig()
     _validate_pipeline_config(cfg)
     component_config = generator_config or load_configs(cfg.config_dir)
+    assert_valid_config(component_config)
 
     raw_samples = generate_samples(
         cfg.sample_count,
@@ -109,6 +111,7 @@ def run_pipeline(
         duplicate_records=duplicate_records,
         train_samples=train_samples,
         val_samples=val_samples,
+        config=component_config,
         pipeline_config=cfg,
     )
     save_reports(distribution_report, pipeline_report, cfg.stats_dir)
@@ -224,6 +227,7 @@ def build_distribution_report(
     by_component: Counter[str] = Counter()
     by_robot_ctrl: Counter[str] = Counter()
     by_svr: Counter[str] = Counter()
+    failure_metrics = _failure_metrics(samples, config)
 
     for sample in samples:
         semantic_input = sample.get("semantic_input", {})
@@ -265,6 +269,7 @@ def build_distribution_report(
         "by_component": dict(sorted(by_component.items())),
         "by_robot_ctrl": dict(sorted(by_robot_ctrl.items())),
         "by_svr": dict(sorted(by_svr.items())),
+        **failure_metrics,
     }
 
 
@@ -275,10 +280,12 @@ def build_pipeline_report(
     duplicate_records: list[dict[str, Any]],
     train_samples: list[dict[str, Any]],
     val_samples: list[dict[str, Any]],
+    config: GeneratorConfig,
     pipeline_config: PipelineConfig,
 ) -> dict[str, Any]:
     """Build a compact execution report for the pipeline run."""
 
+    failure_metrics = _failure_metrics(deduplicated_samples, config)
     return {
         "generated_at": datetime.now(UTC).isoformat(),
         "pipeline_version": PIPELINE_VERSION,
@@ -297,6 +304,7 @@ def build_pipeline_report(
         "validation_issue_count": validation_result.report["issue_count"],
         "validation_issue_counts": validation_result.report["issue_counts"],
         "duplicate_records": duplicate_records,
+        **failure_metrics,
         "output_files": _output_files(pipeline_config),
     }
 
@@ -339,6 +347,52 @@ def _dedupe_key(sample: dict[str, Any]) -> str:
 
 def _sort_numeric_counter(counter: Counter[str]) -> dict[str, int]:
     return dict(sorted(counter.items(), key=lambda item: int(item[0])))
+
+
+def _failure_metrics(
+    samples: list[dict[str, Any]],
+    config: GeneratorConfig,
+) -> dict[str, Any]:
+    component_types = {
+        component["id"]: component["type"]
+        for component in config.component_library["components"]
+    }
+    by_failure_policy: Counter[str] = Counter()
+    failure_branch_count = 0
+    failure_enabled_count = 0
+    guarded_robot_ctrl_stage_count = 0
+
+    for sample in samples:
+        metadata = sample.get("metadata", {}).get("failure_strategy", {})
+        if isinstance(metadata, dict):
+            branch_count = metadata.get("branch_count", 0)
+            if isinstance(branch_count, int):
+                failure_branch_count += branch_count
+            if metadata.get("enabled") is True:
+                failure_enabled_count += 1
+            policies = metadata.get("policies", [])
+            if isinstance(policies, list):
+                for policy in policies:
+                    if isinstance(policy, str):
+                        by_failure_policy[policy] += 1
+
+        for stage in sample.get("target_topology", {}).get("stages", []):
+            if not isinstance(stage, dict) or not isinstance(stage.get("component"), list):
+                continue
+            robot_count = sum(
+                1
+                for action in stage["component"]
+                if component_types.get(action.get("name")) == "ROBOT_CTRL"
+            )
+            if robot_count > 1:
+                guarded_robot_ctrl_stage_count += 1
+
+    return {
+        "failure_enabled_count": failure_enabled_count,
+        "failure_branch_count": failure_branch_count,
+        "guarded_robot_ctrl_stage_count": guarded_robot_ctrl_stage_count,
+        "by_failure_policy": dict(sorted(by_failure_policy.items())),
+    }
 
 
 def _output_files(config: PipelineConfig) -> dict[str, str]:

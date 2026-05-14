@@ -1,0 +1,24 @@
+{
+  "valid": true,
+  "issue_count": 0,
+  "error_count": 0,
+  "warning_count": 0,
+  "issue_counts": {},
+  "component_count": 22,
+  "component_types": {
+    "ROBOT_CTRL": 12,
+    "SVR": 10
+  },
+  "component_statuses": {
+    "active": 20,
+    "deferred": 2
+  },
+  "component_lifecycles": {
+    "control_once": 12,
+    "service_persistent": 10
+  },
+  "role_count": 26,
+  "provided_topic_count": 15,
+  "consumed_topic_count": 8,
+  "issues": []
+}

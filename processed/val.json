@@ -1,498 +1,24 @@
 [
   {
-    "sample_id": "sample_b5e1265c08c2",
+    "sample_id": "sample_2d21d8d33abd",
     "semantic_input": {
-      "uav_id": "uav_04",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B3",
-      "route_mode": "line_follow",
+      "uav_id": "uav_02",
+      "task_type": "single_uav_fixed_point_observation",
+      "role": "observer",
+      "assigned_area": "point_C1",
+      "route_mode": "hover",
       "payload": "visible_camera",
+      "complexity": "complex",
       "flight": {
-        "height_level": "high",
+        "height_level": "low",
         "speed_level": "normal",
-        "hover_required": false,
+        "hover_required": true,
         "return_home": true
       },
       "capabilities": {
         "image_capture": {
           "enabled": false,
-          "capture_mode": "continuous_photo"
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": true,
-          "target_classes": [
-            "vehicle"
-          ],
-          "confidence_level": "medium"
-        },
-        "target_tracking": {
-          "enabled": true,
-          "target_class": "vehicle",
-          "tracking_priority": "high"
-        },
-        "obstacle_avoidance": {
-          "enabled": false
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "high",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "object_detect",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c9",
-              "name": "target_tracking",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c10",
-              "name": "descend",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        },
-        {
-          "stage": 6,
-          "component": [
-            {
-              "id": "c11",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c10.success"
-            }
-          ]
-        },
-        {
-          "stage": 7,
-          "component": [
-            {
-              "id": "c12",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c11.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
-      "route_mode": "line_follow",
-      "payload": "visible_camera"
-    }
-  },
-  {
-    "sample_id": "sample_ab417cf3d4a2",
-    "semantic_input": {
-      "uav_id": "uav_03",
-      "task_type": "single_uav_area_search",
-      "role": "observer",
-      "assigned_area": "grid_A3",
-      "route_mode": "waypoint",
-      "payload": "infrared_camera",
-      "flight": {
-        "height_level": "high",
-        "speed_level": "normal",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": true,
-          "scan_mode": "single",
-          "target_temperature_hint": "human_body"
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": false
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "high",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_ir_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c8",
-              "name": "descend",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c9",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c8.success"
-            }
-          ]
-        },
-        {
-          "stage": 6,
-          "component": [
-            {
-              "id": "c10",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_area_search",
-      "route_mode": "waypoint",
-      "payload": "infrared_camera"
-    }
-  },
-  {
-    "sample_id": "sample_6a0659d0b2ef",
-    "semantic_input": {
-      "uav_id": "uav_05",
-      "task_type": "single_uav_area_search",
-      "role": "observer",
-      "assigned_area": "grid_A2",
-      "route_mode": "waypoint",
-      "payload": "radar",
-      "flight": {
-        "height_level": "medium",
-        "speed_level": "fast",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": true,
-          "obstacle_level": "medium"
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "medium",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "sensor_radar_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c9",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c10",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_area_search",
-      "route_mode": "waypoint",
-      "payload": "radar"
-    }
-  },
-  {
-    "sample_id": "sample_7ef02783b0ae",
-    "semantic_input": {
-      "uav_id": "uav_05",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B1",
-      "route_mode": "line_follow",
-      "payload": "visible_camera",
-      "flight": {
-        "height_level": "medium",
-        "speed_level": "slow",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false,
-          "capture_mode": "continuous_photo"
+          "capture_mode": "video"
         },
         "thermal_scan": {
           "enabled": false
@@ -502,10 +28,10 @@
           "target_classes": [
             "animal"
           ],
-          "confidence_level": "medium"
+          "confidence_level": "high"
         },
         "target_tracking": {
-          "enabled": true,
+          "enabled": false,
           "target_class": "animal",
           "tracking_priority": "high"
         },
@@ -516,164 +42,6 @@
       "safety": {
         "preflight_check": true,
         "battery_monitor": true,
-        "battery_risk_level": "low",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "object_detect",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c9",
-              "name": "target_tracking",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c10",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        },
-        {
-          "stage": 6,
-          "component": [
-            {
-              "id": "c11",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c10.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
-      "route_mode": "line_follow",
-      "payload": "visible_camera"
-    }
-  },
-  {
-    "sample_id": "sample_5e00a5c7bfd9",
-    "semantic_input": {
-      "uav_id": "uav_04",
-      "task_type": "single_uav_fixed_point_observation",
-      "role": "observer",
-      "assigned_area": "point_C2",
-      "route_mode": "hover",
-      "payload": "radar",
-      "flight": {
-        "height_level": "high",
-        "speed_level": "fast",
-        "hover_required": true,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": true,
-          "obstacle_level": "high"
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
         "battery_risk_level": "medium",
         "gps_required": true
       }
@@ -719,7 +87,25 @@
           "component": [
             {
               "id": "c4",
-              "name": "ascend",
+              "name": "goto_point",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -729,26 +115,26 @@
           "stage": 3,
           "component": [
             {
-              "id": "c5",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
               "id": "c8",
-              "name": "sensor_radar_scan",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.failed"
+            },
+            {
+              "id": "c10",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c11",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -758,10 +144,22 @@
           "stage": 4,
           "component": [
             {
-              "id": "c9",
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c8.success"
+            },
+            {
+              "id": "c13",
               "name": "hover",
               "cmd": "start",
-              "prev": "c5.success"
+              "prev": "c8.failed"
+            },
+            {
+              "id": "c14",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c9.success"
             }
           ]
         },
@@ -769,10 +167,16 @@
           "stage": 5,
           "component": [
             {
-              "id": "c10",
-              "name": "descend",
+              "id": "c15",
+              "name": "land",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c12.success"
+            },
+            {
+              "id": "c16",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c13.success"
             }
           ]
         },
@@ -780,21 +184,10 @@
           "stage": 6,
           "component": [
             {
-              "id": "c11",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c10.success"
-            }
-          ]
-        },
-        {
-          "stage": 7,
-          "component": [
-            {
-              "id": "c12",
+              "id": "c17",
               "name": "land",
               "cmd": "start",
-              "prev": "c11.success"
+              "prev": "c16.success"
             }
           ]
         }
@@ -804,459 +197,28 @@
       "generator_version": "0.1.0",
       "template_id": "single_uav_fixed_point_observation",
       "route_mode": "hover",
-      "payload": "radar"
-    }
-  },
-  {
-    "sample_id": "sample_6b832b512c0e",
-    "semantic_input": {
-      "uav_id": "uav_05",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B1",
-      "route_mode": "waypoint",
-      "payload": "radar",
-      "flight": {
-        "height_level": "medium",
-        "speed_level": "normal",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": true,
-          "obstacle_level": "medium"
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "low",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "sensor_radar_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c9",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c10",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
-      "route_mode": "waypoint",
-      "payload": "radar"
-    }
-  },
-  {
-    "sample_id": "sample_96173951f22f",
-    "semantic_input": {
-      "uav_id": "uav_02",
-      "task_type": "single_uav_area_search",
-      "role": "observer",
-      "assigned_area": "grid_A1",
-      "route_mode": "waypoint",
       "payload": "visible_camera",
-      "flight": {
-        "height_level": "medium",
-        "speed_level": "fast",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": true,
-          "capture_mode": "continuous_photo"
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false,
-          "target_classes": [
-            "animal"
-          ],
-          "confidence_level": "low"
-        },
-        "target_tracking": {
-          "enabled": false,
-          "target_class": "animal",
-          "tracking_priority": "high"
-        },
-        "obstacle_avoidance": {
-          "enabled": false
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "medium",
-        "gps_required": true
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 3,
+        "policies": [
+          "hold_then_return",
+          "safe_land",
+          "safe_return"
+        ]
       }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c8",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c9",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c8.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_area_search",
-      "route_mode": "waypoint",
-      "payload": "visible_camera"
     }
   },
   {
-    "sample_id": "sample_84f8a2ae1d4a",
-    "semantic_input": {
-      "uav_id": "uav_03",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B2",
-      "route_mode": "line_follow",
-      "payload": "radar",
-      "flight": {
-        "height_level": "medium",
-        "speed_level": "normal",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": true,
-          "obstacle_level": "high"
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "medium",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "sensor_radar_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c9",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c10",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
-      "route_mode": "line_follow",
-      "payload": "radar"
-    }
-  },
-  {
-    "sample_id": "sample_367f6a17703a",
+    "sample_id": "sample_062155ecd96e",
     "semantic_input": {
       "uav_id": "uav_05",
       "task_type": "single_uav_fixed_point_observation",
       "role": "observer",
       "assigned_area": "point_C1",
       "route_mode": "hover",
-      "payload": "infrared_camera",
+      "payload": "radar",
+      "complexity": "medium",
       "flight": {
         "height_level": "medium",
         "speed_level": "fast",
@@ -1268,9 +230,7 @@
           "enabled": false
         },
         "thermal_scan": {
-          "enabled": true,
-          "scan_mode": "continuous",
-          "target_temperature_hint": "human_body"
+          "enabled": false
         },
         "object_detection": {
           "enabled": false
@@ -1279,313 +239,8 @@
           "enabled": false
         },
         "obstacle_avoidance": {
-          "enabled": false
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "high",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "goto_point",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c8",
-              "name": "hover",
-              "cmd": "start",
-              "prev": "c5.success"
-            },
-            {
-              "id": "c9",
-              "name": "sensor_ir_scan",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c10",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c8.success"
-            }
-          ]
-        },
-        {
-          "stage": 6,
-          "component": [
-            {
-              "id": "c11",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c10.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_fixed_point_observation",
-      "route_mode": "hover",
-      "payload": "infrared_camera"
-    }
-  },
-  {
-    "sample_id": "sample_448e0892ec00",
-    "semantic_input": {
-      "uav_id": "uav_04",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B2",
-      "route_mode": "waypoint",
-      "payload": "visible_camera",
-      "flight": {
-        "height_level": "medium",
-        "speed_level": "fast",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
           "enabled": true,
-          "capture_mode": "continuous_photo"
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false,
-          "target_classes": [
-            "vehicle"
-          ],
-          "confidence_level": "medium"
-        },
-        "target_tracking": {
-          "enabled": false,
-          "target_class": "vehicle",
-          "tracking_priority": "high"
-        },
-        "obstacle_avoidance": {
-          "enabled": false
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "high",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_camera_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c8",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c9",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c8.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
-      "route_mode": "waypoint",
-      "payload": "visible_camera"
-    }
-  },
-  {
-    "sample_id": "sample_381489cc3ad0",
-    "semantic_input": {
-      "uav_id": "uav_05",
-      "task_type": "single_uav_area_search",
-      "role": "observer",
-      "assigned_area": "grid_A3",
-      "route_mode": "grid",
-      "payload": "infrared_camera",
-      "flight": {
-        "height_level": "medium",
-        "speed_level": "normal",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": true,
-          "scan_mode": "single",
-          "target_temperature_hint": "none"
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": false
+          "obstacle_level": "medium"
         }
       },
       "safety": {
@@ -1647,19 +302,25 @@
           "component": [
             {
               "id": "c5",
-              "name": "waypoint_flight",
+              "name": "obstacle_avoid_flight",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
               "id": "c6",
-              "name": "waypoint_list_create",
+              "name": "get_gnss_position",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
               "id": "c7",
-              "name": "sensor_ir_scan",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -1669,10 +330,16 @@
           "stage": 4,
           "component": [
             {
-              "id": "c8",
-              "name": "return_home",
+              "id": "c9",
+              "name": "hover",
               "cmd": "start",
               "prev": "c5.success"
+            },
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.failed"
             }
           ]
         },
@@ -1680,10 +347,50 @@
           "stage": 5,
           "component": [
             {
-              "id": "c9",
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            },
+            {
+              "id": "c12",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c9.failed"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c14",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
+            },
+            {
+              "id": "c15",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c13.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c16",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c15.success"
             }
           ]
         }
@@ -1691,54 +398,220 @@
     },
     "metadata": {
       "generator_version": "0.1.0",
-      "template_id": "single_uav_area_search",
-      "route_mode": "grid",
-      "payload": "infrared_camera"
+      "template_id": "single_uav_fixed_point_observation",
+      "route_mode": "hover",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_return",
+          "hold_then_return"
+        ]
+      }
     }
   },
   {
-    "sample_id": "sample_7d249366a90a",
+    "sample_id": "sample_9fb950397f6c",
     "semantic_input": {
-      "uav_id": "uav_06",
-      "task_type": "single_uav_fixed_point_observation",
-      "role": "observer",
-      "assigned_area": "point_C2",
-      "route_mode": "goto_point",
-      "payload": "visible_camera",
+      "uav_id": "uav_01",
+      "task_type": "single_uav_route_inspection",
+      "role": "inspection_unit",
+      "assigned_area": "route_segment_B1",
+      "route_mode": "line_follow",
+      "payload": "radar",
+      "complexity": "complex",
       "flight": {
-        "height_level": "medium",
-        "speed_level": "normal",
-        "hover_required": true,
+        "height_level": "low",
+        "speed_level": "slow",
+        "hover_required": false,
         "return_home": true
       },
       "capabilities": {
         "image_capture": {
-          "enabled": true,
-          "capture_mode": "photo"
+          "enabled": false
         },
         "thermal_scan": {
           "enabled": false
         },
         "object_detection": {
-          "enabled": false,
-          "target_classes": [
-            "person"
-          ],
-          "confidence_level": "high"
+          "enabled": false
         },
         "target_tracking": {
-          "enabled": false,
-          "target_class": "person",
-          "tracking_priority": "low"
+          "enabled": false
         },
         "obstacle_avoidance": {
-          "enabled": false
+          "enabled": true,
+          "obstacle_level": "medium"
         }
       },
       "safety": {
         "preflight_check": true,
         "battery_monitor": true,
-        "battery_risk_level": "high",
+        "battery_risk_level": "medium",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_radar_scan",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.failed"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c9.success"
+            },
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_route_inspection",
+      "route_mode": "line_follow",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_return",
+          "safe_land"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_057e57a8e3c7",
+    "semantic_input": {
+      "uav_id": "uav_05",
+      "task_type": "single_uav_area_search",
+      "role": "observer",
+      "assigned_area": "grid_A1",
+      "route_mode": "lawnmower",
+      "payload": "radar",
+      "complexity": "complex",
+      "flight": {
+        "height_level": "medium",
+        "speed_level": "fast",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": true,
+          "obstacle_level": "high"
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "medium",
         "gps_required": true
       }
     },
@@ -1794,25 +667,31 @@
           "component": [
             {
               "id": "c5",
-              "name": "goto_point",
+              "name": "obstacle_avoid_flight",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
               "id": "c6",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c4.failed"
+            },
+            {
+              "id": "c7",
               "name": "get_gnss_position",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
-              "id": "c7",
+              "id": "c8",
               "name": "gnss_to_position_3d",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
-              "id": "c8",
-              "name": "sensor_camera_scan",
+              "id": "c9",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -1822,10 +701,16 @@
           "stage": 4,
           "component": [
             {
-              "id": "c9",
+              "id": "c10",
               "name": "return_home",
               "cmd": "start",
               "prev": "c5.success"
+            },
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.failed"
             }
           ]
         },
@@ -1833,10 +718,16 @@
           "stage": 5,
           "component": [
             {
-              "id": "c10",
+              "id": "c12",
               "name": "land",
               "cmd": "start",
-              "prev": "c9.success"
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
             }
           ]
         }
@@ -1844,23 +735,32 @@
     },
     "metadata": {
       "generator_version": "0.1.0",
-      "template_id": "single_uav_fixed_point_observation",
-      "route_mode": "goto_point",
-      "payload": "visible_camera"
+      "template_id": "single_uav_area_search",
+      "route_mode": "lawnmower",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_return",
+          "safe_land"
+        ]
+      }
     }
   },
   {
-    "sample_id": "sample_4cb6f58c60c7",
+    "sample_id": "sample_4df33c2b0e78",
     "semantic_input": {
-      "uav_id": "uav_06",
+      "uav_id": "uav_03",
       "task_type": "single_uav_route_inspection",
       "role": "inspection_unit",
       "assigned_area": "route_segment_B1",
-      "route_mode": "line_follow",
+      "route_mode": "waypoint",
       "payload": "infrared_camera",
+      "complexity": "complex",
       "flight": {
         "height_level": "low",
-        "speed_level": "fast",
+        "speed_level": "slow",
         "hover_required": false,
         "return_home": true
       },
@@ -1871,7 +771,165 @@
         "thermal_scan": {
           "enabled": true,
           "scan_mode": "continuous",
-          "target_temperature_hint": "fire_source"
+          "target_temperature_hint": "overheated_equipment"
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": false
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "low",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_ir_scan",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c8",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.failed"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c10",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c8.success"
+            },
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_route_inspection",
+      "route_mode": "waypoint",
+      "payload": "infrared_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_land",
+          "safe_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_8566edf91a38",
+    "semantic_input": {
+      "uav_id": "uav_05",
+      "task_type": "single_uav_route_inspection",
+      "role": "inspection_unit",
+      "assigned_area": "route_segment_B1",
+      "route_mode": "waypoint",
+      "payload": "infrared_camera",
+      "complexity": "simple",
+      "flight": {
+        "height_level": "low",
+        "speed_level": "normal",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": true,
+          "scan_mode": "continuous",
+          "target_temperature_hint": "overheated_equipment"
         },
         "object_detection": {
           "enabled": false
@@ -1976,330 +1034,25 @@
     "metadata": {
       "generator_version": "0.1.0",
       "template_id": "single_uav_route_inspection",
-      "route_mode": "line_follow",
-      "payload": "infrared_camera"
+      "route_mode": "waypoint",
+      "payload": "infrared_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 0,
+        "policies": []
+      }
     }
   },
   {
-    "sample_id": "sample_71c5697b4d88",
+    "sample_id": "sample_879f87946332",
     "semantic_input": {
       "uav_id": "uav_06",
       "task_type": "single_uav_area_search",
-      "role": "search_unit",
-      "assigned_area": "grid_A2",
-      "route_mode": "waypoint",
-      "payload": "radar",
-      "flight": {
-        "height_level": "high",
-        "speed_level": "normal",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": true,
-          "obstacle_level": "high"
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "low",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c8",
-              "name": "sensor_radar_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c9",
-              "name": "descend",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c10",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        },
-        {
-          "stage": 6,
-          "component": [
-            {
-              "id": "c11",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c10.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_area_search",
-      "route_mode": "waypoint",
-      "payload": "radar"
-    }
-  },
-  {
-    "sample_id": "sample_ebd5b4a9af6d",
-    "semantic_input": {
-      "uav_id": "uav_03",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B1",
-      "route_mode": "waypoint",
-      "payload": "infrared_camera",
-      "flight": {
-        "height_level": "high",
-        "speed_level": "normal",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": true,
-          "scan_mode": "single",
-          "target_temperature_hint": "human_body"
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": false
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "high",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
-        },
-        {
-          "stage": 1,
-          "component": [
-            {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "ascend",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c5",
-              "name": "waypoint_flight",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c6",
-              "name": "waypoint_list_create",
-              "cmd": "start",
-              "prev": "c4.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_ir_scan",
-              "cmd": "start",
-              "prev": "c4.success"
-            }
-          ]
-        },
-        {
-          "stage": 4,
-          "component": [
-            {
-              "id": "c8",
-              "name": "descend",
-              "cmd": "start",
-              "prev": "c5.success"
-            }
-          ]
-        },
-        {
-          "stage": 5,
-          "component": [
-            {
-              "id": "c9",
-              "name": "return_home",
-              "cmd": "start",
-              "prev": "c8.success"
-            }
-          ]
-        },
-        {
-          "stage": 6,
-          "component": [
-            {
-              "id": "c10",
-              "name": "land",
-              "cmd": "start",
-              "prev": "c9.success"
-            }
-          ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
-      "route_mode": "waypoint",
-      "payload": "infrared_camera"
-    }
-  },
-  {
-    "sample_id": "sample_e779137dfb1e",
-    "semantic_input": {
-      "uav_id": "uav_03",
-      "task_type": "single_uav_area_search",
-      "role": "search_unit",
-      "assigned_area": "grid_A3",
+      "role": "observer",
+      "assigned_area": "grid_A1",
       "route_mode": "waypoint",
       "payload": "visible_camera",
+      "complexity": "medium",
       "flight": {
         "height_level": "high",
         "speed_level": "normal",
@@ -2309,7 +1062,7 @@
       "capabilities": {
         "image_capture": {
           "enabled": false,
-          "capture_mode": "continuous_photo"
+          "capture_mode": "photo"
         },
         "thermal_scan": {
           "enabled": false
@@ -2322,9 +1075,9 @@
           "confidence_level": "high"
         },
         "target_tracking": {
-          "enabled": false,
+          "enabled": true,
           "target_class": "animal",
-          "tracking_priority": "high"
+          "tracking_priority": "low"
         },
         "obstacle_avoidance": {
           "enabled": false
@@ -2418,9 +1171,15 @@
           "component": [
             {
               "id": "c9",
-              "name": "descend",
+              "name": "target_tracking",
               "cmd": "start",
               "prev": "c5.success"
+            },
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.failed"
             }
           ]
         },
@@ -2428,10 +1187,22 @@
           "stage": 5,
           "component": [
             {
-              "id": "c10",
-              "name": "return_home",
+              "id": "c11",
+              "name": "descend",
               "cmd": "start",
               "prev": "c9.success"
+            },
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c9.failed"
             }
           ]
         },
@@ -2439,10 +1210,33 @@
           "stage": 6,
           "component": [
             {
-              "id": "c11",
+              "id": "c14",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c11.success"
+            },
+            {
+              "id": "c15",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c13.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c16",
               "name": "land",
               "cmd": "start",
-              "prev": "c10.success"
+              "prev": "c14.success"
+            },
+            {
+              "id": "c17",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c15.success"
             }
           ]
         }
@@ -2452,38 +1246,52 @@
       "generator_version": "0.1.0",
       "template_id": "single_uav_area_search",
       "route_mode": "waypoint",
-      "payload": "visible_camera"
+      "payload": "visible_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_return",
+          "hold_then_return"
+        ]
+      }
     }
   },
   {
-    "sample_id": "sample_7995c7e53c84",
+    "sample_id": "sample_f6e9dd0d2432",
     "semantic_input": {
       "uav_id": "uav_01",
-      "task_type": "single_uav_fixed_point_observation",
+      "task_type": "single_uav_area_search",
       "role": "observer",
-      "assigned_area": "point_C3",
-      "route_mode": "goto_point",
-      "payload": "infrared_camera",
+      "assigned_area": "grid_A2",
+      "route_mode": "lawnmower",
+      "payload": "visible_camera",
+      "complexity": "simple",
       "flight": {
-        "height_level": "medium",
-        "speed_level": "fast",
-        "hover_required": true,
+        "height_level": "high",
+        "speed_level": "normal",
+        "hover_required": false,
         "return_home": true
       },
       "capabilities": {
         "image_capture": {
-          "enabled": false
+          "enabled": false,
+          "capture_mode": "photo"
         },
         "thermal_scan": {
-          "enabled": true,
-          "scan_mode": "single",
-          "target_temperature_hint": "human_body"
+          "enabled": false
         },
         "object_detection": {
-          "enabled": false
+          "enabled": true,
+          "target_classes": [
+            "animal"
+          ],
+          "confidence_level": "medium"
         },
         "target_tracking": {
-          "enabled": false
+          "enabled": true,
+          "target_class": "animal",
+          "tracking_priority": "low"
         },
         "obstacle_avoidance": {
           "enabled": false
@@ -2492,7 +1300,7 @@
       "safety": {
         "preflight_check": true,
         "battery_monitor": true,
-        "battery_risk_level": "high",
+        "battery_risk_level": "low",
         "gps_required": true
       }
     },
@@ -2548,25 +1356,25 @@
           "component": [
             {
               "id": "c5",
-              "name": "goto_point",
+              "name": "waypoint_flight",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
               "id": "c6",
-              "name": "get_gnss_position",
+              "name": "waypoint_list_create",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
               "id": "c7",
-              "name": "gnss_to_position_3d",
+              "name": "sensor_camera_scan",
               "cmd": "start",
               "prev": "c4.success"
             },
             {
               "id": "c8",
-              "name": "sensor_ir_scan",
+              "name": "object_detect",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2577,7 +1385,7 @@
           "component": [
             {
               "id": "c9",
-              "name": "return_home",
+              "name": "target_tracking",
               "cmd": "start",
               "prev": "c5.success"
             }
@@ -2588,145 +1396,31 @@
           "component": [
             {
               "id": "c10",
-              "name": "land",
+              "name": "descend",
               "cmd": "start",
               "prev": "c9.success"
             }
           ]
-        }
-      ]
-    },
-    "metadata": {
-      "generator_version": "0.1.0",
-      "template_id": "single_uav_fixed_point_observation",
-      "route_mode": "goto_point",
-      "payload": "infrared_camera"
-    }
-  },
-  {
-    "sample_id": "sample_5dfde8045e86",
-    "semantic_input": {
-      "uav_id": "uav_04",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B2",
-      "route_mode": "line_follow",
-      "payload": "radar",
-      "flight": {
-        "height_level": "low",
-        "speed_level": "fast",
-        "hover_required": false,
-        "return_home": true
-      },
-      "capabilities": {
-        "image_capture": {
-          "enabled": false
-        },
-        "thermal_scan": {
-          "enabled": false
-        },
-        "object_detection": {
-          "enabled": false
-        },
-        "target_tracking": {
-          "enabled": false
-        },
-        "obstacle_avoidance": {
-          "enabled": true,
-          "obstacle_level": "high"
-        }
-      },
-      "safety": {
-        "preflight_check": true,
-        "battery_monitor": true,
-        "battery_risk_level": "low",
-        "gps_required": true
-      }
-    },
-    "target_topology": {
-      "stages": [
-        {
-          "stage": 0,
-          "component": [
-            {
-              "id": "c0",
-              "name": "preflight_check",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c1",
-              "name": "battery_level",
-              "cmd": "start",
-              "prev": null
-            },
-            {
-              "id": "c2",
-              "name": "battery_warning",
-              "cmd": "start",
-              "prev": null
-            }
-          ]
         },
         {
-          "stage": 1,
+          "stage": 6,
           "component": [
             {
-              "id": "c3",
-              "name": "takeoff",
-              "cmd": "start",
-              "prev": "c0.success"
-            }
-          ]
-        },
-        {
-          "stage": 2,
-          "component": [
-            {
-              "id": "c4",
-              "name": "obstacle_avoid_flight",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c5",
-              "name": "get_gnss_position",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
-              "cmd": "start",
-              "prev": "c3.success"
-            }
-          ]
-        },
-        {
-          "stage": 3,
-          "component": [
-            {
-              "id": "c8",
+              "id": "c11",
               "name": "return_home",
               "cmd": "start",
-              "prev": "c4.success"
+              "prev": "c10.success"
             }
           ]
         },
         {
-          "stage": 4,
+          "stage": 7,
           "component": [
             {
-              "id": "c9",
+              "id": "c12",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c11.success"
             }
           ]
         }
@@ -2734,22 +1428,28 @@
     },
     "metadata": {
       "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
-      "route_mode": "line_follow",
-      "payload": "radar"
+      "template_id": "single_uav_area_search",
+      "route_mode": "lawnmower",
+      "payload": "visible_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 0,
+        "policies": []
+      }
     }
   },
   {
-    "sample_id": "sample_264797fd6740",
+    "sample_id": "sample_0edc07a62856",
     "semantic_input": {
-      "uav_id": "uav_03",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B2",
+      "uav_id": "uav_01",
+      "task_type": "single_uav_area_search",
+      "role": "search_unit",
+      "assigned_area": "grid_A1",
       "route_mode": "waypoint",
       "payload": "radar",
+      "complexity": "complex",
       "flight": {
-        "height_level": "low",
+        "height_level": "medium",
         "speed_level": "fast",
         "hover_required": false,
         "return_home": true
@@ -2820,27 +1520,15 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             },
             {
               "id": "c5",
-              "name": "get_gnss_position",
+              "name": "land",
               "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c6",
-              "name": "gnss_to_position_3d",
-              "cmd": "start",
-              "prev": "c3.success"
-            },
-            {
-              "id": "c7",
-              "name": "sensor_radar_scan",
-              "cmd": "start",
-              "prev": "c3.success"
+              "prev": "c3.failed"
             }
           ]
         },
@@ -2848,8 +1536,26 @@
           "stage": 3,
           "component": [
             {
+              "id": "c6",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
               "id": "c8",
-              "name": "return_home",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_radar_scan",
               "cmd": "start",
               "prev": "c4.success"
             }
@@ -2859,10 +1565,33 @@
           "stage": 4,
           "component": [
             {
-              "id": "c9",
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c6.success"
+            },
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c6.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c12",
               "name": "land",
               "cmd": "start",
-              "prev": "c8.success"
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
             }
           ]
         }
@@ -2870,24 +1599,33 @@
     },
     "metadata": {
       "generator_version": "0.1.0",
-      "template_id": "single_uav_route_inspection",
+      "template_id": "single_uav_area_search",
       "route_mode": "waypoint",
-      "payload": "radar"
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_land",
+          "safe_return"
+        ]
+      }
     }
   },
   {
-    "sample_id": "sample_67f0e8a9a38a",
+    "sample_id": "sample_1cbb80615f75",
     "semantic_input": {
       "uav_id": "uav_04",
-      "task_type": "single_uav_route_inspection",
-      "role": "inspection_unit",
-      "assigned_area": "route_segment_B1",
-      "route_mode": "line_follow",
+      "task_type": "single_uav_fixed_point_observation",
+      "role": "observer",
+      "assigned_area": "point_C3",
+      "route_mode": "hover",
       "payload": "radar",
+      "complexity": "complex",
       "flight": {
-        "height_level": "low",
-        "speed_level": "slow",
-        "hover_required": false,
+        "height_level": "medium",
+        "speed_level": "fast",
+        "hover_required": true,
         "return_home": true
       },
       "capabilities": {
@@ -2905,7 +1643,7 @@
         },
         "obstacle_avoidance": {
           "enabled": true,
-          "obstacle_level": "low"
+          "obstacle_level": "medium"
         }
       },
       "safety": {
@@ -2956,25 +1694,939 @@
           "component": [
             {
               "id": "c4",
-              "name": "obstacle_avoid_flight",
+              "name": "ascend",
               "cmd": "start",
               "prev": "c3.success"
             },
             {
               "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c6",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
               "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_radar_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c10",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c6.success"
+            },
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c6.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c10.failed"
+            },
+            {
+              "id": "c14",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c15",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c12.success"
+            },
+            {
+              "id": "c16",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c13.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c17",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c16.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_fixed_point_observation",
+      "route_mode": "hover",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 3,
+        "policies": [
+          "hold_then_return",
+          "safe_land",
+          "safe_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_efce113a5213",
+    "semantic_input": {
+      "uav_id": "uav_05",
+      "task_type": "single_uav_fixed_point_observation",
+      "role": "observer",
+      "assigned_area": "point_C2",
+      "route_mode": "hover",
+      "payload": "radar",
+      "complexity": "medium",
+      "flight": {
+        "height_level": "medium",
+        "speed_level": "normal",
+        "hover_required": true,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": true,
+          "obstacle_level": "high"
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "high",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "ascend",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_radar_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c9",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c5.success"
+            },
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            },
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c9.failed"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c14",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
+            },
+            {
+              "id": "c15",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c13.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c16",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c15.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_fixed_point_observation",
+      "route_mode": "hover",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_return",
+          "hold_then_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_ad2202b33279",
+    "semantic_input": {
+      "uav_id": "uav_02",
+      "task_type": "single_uav_route_inspection",
+      "role": "inspection_unit",
+      "assigned_area": "route_segment_B1",
+      "route_mode": "line_follow",
+      "payload": "visible_camera",
+      "complexity": "complex",
+      "flight": {
+        "height_level": "low",
+        "speed_level": "normal",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false,
+          "capture_mode": "photo"
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": true,
+          "target_classes": [
+            "vehicle"
+          ],
+          "confidence_level": "low"
+        },
+        "target_tracking": {
+          "enabled": true,
+          "target_class": "vehicle",
+          "tracking_priority": "low"
+        },
+        "obstacle_avoidance": {
+          "enabled": false
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "medium",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "waypoint_flight",
               "cmd": "start",
               "prev": "c3.success"
             },
             {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            },
+            {
               "id": "c6",
-              "name": "gnss_to_position_3d",
+              "name": "waypoint_list_create",
               "cmd": "start",
               "prev": "c3.success"
             },
             {
               "id": "c7",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c8",
+              "name": "object_detect",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c9",
+              "name": "target_tracking",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.failed"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c9.success"
+            },
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_route_inspection",
+      "route_mode": "line_follow",
+      "payload": "visible_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_land",
+          "safe_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_5c4566c5077f",
+    "semantic_input": {
+      "uav_id": "uav_01",
+      "task_type": "single_uav_route_inspection",
+      "role": "inspection_unit",
+      "assigned_area": "route_segment_B3",
+      "route_mode": "line_follow",
+      "payload": "radar",
+      "complexity": "simple",
+      "flight": {
+        "height_level": "medium",
+        "speed_level": "slow",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": true,
+          "obstacle_level": "high"
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "low",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "ascend",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c5",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
               "name": "sensor_radar_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c10",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_route_inspection",
+      "route_mode": "line_follow",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 0,
+        "policies": []
+      }
+    }
+  },
+  {
+    "sample_id": "sample_771c423c6a62",
+    "semantic_input": {
+      "uav_id": "uav_03",
+      "task_type": "single_uav_route_inspection",
+      "role": "inspection_unit",
+      "assigned_area": "route_segment_B2",
+      "route_mode": "line_follow",
+      "payload": "infrared_camera",
+      "complexity": "medium",
+      "flight": {
+        "height_level": "medium",
+        "speed_level": "normal",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": true,
+          "scan_mode": "single",
+          "target_temperature_hint": "fire_source"
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": false
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "low",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "ascend",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c4.failed"
+            },
+            {
+              "id": "c7",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_ir_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.success"
+            },
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c9.success"
+            },
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_route_inspection",
+      "route_mode": "line_follow",
+      "payload": "infrared_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_land",
+          "safe_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_6ecf2ffe5661",
+    "semantic_input": {
+      "uav_id": "uav_02",
+      "task_type": "single_uav_area_search",
+      "role": "search_unit",
+      "assigned_area": "grid_A2",
+      "route_mode": "lawnmower",
+      "payload": "infrared_camera",
+      "complexity": "medium",
+      "flight": {
+        "height_level": "low",
+        "speed_level": "slow",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": true,
+          "scan_mode": "single",
+          "target_temperature_hint": "none"
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": false
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "low",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            },
+            {
+              "id": "c6",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c7",
+              "name": "sensor_ir_scan",
               "cmd": "start",
               "prev": "c3.success"
             }
@@ -2988,6 +2640,12 @@
               "name": "return_home",
               "cmd": "start",
               "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.failed"
             }
           ]
         },
@@ -2995,10 +2653,618 @@
           "stage": 4,
           "component": [
             {
-              "id": "c9",
+              "id": "c10",
               "name": "land",
               "cmd": "start",
               "prev": "c8.success"
+            },
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c9.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_area_search",
+      "route_mode": "lawnmower",
+      "payload": "infrared_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_land",
+          "safe_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_bbfda9734de7",
+    "semantic_input": {
+      "uav_id": "uav_01",
+      "task_type": "single_uav_route_inspection",
+      "role": "inspection_unit",
+      "assigned_area": "route_segment_B1",
+      "route_mode": "waypoint",
+      "payload": "visible_camera",
+      "complexity": "medium",
+      "flight": {
+        "height_level": "high",
+        "speed_level": "slow",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false,
+          "capture_mode": "photo"
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": true,
+          "target_classes": [
+            "vehicle"
+          ],
+          "confidence_level": "low"
+        },
+        "target_tracking": {
+          "enabled": true,
+          "target_class": "vehicle",
+          "tracking_priority": "low"
+        },
+        "obstacle_avoidance": {
+          "enabled": false
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "medium",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "ascend",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c5",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c6",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c4.failed"
+            },
+            {
+              "id": "c7",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "object_detect",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c10",
+              "name": "target_tracking",
+              "cmd": "start",
+              "prev": "c5.success"
+            },
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c5.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c12",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c14",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c12.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c15",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c14.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_route_inspection",
+      "route_mode": "waypoint",
+      "payload": "visible_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_land",
+          "safe_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_34a916caffa7",
+    "semantic_input": {
+      "uav_id": "uav_03",
+      "task_type": "single_uav_fixed_point_observation",
+      "role": "observer",
+      "assigned_area": "point_C3",
+      "route_mode": "hover",
+      "payload": "radar",
+      "complexity": "complex",
+      "flight": {
+        "height_level": "medium",
+        "speed_level": "slow",
+        "hover_required": true,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": true,
+          "obstacle_level": "high"
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "high",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "ascend",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c6",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "sensor_radar_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c10",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c6.success"
+            },
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c6.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "hover",
+              "cmd": "start",
+              "prev": "c10.failed"
+            },
+            {
+              "id": "c14",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c15",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c12.success"
+            },
+            {
+              "id": "c16",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c13.success"
+            }
+          ]
+        },
+        {
+          "stage": 7,
+          "component": [
+            {
+              "id": "c17",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c16.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_fixed_point_observation",
+      "route_mode": "hover",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 3,
+        "policies": [
+          "hold_then_return",
+          "safe_land",
+          "safe_return"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_2b6dd500c061",
+    "semantic_input": {
+      "uav_id": "uav_04",
+      "task_type": "single_uav_route_inspection",
+      "role": "inspection_unit",
+      "assigned_area": "route_segment_B2",
+      "route_mode": "line_follow",
+      "payload": "radar",
+      "complexity": "complex",
+      "flight": {
+        "height_level": "high",
+        "speed_level": "normal",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": true,
+          "obstacle_level": "high"
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "medium",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "ascend",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c6",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c4.failed"
+            },
+            {
+              "id": "c8",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c10",
+              "name": "sensor_radar_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c11",
+              "name": "descend",
+              "cmd": "start",
+              "prev": "c6.success"
+            },
+            {
+              "id": "c12",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c6.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c13",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c11.success"
+            },
+            {
+              "id": "c14",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c12.success"
+            }
+          ]
+        },
+        {
+          "stage": 6,
+          "component": [
+            {
+              "id": "c15",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c13.success"
             }
           ]
         }
@@ -3008,7 +3274,359 @@
       "generator_version": "0.1.0",
       "template_id": "single_uav_route_inspection",
       "route_mode": "line_follow",
-      "payload": "radar"
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 3,
+        "policies": [
+          "safe_return",
+          "safe_land",
+          "safe_land"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_5900ff0a67c5",
+    "semantic_input": {
+      "uav_id": "uav_06",
+      "task_type": "single_uav_area_search",
+      "role": "observer",
+      "assigned_area": "grid_A2",
+      "route_mode": "waypoint",
+      "payload": "radar",
+      "complexity": "complex",
+      "flight": {
+        "height_level": "low",
+        "speed_level": "normal",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": false
+        },
+        "target_tracking": {
+          "enabled": false
+        },
+        "obstacle_avoidance": {
+          "enabled": true,
+          "obstacle_level": "medium"
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "high",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "obstacle_avoid_flight",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            },
+            {
+              "id": "c6",
+              "name": "get_gnss_position",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c7",
+              "name": "gnss_to_position_3d",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_radar_scan",
+              "cmd": "start",
+              "prev": "c3.success"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c9",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c4.failed"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c11",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c9.success"
+            },
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_area_search",
+      "route_mode": "waypoint",
+      "payload": "radar",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_return",
+          "safe_land"
+        ]
+      }
+    }
+  },
+  {
+    "sample_id": "sample_7818967802d0",
+    "semantic_input": {
+      "uav_id": "uav_03",
+      "task_type": "single_uav_area_search",
+      "role": "observer",
+      "assigned_area": "grid_A3",
+      "route_mode": "lawnmower",
+      "payload": "visible_camera",
+      "complexity": "complex",
+      "flight": {
+        "height_level": "medium",
+        "speed_level": "slow",
+        "hover_required": false,
+        "return_home": true
+      },
+      "capabilities": {
+        "image_capture": {
+          "enabled": false,
+          "capture_mode": "video"
+        },
+        "thermal_scan": {
+          "enabled": false
+        },
+        "object_detection": {
+          "enabled": true,
+          "target_classes": [
+            "vehicle"
+          ],
+          "confidence_level": "low"
+        },
+        "target_tracking": {
+          "enabled": false,
+          "target_class": "vehicle",
+          "tracking_priority": "medium"
+        },
+        "obstacle_avoidance": {
+          "enabled": false
+        }
+      },
+      "safety": {
+        "preflight_check": true,
+        "battery_monitor": true,
+        "battery_risk_level": "low",
+        "gps_required": true
+      }
+    },
+    "target_topology": {
+      "stages": [
+        {
+          "stage": 0,
+          "component": [
+            {
+              "id": "c0",
+              "name": "preflight_check",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c1",
+              "name": "battery_level",
+              "cmd": "start",
+              "prev": null
+            },
+            {
+              "id": "c2",
+              "name": "battery_warning",
+              "cmd": "start",
+              "prev": null
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "component": [
+            {
+              "id": "c3",
+              "name": "takeoff",
+              "cmd": "start",
+              "prev": "c0.success"
+            }
+          ]
+        },
+        {
+          "stage": 2,
+          "component": [
+            {
+              "id": "c4",
+              "name": "ascend",
+              "cmd": "start",
+              "prev": "c3.success"
+            },
+            {
+              "id": "c5",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c3.failed"
+            }
+          ]
+        },
+        {
+          "stage": 3,
+          "component": [
+            {
+              "id": "c6",
+              "name": "waypoint_flight",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c7",
+              "name": "waypoint_list_create",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c8",
+              "name": "sensor_camera_scan",
+              "cmd": "start",
+              "prev": "c4.success"
+            },
+            {
+              "id": "c9",
+              "name": "object_detect",
+              "cmd": "start",
+              "prev": "c4.success"
+            }
+          ]
+        },
+        {
+          "stage": 4,
+          "component": [
+            {
+              "id": "c10",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c6.success"
+            },
+            {
+              "id": "c11",
+              "name": "return_home",
+              "cmd": "start",
+              "prev": "c6.failed"
+            }
+          ]
+        },
+        {
+          "stage": 5,
+          "component": [
+            {
+              "id": "c12",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c10.success"
+            },
+            {
+              "id": "c13",
+              "name": "land",
+              "cmd": "start",
+              "prev": "c11.success"
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "generator_version": "0.1.0",
+      "template_id": "single_uav_area_search",
+      "route_mode": "lawnmower",
+      "payload": "visible_camera",
+      "failure_strategy": {
+        "enabled": true,
+        "branch_count": 2,
+        "policies": [
+          "safe_return",
+          "safe_land"
+        ]
+      }
     }
   }
 ]

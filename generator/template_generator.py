@@ -78,10 +78,16 @@ def generate_sample(
     normalized_input = _normalize_semantic_input(semantic_input)
     _validate_semantic_input(normalized_input, cfg)
 
-    robot_ctrl_chain = build_robot_ctrl_chain(normalized_input, cfg)
+    control_graph = build_control_graph(normalized_input, cfg)
+    robot_ctrl_chain = _main_robot_ctrl_chain(control_graph)
     required_svr = resolve_required_svr(normalized_input, robot_ctrl_chain, cfg)
-    stage_drafts = attach_svr_services(robot_ctrl_chain, required_svr)
-    target_topology = build_topology(stage_drafts)
+    stage_drafts = attach_svr_services(
+        robot_ctrl_chain,
+        required_svr,
+        normalized_input,
+        cfg,
+    )
+    target_topology = build_topology_from_control_graph(control_graph, stage_drafts)
 
     sample = {
         "sample_id": _sample_id(normalized_input, target_topology),
@@ -92,6 +98,7 @@ def generate_sample(
             "template_id": normalized_input["task_type"],
             "route_mode": normalized_input["route_mode"],
             "payload": normalized_input["payload"],
+            "failure_strategy": _failure_strategy_metadata(control_graph),
         },
     }
     assert_generation_invariants(sample, cfg)
@@ -155,6 +162,7 @@ def sample_semantic_input(
         "assigned_area": assigned_area,
         "route_mode": rng.choice(profile["route_modes"]),
         "payload": payload,
+        "complexity": rng.choice(params.get("complexity", ["medium"])),
         "flight": {
             "height_level": rng.choice(cfg.params_space["flight"]["height_level"]),
             "speed_level": rng.choice(cfg.params_space["flight"]["speed_level"]),
@@ -177,25 +185,29 @@ def build_robot_ctrl_chain(
     semantic_input: dict[str, Any],
     config: GeneratorConfig | None = None,
 ) -> list[str]:
-    """Build the serialized flight-control backbone for a semantic task."""
+    """Build the flight-control backbone through abstract role planning."""
+
+    return _main_robot_ctrl_chain(build_control_graph(semantic_input, config))
+
+
+def build_control_graph(
+    semantic_input: dict[str, Any],
+    config: GeneratorConfig | None = None,
+) -> Any:
+    """Build the resolved ROBOT_CTRL control graph for one task."""
 
     cfg = config or load_configs()
-    route_mode = semantic_input["route_mode"]
-    route_rule = cfg.params_space["route_to_robot_ctrl"][route_mode]
-    route_sequence = list(route_rule["sequence"])
+    from generator.component_index import build_component_index
+    from generator.control_graph import build_main_control_graph
+    from generator.failure_strategy import apply_failure_strategies
+    from generator.planner import build_abstract_plan
+    from generator.role_resolver import resolve_plan
 
-    if _capability_enabled(semantic_input, "obstacle_avoidance"):
-        route_sequence = _replace_primary_navigation(route_sequence)
-
-    chain = ["preflight_check", "takeoff"]
-    chain.extend(_height_entry_variants(semantic_input))
-    chain.extend(route_sequence)
-    if _capability_enabled(semantic_input, "target_tracking"):
-        chain.append("target_tracking")
-
-    chain.extend(_height_exit_variants(semantic_input))
-    chain.extend(["return_home", "land"])
-    return chain
+    component_index = build_component_index(cfg.component_library)
+    abstract_plan = build_abstract_plan(semantic_input, cfg)
+    resolved_plan = resolve_plan(abstract_plan, cfg, component_index)
+    control_graph = build_main_control_graph(list(resolved_plan.robot_components))
+    return apply_failure_strategies(control_graph, semantic_input, cfg, component_index)
 
 
 def resolve_required_svr(
@@ -203,41 +215,31 @@ def resolve_required_svr(
     robot_ctrl_chain: list[str],
     config: GeneratorConfig | None = None,
 ) -> list[str]:
-    """Resolve all SVR service nodes required by route, safety, and capability."""
+    """Resolve all SVR service nodes through service roles and topics."""
 
     cfg = config or load_configs()
-    required: list[str] = []
+    from generator.service_resolver import resolve_required_services
 
-    safety = semantic_input.get("safety", {})
-    if safety.get("battery_monitor", False):
-        _extend_unique(required, cfg.params_space["safety_to_component"]["battery_monitor"])
-
-    if any(component in robot_ctrl_chain for component in ("goto_point", "obstacle_avoid_flight")):
-        _extend_unique(required, ["get_gnss_position", "gnss_to_position_3d"])
-    if "waypoint_flight" in robot_ctrl_chain:
-        _extend_unique(required, ["waypoint_list_create"])
-
-    for capability, rule in cfg.params_space["capability_to_svr"].items():
-        if _capability_enabled(semantic_input, capability):
-            _extend_unique(required, rule)
-
-    return required
+    return resolve_required_services(semantic_input, robot_ctrl_chain, cfg)
 
 
 def attach_svr_services(
     robot_ctrl_chain: list[str],
     required_svr: list[str],
+    semantic_input: dict[str, Any],
+    config: GeneratorConfig | None = None,
 ) -> list[StageDraft]:
-    """Attach each SVR service to its first useful ROBOT_CTRL stage."""
+    """Attach each SVR service through resolved service placement."""
 
-    stage_services: list[list[str]] = [[] for _ in robot_ctrl_chain]
-    for service in required_svr:
-        stage_index = _first_consumer_stage(service, robot_ctrl_chain)
-        if service not in stage_services[stage_index]:
-            stage_services[stage_index].append(service)
+    cfg = config or load_configs()
+    from generator.service_resolver import resolve_service_plan
+
+    service_plan = resolve_service_plan(semantic_input, robot_ctrl_chain, cfg)
+    if list(service_plan.required_services) != required_svr:
+        raise TemplateGenerationError("Resolved SVR services changed between planning steps.")
 
     return [
-        StageDraft(robot_ctrl=robot_ctrl, svr_services=tuple(stage_services[index]))
+        StageDraft(robot_ctrl=robot_ctrl, svr_services=service_plan.stage_services[index])
         for index, robot_ctrl in enumerate(robot_ctrl_chain)
     ]
 
@@ -267,6 +269,69 @@ def build_topology(stage_drafts: list[StageDraft]) -> dict[str, Any]:
     return {"stages": stages}
 
 
+def build_topology_from_control_graph(
+    control_graph: Any,
+    stage_drafts: list[StageDraft],
+) -> dict[str, Any]:
+    """Assign local ids and build topology from a guarded control graph."""
+
+    stages: list[dict[str, Any]] = []
+    next_id = 0
+    id_by_node_key: dict[str, str] = {}
+    edge_by_target = {
+        edge.target: edge
+        for edge in control_graph.edges
+    }
+    nodes_by_stage = control_graph.nodes_by_stage()
+    max_stage = max(nodes_by_stage) if nodes_by_stage else -1
+
+    for stage_index in range(max_stage + 1):
+        component_actions: list[dict[str, Any]] = []
+        stage_nodes = list(nodes_by_stage.get(stage_index, ()))
+        main_prev: str | None = None
+
+        for node in stage_nodes:
+            edge = edge_by_target.get(node.key)
+            prev = None
+            if edge is not None:
+                prev = f"{id_by_node_key[edge.source]}.{edge.event}"
+            robot_id = f"c{next_id}"
+            next_id += 1
+            id_by_node_key[node.key] = robot_id
+            component_actions.append(make_action(robot_id, node.component, prev))
+            if node.branch_kind == "main":
+                main_prev = prev
+
+        if main_prev is None and component_actions:
+            main_prev = component_actions[0]["prev"]
+
+        if stage_index < len(stage_drafts):
+            for service in stage_drafts[stage_index].svr_services:
+                service_id = f"c{next_id}"
+                next_id += 1
+                component_actions.append(make_action(service_id, service, main_prev))
+
+        if component_actions:
+            stages.append({"stage": stage_index, "component": component_actions})
+
+    return {"stages": stages}
+
+
+def _main_robot_ctrl_chain(control_graph: Any) -> list[str]:
+    return [
+        control_graph.node(key).component
+        for key in control_graph.main_node_keys
+    ]
+
+
+def _failure_strategy_metadata(control_graph: Any) -> dict[str, Any]:
+    return {
+        "enabled": bool(control_graph.metadata.get("failure_strategy_enabled", False)),
+        "branch_count": int(control_graph.metadata.get("failure_branch_count", 0)),
+        "policies": list(control_graph.metadata.get("failure_policies", [])),
+    }
+
+
 def make_action(component_id: str, name: str, prev: str | None) -> dict[str, Any]:
     """Create a compact component action."""
 
@@ -292,6 +357,7 @@ def assert_generation_invariants(
     seen_svr_names: set[str] = set()
     robot_ids: set[str] = set()
     prev_pattern = "{id}.{event}"
+    failure_enabled = _failure_strategy_enabled(cfg)
 
     for expected_stage, stage in enumerate(topology.get("stages", [])):
         if stage.get("stage") != expected_stage:
@@ -337,9 +403,13 @@ def assert_generation_invariants(
             seen_ids.add(action["id"])
             seen_names_by_id[action["id"]] = component_name
 
-        if robot_start_count != 1:
+        if not failure_enabled and robot_start_count != 1:
             raise TemplateGenerationError(
                 f"Stage {stage.get('stage')} has {robot_start_count} ROBOT_CTRL starts."
+            )
+        if failure_enabled and robot_start_count < 1:
+            raise TemplateGenerationError(
+                f"Stage {stage.get('stage')} has no ROBOT_CTRL starts."
             )
 
     if not topology.get("stages"):
@@ -365,6 +435,7 @@ def _load_task_templates(path: Path) -> dict[str, Any]:
     spec.loader.exec_module(module)
     return {
         "TASK_TEMPLATES": module.TASK_TEMPLATES,
+        "SVR_GROUPS": module.SVR_GROUPS,
         "ROUTE_MODE_RULES": module.ROUTE_MODE_RULES,
         "CAPABILITY_RULES": module.CAPABILITY_RULES,
         "MOTION_VARIANT_RULES": module.MOTION_VARIANT_RULES,
@@ -446,73 +517,9 @@ def _capability_enabled(semantic_input: dict[str, Any], capability: str) -> bool
     return bool(value)
 
 
-def _replace_primary_navigation(route_sequence: list[str]) -> list[str]:
-    replaced = False
-    output: list[str] = []
-    for component in route_sequence:
-        if component in {"waypoint_flight", "goto_point"} and not replaced:
-            output.append("obstacle_avoid_flight")
-            replaced = True
-        else:
-            output.append(component)
-    if not replaced:
-        output.append("obstacle_avoid_flight")
-    return output
-
-
-def _height_entry_variants(semantic_input: dict[str, Any]) -> list[str]:
-    height_level = semantic_input.get("flight", {}).get("height_level")
-    if height_level in {"medium", "high"}:
-        return ["ascend"]
-    return []
-
-
-def _height_exit_variants(semantic_input: dict[str, Any]) -> list[str]:
-    height_level = semantic_input.get("flight", {}).get("height_level")
-    if height_level == "high":
-        return ["descend"]
-    return []
-
-
-def _first_consumer_stage(service: str, robot_ctrl_chain: list[str]) -> int:
-    if service in {"battery_level", "battery_warning"}:
-        return 0
-    if service in {"waypoint_list_create"}:
-        return _index_of_first(robot_ctrl_chain, ["waypoint_flight"])
-    if service in {"get_gnss_position", "gnss_to_position_3d"}:
-        return _index_of_first(robot_ctrl_chain, ["goto_point", "obstacle_avoid_flight"])
-    if service == "sensor_radar_scan":
-        return _index_of_first(robot_ctrl_chain, ["obstacle_avoid_flight"])
-    if service in {"sensor_camera_scan", "object_detect", "gimbal_control"}:
-        return _index_of_first(
-            robot_ctrl_chain,
-            [
-                "hover",
-                "waypoint_flight",
-                "goto_point",
-                "obstacle_avoid_flight",
-                "target_tracking",
-            ],
-        )
-    if service == "sensor_ir_scan":
-        return _index_of_first(
-            robot_ctrl_chain,
-            ["hover", "waypoint_flight", "goto_point", "obstacle_avoid_flight"],
-        )
-    return 0
-
-
-def _index_of_first(robot_ctrl_chain: list[str], candidates: list[str]) -> int:
-    for candidate in candidates:
-        if candidate in robot_ctrl_chain:
-            return robot_ctrl_chain.index(candidate)
-    return 0
-
-
-def _extend_unique(target: list[str], values: list[str]) -> None:
-    for value in values:
-        if value not in target:
-            target.append(value)
+def _failure_strategy_enabled(config: GeneratorConfig) -> bool:
+    rules = config.params_space.get("failure_strategy_rules", {})
+    return isinstance(rules, dict) and bool(rules.get("enabled", False))
 
 
 def _sample_assigned_target(

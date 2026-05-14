@@ -123,6 +123,185 @@ responsibilities and are not part of the first implementation.
   - `ascend` appears in 65 samples
   - `descend` appears in 30 samples
   - remaining unused components: `rotate`, `gimbal_control`
+- Added `REFACTOR_PLAN.md` for the role-driven refactor:
+  - recorded current generator and validator coupling points
+  - defined role-based component resolution, service dependency resolution, config linting, and optional failure-strategy chains
+  - kept failure-strategy chains out of the minimum viable refactor scope
+- Established the Phase 0 baseline reports:
+  - saved pipeline, distribution, validation, and summary reports under `stats/baseline/`
+  - baseline command: `uv run python -B -m generator.pipeline --count 100 --seed 42 --val-ratio 0.2`
+  - generated 100 samples, accepted 100 samples, rejected 0 samples, removed 0 duplicates
+- Added semantic annotations to all 22 components in `component_library.json`:
+  - added `roles`, `consumes_topics`, `provides_topics`, `lifecycle`, `selection_weight`, `enabled`, and `status`
+  - marked 20 components as `active`
+  - marked `rotate` and `gimbal_control` as `deferred`
+  - marked 12 `ROBOT_CTRL` components as `control_once`
+  - marked 10 `SVR` components as `service_persistent`
+  - verified topic annotations match existing input and output channels
+- Reran the full `uv` pipeline after component semantic annotation:
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+- Implemented Phase 1 refactor support modules:
+  - added `generator/component_index.py`
+  - added `generator/config_linter.py`
+  - indexed components by id, type, role, topic provider, topic consumer, lifecycle, and status
+  - added config lint checks for semantic fields, component type consistency, lifecycle consistency, control outputs, topic annotation consistency, required active roles, topic providers, and mapping references
+  - exposed `python -m generator.config_linter`
+  - connected config linting to `generator.pipeline` before sample generation
+  - exposed component index and config linter helpers through `generator.__init__`
+- Ran config linting:
+  - saved report to `stats/config_lint_report.json`
+  - valid: true
+  - errors: 0
+  - warnings: 0
+- Reran the full `uv` pipeline after connecting config linting:
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+- Added the initial abstract planner without replacing the legacy generator:
+  - added `route_to_roles` beside the existing `route_to_robot_ctrl` mapping
+  - added `generator/planner.py`
+  - planner emits abstract `robot_roles` and `service_roles` only
+  - planner output does not contain component ids and does not resolve concrete components
+  - exposed `python -m generator.planner`
+  - exposed planner helpers through `generator.__init__`
+  - extended `config_linter.py` to validate `route_to_roles`
+  - verified 100 legacy generated samples project to the same robot role chains as planner output
+- Reran config linting and the full `uv` pipeline after adding the planner:
+  - config lint valid: true
+  - config lint errors: 0
+  - config lint warnings: 0
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+- Implemented role resolution and replaced the legacy hardcoded ROBOT_CTRL chain:
+  - added `generator/role_resolver.py`
+  - resolves abstract `ROBOT_CTRL` roles to concrete active components through `component_library.json` roles
+  - uses deterministic selection: highest `selection_weight`, then component-library order
+  - exposed role resolver helpers through `generator.__init__`
+  - replaced `template_generator.build_robot_ctrl_chain()` with `build_abstract_plan()` + `resolve_robot_role_chain()`
+  - removed the old hardcoded main-chain helper logic from `template_generator.py`
+  - verified 100 generated samples produce identical ROBOT_CTRL chains compared with the legacy logic
+- Reran validation after replacing the generator chain:
+  - config lint valid: true
+  - config lint errors: 0
+  - config lint warnings: 0
+  - legacy-chain comparison checked 100 samples with 0 mismatches
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+- Implemented SVR service dependency resolution and replaced the legacy hardcoded SVR logic:
+  - added `generator/service_resolver.py`
+  - resolves service roles from the abstract planner and concrete SVR components from `component_library.json`
+  - completes required SVR services through required topic dependencies
+  - places SVR services by semantic role priority and direct ROBOT_CTRL topic consumers
+  - keeps global safety services at stage 0
+  - preserves the rule that each SVR starts at most once and never becomes a control-flow `prev`
+  - replaced `template_generator.resolve_required_svr()` and `template_generator.attach_svr_services()`
+  - exposed service resolver helpers through `generator.__init__`
+- Reran validation after replacing SVR resolution:
+  - config lint valid: true
+  - config lint errors: 0
+  - config lint warnings: 0
+  - legacy-SVR comparison checked 100 samples with 0 mismatches
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+  - compile check passed for `generator/`
+- Refactored validator semantic alignment to role coverage:
+  - kept topology structure validation independent
+  - replaced component-name expected-chain checks with planner-derived ROBOT_CTRL role chain checks
+  - replaced component-name SVR expectation checks with service role coverage checks
+  - added required topic provider validation using component `consumes_topics` and `provides_topics`
+  - flags providers that start after their consumers
+  - flags unexpected SVR services unless they satisfy a required service role or required topic
+  - removed legacy `_expected_robot_ctrl_chain()`, `_expected_svr_services()`, and component-set presence checks from `validator.py`
+- Reran validation after role-aware validator refactor:
+  - config lint valid: true
+  - config lint errors: 0
+  - config lint warnings: 0
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+  - compile check passed for `generator/`
+  - manual negative samples were rejected for missing robot role, missing service role, unknown component, SVR `prev`, and duplicate SVR
+- Implemented Phase 6 optional failure-strategy branch support:
+  - added `failure_strategy_rules` to `params_space.json`, defaulting to disabled
+  - added `generator/control_graph.py` for resolved ROBOT_CTRL control graph representation
+  - added `generator/failure_strategy.py` for deterministic safe failure branch selection
+  - kept default generation on the main success chain with no failure branches
+  - added graph-based topology assembly in `template_generator.py`
+  - emits failure metadata under `metadata.failure_strategy`
+  - extended `config_linter.py` to validate failure policy trigger and branch roles
+  - extended validator to support guarded stages when failure strategies are enabled
+  - validator now checks mutually exclusive ROBOT_CTRL guards, safe failure branch terminals, and policy matching
+  - pipeline reports now include `failure_enabled_count`, `failure_branch_count`, `guarded_robot_ctrl_stage_count`, and `by_failure_policy`
+- Reran validation after Phase 6 support:
+  - default failure strategy disabled
+  - config lint valid: true
+  - config lint errors: 0
+  - config lint warnings: 0
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates
+  - failure-enabled samples generated in memory: 100
+  - failure-enabled samples accepted in memory: 100
+  - manual negative samples were rejected for non-mutually-exclusive guards, missing safe terminal, and failed edges while disabled
+- Enabled failure strategies by default and regenerated persisted samples:
+  - set `failure_strategy_rules.enabled` to `true`
+  - set `failure_strategy_default_enabled` to `true`
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates by current sample-id/content dedupe
+  - failure-enabled samples: 100
+  - failure branches: 100
+  - guarded ROBOT_CTRL stages: 200
+  - active failure policy: `safe_return`
+- Checked topology-only duplicate structures:
+  - saved report to `stats/topology_duplicate_report.json`
+  - exact `target_topology` unique count: 33 / 100
+  - exact duplicate topology groups: 23
+  - exact duplicate topology sample count: 90
+  - largest exact topology group size: 12
+  - component-stage signature unique count: 33 / 100
+  - normalized-prev shape unique count: 33 / 100
+- Improved failure-strategy branch diversity:
+  - added `complexity` to generated semantic input
+  - added `branch_count_by_complexity`:
+    - `simple`: 0 or 1 failure branches
+    - `medium`: 1 or 2 failure branches
+    - `complex`: 2 or 3 failure branches
+  - increased `max_branches_per_task` to 3
+  - added `policy_selection: balanced_by_trigger_role`
+  - updated failure strategy selection to rotate among applicable policies instead of always selecting `safe_return`
+  - preserved one failure strategy per trigger component
+  - extended config lint checks for branch-count ranges and policy-selection mode
+- Regenerated persisted samples after failure-strategy diversity:
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates by current sample-id/content dedupe
+  - failure-enabled samples: 100
+  - failure branches: 146
+  - guarded ROBOT_CTRL stages: 212
+  - `by_failure_policy`: `safe_land` 77, `safe_return` 54, `hold_then_return` 15
+  - complexity distribution: `simple` 33, `medium` 33, `complex` 34
+  - branch-count distribution:
+    - `simple:0` 19, `simple:1` 14
+    - `medium:1` 18, `medium:2` 15
+    - `complex:2` 18, `complex:3` 16
+  - exact `target_topology` unique count improved to 67 / 100
+  - exact duplicate topology groups reduced to 18
+  - largest exact topology group size reduced to 6
 
 ## Current Output Shape
 
@@ -180,7 +359,18 @@ responsibilities and are not part of the first implementation.
 - Design deferred component usage:
   - define a clear semantic trigger before introducing `rotate`
   - decide whether `gimbal_control` belongs in topology generation or downstream parameter/payload control
-- Add automated tests for generator, validator, and pipeline smoke paths.
+- Review Phase 6 failure-strategy behavior:
+  - decide whether `safe_return` should attach to all navigation roles or only high-risk roles
+  - decide whether failure branch metadata should remain outside the model training target
+- Reduce topology-only duplicates:
+  - add topology-structure deduplication or coverage-aware rejection in `pipeline.py`
+  - diversify failure policies instead of always selecting `safe_return`
+  - consider policy selection based on trigger role, task type, risk level, or payload
+- Add focused automated smoke tests:
+  - config lint
+  - template generation
+  - validator acceptance/rejection
+  - pipeline count and split behavior
 
 ## Open Questions
 

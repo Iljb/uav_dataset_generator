@@ -10,6 +10,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from generator.component_index import (
+    component_consumes_topics,
+    component_provides_topics,
+    component_roles,
+)
+from generator.planner import PlanningError, PlannedRole, build_abstract_plan
 from generator.template_generator import GeneratorConfig, load_configs
 
 
@@ -388,7 +394,7 @@ def _validate_topology(
 
     seen_ids: set[str] = set()
     names_by_id: dict[str, str] = {}
-    stage_robot_prev_by_index: dict[int, Any] = {}
+    failure_enabled = _failure_strategy_enabled(config)
 
     for expected_stage, stage in enumerate(stages):
         path = f"target_topology.stages[{expected_stage}]"
@@ -439,7 +445,8 @@ def _validate_topology(
             if name in components and components[name]["type"] == "ROBOT_CTRL":
                 robot_actions.append(action)
 
-        if len(robot_actions) != 1:
+        robot_prevs = [action.get("prev") for action in robot_actions]
+        if not failure_enabled and len(robot_actions) != 1:
             _add_issue(
                 issues,
                 sample_id,
@@ -447,21 +454,35 @@ def _validate_topology(
                 "Each stage must contain exactly one ROBOT_CTRL start action.",
                 f"{path}.component",
             )
-            stage_robot_prev = None
-        else:
+        elif failure_enabled and len(robot_actions) < 1:
+            _add_issue(
+                issues,
+                sample_id,
+                "stage.robot_ctrl_count",
+                "Each stage must contain at least one ROBOT_CTRL start action.",
+                f"{path}.component",
+            )
+
+        if len(robot_actions) == 1:
             robot_action = robot_actions[0]
-            stage_robot_prev = robot_action.get("prev")
+            context["robot_stage_by_name"].setdefault(robot_action.get("name"), expected_stage)
+
+        for robot_action in robot_actions:
             context["robot_ctrl_names"].append(robot_action.get("name"))
             context["robot_ctrl_ids"].append(robot_action.get("id"))
-            context["robot_stage_by_name"].setdefault(
-                robot_action.get("name"), expected_stage
+            context["robot_action_records"].append(
+                {
+                    "id": robot_action.get("id"),
+                    "name": robot_action.get("name"),
+                    "prev": robot_action.get("prev"),
+                    "stage": expected_stage,
+                }
             )
-            stage_robot_prev_by_index[expected_stage] = stage_robot_prev
 
         _validate_stage_svr_actions(
             actions,
             components,
-            stage_robot_prev,
+            robot_prevs,
             expected_stage,
             issues,
             sample_id,
@@ -470,6 +491,14 @@ def _validate_topology(
 
     _validate_prev_references(stages, components, seen_ids, names_by_id, issues, sample_id)
     _collect_topology_component_context(stages, components, context)
+    _populate_main_robot_context(context)
+    _validate_guarded_robot_stages(
+        context,
+        config,
+        failure_enabled,
+        issues,
+        sample_id,
+    )
     return context
 
 
@@ -620,7 +649,7 @@ def _validate_prev_references(
 def _validate_stage_svr_actions(
     actions: list[Any],
     components: dict[str, dict[str, Any]],
-    stage_robot_prev: Any,
+    stage_robot_prevs: list[Any],
     stage_index: int,
     issues: list[ValidationIssue],
     sample_id: str | None,
@@ -632,12 +661,12 @@ def _validate_stage_svr_actions(
         name = action.get("name")
         if name not in components or components[name]["type"] != "SVR":
             continue
-        if action.get("prev") != stage_robot_prev:
+        if action.get("prev") not in stage_robot_prevs:
             _add_issue(
                 issues,
                 sample_id,
                 "svr.prev_mismatch_with_stage_robot",
-                "SVR service should share the stage ROBOT_CTRL prev condition.",
+                "SVR service should share one stage ROBOT_CTRL prev condition.",
                 f"{stage_path}.component[{action_index}].prev",
             )
         if action.get("cmd") != "start":
@@ -670,6 +699,312 @@ def _collect_topology_component_context(
                 context["svr_names"].append(name)
 
 
+def _populate_main_robot_context(context: dict[str, Any]) -> None:
+    main_records = _main_robot_records(context["robot_action_records"])
+    context["main_robot_ctrl_names"] = [record["name"] for record in main_records]
+    context["main_robot_ctrl_ids"] = [record["id"] for record in main_records]
+
+
+def _main_robot_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    records_by_id = {
+        record["id"]: record
+        for record in records
+        if isinstance(record.get("id"), str)
+    }
+    success_targets: dict[str, list[dict[str, Any]]] = {}
+    roots: list[dict[str, Any]] = []
+
+    for record in records:
+        prev = record.get("prev")
+        parsed = _parse_prev(prev)
+        if parsed is None:
+            roots.append(record)
+            continue
+        prev_id, event = parsed
+        if event == "success":
+            success_targets.setdefault(prev_id, []).append(record)
+
+    if not roots:
+        return []
+
+    main: list[dict[str, Any]] = []
+    current = roots[0]
+    seen: set[str] = set()
+    while isinstance(current.get("id"), str) and current["id"] not in seen:
+        main.append(current)
+        seen.add(current["id"])
+        candidates = [
+            candidate
+            for candidate in success_targets.get(current["id"], [])
+            if candidate.get("id") in records_by_id
+        ]
+        if not candidates:
+            break
+        current = sorted(candidates, key=lambda item: item.get("stage", 0))[0]
+    return main
+
+
+def _validate_guarded_robot_stages(
+    topology_context: dict[str, Any],
+    config: GeneratorConfig,
+    failure_enabled: bool,
+    issues: list[ValidationIssue],
+    sample_id: str | None,
+) -> None:
+    records = topology_context["robot_action_records"]
+    if not failure_enabled:
+        _validate_failure_edges_disabled(records, issues, sample_id)
+        return
+
+    records_by_stage: dict[int, list[dict[str, Any]]] = {}
+    for record in records:
+        stage = record.get("stage")
+        if isinstance(stage, int):
+            records_by_stage.setdefault(stage, []).append(record)
+
+    guard_cache: dict[str, frozenset[tuple[str, str]]] = {}
+    records_by_id = {
+        record["id"]: record
+        for record in records
+        if isinstance(record.get("id"), str)
+    }
+
+    for stage, stage_records in records_by_stage.items():
+        if len(stage_records) < 2:
+            continue
+        guards = [
+            _path_guard(record, records_by_id, guard_cache)
+            for record in stage_records
+        ]
+        for left_index, left_guard in enumerate(guards):
+            for right_index in range(left_index + 1, len(guards)):
+                if _guards_mutually_exclusive(left_guard, guards[right_index]):
+                    continue
+                _add_issue(
+                    issues,
+                    sample_id,
+                    "stage.robot_ctrl_guards_not_mutually_exclusive",
+                    "ROBOT_CTRL actions in the same stage must have mutually exclusive control guards.",
+                    f"target_topology.stages[{stage}].component",
+                )
+
+    _validate_failure_branches(records, config, issues, sample_id)
+
+
+def _validate_failure_edges_disabled(
+    records: list[dict[str, Any]],
+    issues: list[ValidationIssue],
+    sample_id: str | None,
+) -> None:
+    for record in records:
+        parsed = _parse_prev(record.get("prev"))
+        if parsed is None:
+            continue
+        _, event = parsed
+        if event == "failed":
+            _add_issue(
+                issues,
+                sample_id,
+                "failure_strategy.disabled_failed_edge",
+                "ROBOT_CTRL failed edges require enabled failure_strategy_rules.",
+                "target_topology.stages",
+            )
+
+
+def _validate_failure_branches(
+    records: list[dict[str, Any]],
+    config: GeneratorConfig,
+    issues: list[ValidationIssue],
+    sample_id: str | None,
+) -> None:
+    components = config.components
+    records_by_id = {
+        record["id"]: record
+        for record in records
+        if isinstance(record.get("id"), str)
+    }
+    main_ids = {
+        record["id"]
+        for record in _main_robot_records(records)
+        if isinstance(record.get("id"), str)
+    }
+    policies = _failure_policies_by_name(config.params_space)
+
+    for record in records:
+        parsed = _parse_prev(record.get("prev"))
+        if parsed is None:
+            continue
+        trigger_id, event = parsed
+        if event != "failed":
+            continue
+
+        branch = _success_branch_records(record, records_by_id)
+        branch_ids = {
+            branch_record["id"]
+            for branch_record in branch
+            if isinstance(branch_record.get("id"), str)
+        }
+        if branch_ids & main_ids:
+            _add_issue(
+                issues,
+                sample_id,
+                "failure_branch.merge_not_supported",
+                "Failure branches must not merge back into the main chain.",
+                "target_topology.stages",
+            )
+
+        if not _branch_has_safe_terminal(branch, components):
+            _add_issue(
+                issues,
+                sample_id,
+                "failure_branch.missing_safe_terminal",
+                "Failure branch must end in a safe terminal role such as flight.land.",
+                "target_topology.stages",
+            )
+
+        trigger = records_by_id.get(trigger_id)
+        if trigger and not _branch_matches_failure_policy(trigger, branch, components, policies):
+            _add_issue(
+                issues,
+                sample_id,
+                "failure_branch.policy_mismatch",
+                "Failure branch does not match any configured failure strategy policy.",
+                "target_topology.stages",
+            )
+
+
+def _parse_prev(prev: Any) -> tuple[str, str] | None:
+    if not isinstance(prev, str):
+        return None
+    parts = prev.split(".")
+    if len(parts) != 2:
+        return None
+    return parts[0], parts[1]
+
+
+def _path_guard(
+    record: dict[str, Any],
+    records_by_id: dict[str, dict[str, Any]],
+    cache: dict[str, frozenset[tuple[str, str]]],
+) -> frozenset[tuple[str, str]]:
+    record_id = record.get("id")
+    if not isinstance(record_id, str):
+        return frozenset()
+    if record_id in cache:
+        return cache[record_id]
+
+    parsed = _parse_prev(record.get("prev"))
+    if parsed is None:
+        guard = frozenset()
+    else:
+        prev_id, event = parsed
+        previous = records_by_id.get(prev_id)
+        previous_guard = (
+            _path_guard(previous, records_by_id, cache)
+            if previous is not None
+            else frozenset()
+        )
+        guard = previous_guard | frozenset({(prev_id, event)})
+
+    cache[record_id] = guard
+    return guard
+
+
+def _guards_mutually_exclusive(
+    left: frozenset[tuple[str, str]],
+    right: frozenset[tuple[str, str]],
+) -> bool:
+    for left_source, left_event in left:
+        for right_source, right_event in right:
+            if left_source == right_source and left_event != right_event:
+                return True
+    return False
+
+
+def _success_branch_records(
+    start: dict[str, Any],
+    records_by_id: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    records = list(records_by_id.values())
+    branch: list[dict[str, Any]] = []
+    current = start
+    seen: set[str] = set()
+
+    while isinstance(current.get("id"), str) and current["id"] not in seen:
+        branch.append(current)
+        seen.add(current["id"])
+        successors = [
+            record
+            for record in records
+            if _parse_prev(record.get("prev")) == (current["id"], "success")
+        ]
+        if len(successors) != 1:
+            break
+        current = sorted(successors, key=lambda item: item.get("stage", 0))[0]
+
+    return branch
+
+
+def _branch_has_safe_terminal(
+    branch: list[dict[str, Any]],
+    components: dict[str, dict[str, Any]],
+) -> bool:
+    if not branch:
+        return False
+    role_sets = [
+        set(component_roles(components.get(record.get("name"), {})))
+        for record in branch
+    ]
+    if "flight.land" in role_sets[-1]:
+        return True
+
+    has_return = False
+    for roles in role_sets:
+        if "flight.return" in roles:
+            has_return = True
+        if has_return and "flight.land" in roles:
+            return True
+    return False
+
+
+def _branch_matches_failure_policy(
+    trigger: dict[str, Any],
+    branch: list[dict[str, Any]],
+    components: dict[str, dict[str, Any]],
+    policies: dict[str, dict[str, Any]],
+) -> bool:
+    trigger_roles = set(component_roles(components.get(trigger.get("name"), {})))
+    branch_role_sets = [
+        set(component_roles(components.get(record.get("name"), {})))
+        for record in branch
+    ]
+
+    for policy in policies.values():
+        trigger_policy_roles = set(_list_strings(policy.get("trigger_roles")))
+        on_failed_roles = _list_strings(policy.get("on_failed"))
+        if not trigger_roles & trigger_policy_roles:
+            continue
+        if len(on_failed_roles) != len(branch_role_sets):
+            continue
+        if all(role in branch_role_sets[index] for index, role in enumerate(on_failed_roles)):
+            return True
+    return False
+
+
+def _failure_policies_by_name(params_space: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    rules = params_space.get("failure_strategy_rules", {})
+    if not isinstance(rules, dict):
+        return {}
+    policies = rules.get("policies", {})
+    if not isinstance(policies, dict):
+        return {}
+    return {
+        name: policy
+        for name, policy in policies.items()
+        if isinstance(name, str) and isinstance(policy, dict)
+    }
+
+
 def _validate_semantic_topology_alignment(
     semantic_input: dict[str, Any],
     topology_context: dict[str, Any],
@@ -677,38 +1012,18 @@ def _validate_semantic_topology_alignment(
     issues: list[ValidationIssue],
     sample_id: str | None,
 ) -> None:
-    component_names = set(topology_context["component_names"])
-    robot_ctrl_names = topology_context["robot_ctrl_names"]
-    expected_robot_chain = _expected_robot_ctrl_chain(semantic_input, config)
-    if expected_robot_chain and robot_ctrl_names != expected_robot_chain:
+    robot_ctrl_names = topology_context["main_robot_ctrl_names"]
+    try:
+        abstract_plan = build_abstract_plan(semantic_input, config)
+    except PlanningError as exc:
         _add_issue(
             issues,
             sample_id,
-            "alignment.robot_ctrl_chain_mismatch",
-            f"ROBOT_CTRL chain mismatch. expected={expected_robot_chain}, actual={robot_ctrl_names}",
-            "target_topology.stages",
+            "alignment.plan_error",
+            f"Cannot build abstract role plan: {exc}",
+            "semantic_input",
         )
-
-    expected_svr = _expected_svr_services(semantic_input, expected_robot_chain, config)
-    for service in expected_svr:
-        if service not in component_names:
-            _add_issue(
-                issues,
-                sample_id,
-                "alignment.missing_svr",
-                f"Missing required SVR service: {service}",
-                "target_topology.stages",
-            )
-
-    for service in topology_context["svr_names"]:
-        if service not in expected_svr:
-            _add_issue(
-                issues,
-                sample_id,
-                "alignment.unexpected_svr",
-                f"Unexpected SVR service for semantic input: {service}",
-                "target_topology.stages",
-            )
+        return
 
     duplicates = [
         service
@@ -724,172 +1039,237 @@ def _validate_semantic_topology_alignment(
             "target_topology.stages",
         )
 
-    _validate_required_component_presence(semantic_input, component_names, issues, sample_id)
+    _validate_required_robot_roles_present(
+        abstract_plan.robot_roles,
+        robot_ctrl_names,
+        config,
+        issues,
+        sample_id,
+    )
+    _validate_required_service_roles_present(
+        abstract_plan.service_roles,
+        topology_context["svr_names"],
+        config,
+        issues,
+        sample_id,
+    )
+    _validate_topic_dependencies_satisfied(topology_context, config, issues, sample_id)
+    _validate_unexpected_svr_roles(
+        abstract_plan.service_roles,
+        topology_context,
+        config,
+        issues,
+        sample_id,
+    )
 
 
-def _validate_required_component_presence(
-    semantic_input: dict[str, Any],
-    component_names: set[str],
+def _validate_required_robot_roles_present(
+    required_roles: tuple[PlannedRole, ...],
+    robot_ctrl_names: list[str],
+    config: GeneratorConfig,
     issues: list[ValidationIssue],
     sample_id: str | None,
 ) -> None:
-    route_mode = semantic_input.get("route_mode")
-    obstacle = _capability_enabled(semantic_input, "obstacle_avoidance")
-
-    if obstacle:
-        _require_components(
-            {"obstacle_avoid_flight", "sensor_radar_scan"},
-            component_names,
+    expected_roles = [role.role for role in required_roles]
+    if len(robot_ctrl_names) != len(expected_roles):
+        _add_issue(
             issues,
             sample_id,
-            "alignment.obstacle_avoidance_missing_component",
-        )
-    elif route_mode == "goto_point":
-        _require_components(
-            {"goto_point"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.goto_point_missing_component",
-        )
-    elif route_mode == "hover":
-        _require_components(
-            {"goto_point", "hover"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.hover_missing_component",
-        )
-    elif route_mode in {"line_follow", "waypoint", "grid", "lawnmower"}:
-        _require_components(
-            {"waypoint_flight", "waypoint_list_create"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.waypoint_missing_component",
+            "alignment.robot_role_chain_length_mismatch",
+            f"ROBOT_CTRL role chain length mismatch. expected={len(expected_roles)}, actual={len(robot_ctrl_names)}",
+            "target_topology.stages",
         )
 
-    if semantic_input.get("flight", {}).get("return_home", True):
-        _require_components(
-            {"return_home", "land"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.return_home_missing_component",
-        )
+    for index, expected_role in enumerate(expected_roles):
+        if index >= len(robot_ctrl_names):
+            _add_issue(
+                issues,
+                sample_id,
+                "alignment.missing_robot_role",
+                f"Missing required ROBOT_CTRL role: {expected_role}",
+                "target_topology.stages",
+            )
+            continue
 
-    if semantic_input.get("safety", {}).get("battery_monitor", False):
-        _require_components(
-            {"battery_level", "battery_warning"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.battery_monitor_missing_component",
-        )
+        component_name = robot_ctrl_names[index]
+        component = config.components.get(component_name)
+        actual_roles = component_roles(component or {})
+        if expected_role not in actual_roles:
+            _add_issue(
+                issues,
+                sample_id,
+                "alignment.robot_role_mismatch",
+                f"ROBOT_CTRL role mismatch at stage {index}. expected={expected_role}, actual_component={component_name}, actual_roles={list(actual_roles)}",
+                f"target_topology.stages[{index}].component",
+            )
 
-    if _capability_enabled(semantic_input, "image_capture"):
-        _require_components(
-            {"sensor_camera_scan"},
-            component_names,
+    for index in range(len(expected_roles), len(robot_ctrl_names)):
+        component_name = robot_ctrl_names[index]
+        actual_roles = component_roles(config.components.get(component_name, {}))
+        _add_issue(
             issues,
             sample_id,
-            "alignment.image_capture_missing_component",
-        )
-    if _capability_enabled(semantic_input, "object_detection"):
-        _require_components(
-            {"sensor_camera_scan", "object_detect"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.object_detection_missing_component",
-        )
-    if _capability_enabled(semantic_input, "target_tracking"):
-        _require_components(
-            {"target_tracking", "sensor_camera_scan", "object_detect"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.target_tracking_missing_component",
-        )
-    if _capability_enabled(semantic_input, "thermal_scan"):
-        _require_components(
-            {"sensor_ir_scan"},
-            component_names,
-            issues,
-            sample_id,
-            "alignment.thermal_scan_missing_component",
+            "alignment.unexpected_robot_role",
+            f"Unexpected ROBOT_CTRL component at stage {index}: {component_name}, roles={list(actual_roles)}",
+            f"target_topology.stages[{index}].component",
         )
 
 
-def _expected_robot_ctrl_chain(
-    semantic_input: dict[str, Any],
+def _validate_required_service_roles_present(
+    required_roles: tuple[PlannedRole, ...],
+    svr_names: list[str],
     config: GeneratorConfig,
-) -> list[str]:
-    route_mode = semantic_input.get("route_mode")
-    route_rule = config.params_space["route_to_robot_ctrl"].get(route_mode)
-    if route_rule is None:
-        return []
-
-    route_sequence = list(route_rule["sequence"])
-    if _capability_enabled(semantic_input, "obstacle_avoidance"):
-        route_sequence = _replace_primary_navigation(route_sequence)
-
-    chain = ["preflight_check", "takeoff"]
-    chain.extend(_height_entry_variants(semantic_input))
-    chain.extend(route_sequence)
-    if _capability_enabled(semantic_input, "target_tracking"):
-        chain.append("target_tracking")
-    chain.extend(_height_exit_variants(semantic_input))
-    chain.extend(["return_home", "land"])
-    return chain
+    issues: list[ValidationIssue],
+    sample_id: str | None,
+) -> None:
+    service_role_to_components = _service_role_to_components(svr_names, config)
+    for planned_role in required_roles:
+        if planned_role.role in service_role_to_components:
+            continue
+        _add_issue(
+            issues,
+            sample_id,
+            "alignment.missing_service_role",
+            f"Missing required SVR service role: {planned_role.role}",
+            "target_topology.stages",
+        )
 
 
-def _expected_svr_services(
-    semantic_input: dict[str, Any],
-    robot_ctrl_chain: list[str],
+def _validate_topic_dependencies_satisfied(
+    topology_context: dict[str, Any],
     config: GeneratorConfig,
-) -> list[str]:
-    expected: list[str] = []
-    if semantic_input.get("safety", {}).get("battery_monitor", False):
-        _extend_unique(expected, config.params_space["safety_to_component"]["battery_monitor"])
+    issues: list[ValidationIssue],
+    sample_id: str | None,
+) -> None:
+    components = config.components
+    stage_by_component = topology_context["stage_by_component"]
+    providers_by_topic = _providers_by_topic(topology_context["component_names"], config)
 
-    if any(component in robot_ctrl_chain for component in ("goto_point", "obstacle_avoid_flight")):
-        _extend_unique(expected, ["get_gnss_position", "gnss_to_position_3d"])
-    if "waypoint_flight" in robot_ctrl_chain:
-        _extend_unique(expected, ["waypoint_list_create"])
+    for consumer_name in topology_context["component_names"]:
+        consumer = components.get(consumer_name)
+        if consumer is None:
+            continue
+        consumer_stage = stage_by_component.get(consumer_name)
+        for topic in _required_consumed_topics(consumer):
+            providers = providers_by_topic.get(topic, [])
+            if not providers:
+                _add_issue(
+                    issues,
+                    sample_id,
+                    "alignment.missing_topic_provider",
+                    f"Missing provider for topic {topic!r} consumed by {consumer_name}.",
+                    "target_topology.stages",
+                )
+                continue
 
-    for capability, services in config.params_space["capability_to_svr"].items():
-        if _capability_enabled(semantic_input, capability):
-            _extend_unique(expected, services)
-    return expected
+            if consumer_stage is None:
+                continue
+            provider_before_or_same_stage = any(
+                stage_by_component.get(provider, consumer_stage + 1) <= consumer_stage
+                for provider in providers
+            )
+            if not provider_before_or_same_stage:
+                _add_issue(
+                    issues,
+                    sample_id,
+                    "alignment.topic_provider_starts_late",
+                    f"Provider for topic {topic!r} must start no later than consumer {consumer_name}.",
+                    "target_topology.stages",
+                )
 
 
-def _replace_primary_navigation(route_sequence: list[str]) -> list[str]:
-    replaced = False
-    output: list[str] = []
-    for component in route_sequence:
-        if component in {"waypoint_flight", "goto_point"} and not replaced:
-            output.append("obstacle_avoid_flight")
-            replaced = True
-        else:
-            output.append(component)
-    if not replaced:
-        output.append("obstacle_avoid_flight")
-    return output
+def _validate_unexpected_svr_roles(
+    required_roles: tuple[PlannedRole, ...],
+    topology_context: dict[str, Any],
+    config: GeneratorConfig,
+    issues: list[ValidationIssue],
+    sample_id: str | None,
+) -> None:
+    required_service_roles = {role.role for role in required_roles}
+    required_topics = _required_topics(topology_context["component_names"], config)
+
+    for service_name in topology_context["svr_names"]:
+        component = config.components.get(service_name)
+        if component is None:
+            continue
+        roles = set(component_roles(component))
+        provided_topics = set(component_provides_topics(component))
+        if roles & required_service_roles:
+            continue
+        if provided_topics & required_topics:
+            continue
+        _add_issue(
+            issues,
+            sample_id,
+            "alignment.unexpected_svr_role",
+            f"Unexpected SVR service for semantic input: {service_name}, roles={sorted(roles)}",
+            "target_topology.stages",
+        )
 
 
-def _height_entry_variants(semantic_input: dict[str, Any]) -> list[str]:
-    height_level = semantic_input.get("flight", {}).get("height_level")
-    if height_level in {"medium", "high"}:
-        return ["ascend"]
-    return []
+def _service_role_to_components(
+    svr_names: list[str],
+    config: GeneratorConfig,
+) -> dict[str, list[str]]:
+    role_to_components: dict[str, list[str]] = {}
+    for service_name in svr_names:
+        component = config.components.get(service_name)
+        if component is None:
+            continue
+        for role in component_roles(component):
+            role_to_components.setdefault(role, []).append(service_name)
+    return role_to_components
 
 
-def _height_exit_variants(semantic_input: dict[str, Any]) -> list[str]:
-    height_level = semantic_input.get("flight", {}).get("height_level")
-    if height_level == "high":
-        return ["descend"]
-    return []
+def _providers_by_topic(
+    component_names: list[str],
+    config: GeneratorConfig,
+) -> dict[str, list[str]]:
+    providers: dict[str, list[str]] = {}
+    for component_name in component_names:
+        component = config.components.get(component_name)
+        if component is None:
+            continue
+        for topic in component_provides_topics(component):
+            providers.setdefault(topic, []).append(component_name)
+    return providers
+
+
+def _required_topics(
+    component_names: list[str],
+    config: GeneratorConfig,
+) -> set[str]:
+    topics: set[str] = set()
+    for component_name in component_names:
+        component = config.components.get(component_name)
+        if component is None:
+            continue
+        topics.update(_required_consumed_topics(component))
+    return topics
+
+
+def _required_consumed_topics(component: dict[str, Any]) -> tuple[str, ...]:
+    optional_topics = _optional_input_topics(component)
+    return tuple(
+        topic
+        for topic in component_consumes_topics(component)
+        if topic not in optional_topics
+    )
+
+
+def _optional_input_topics(component: dict[str, Any]) -> set[str]:
+    optional: set[str] = set()
+    channels = component.get("input_channels", [])
+    if not isinstance(channels, list):
+        return optional
+    for channel in channels:
+        if (
+            isinstance(channel, dict)
+            and channel.get("optional") is True
+            and isinstance(channel.get("topic"), str)
+        ):
+            optional.add(channel["topic"])
+    return optional
 
 
 def _build_report(
@@ -934,7 +1314,10 @@ def _empty_topology_context() -> dict[str, Any]:
     return {
         "component_names": [],
         "robot_ctrl_names": [],
+        "main_robot_ctrl_names": [],
         "robot_ctrl_ids": [],
+        "main_robot_ctrl_ids": [],
+        "robot_action_records": [],
         "svr_names": [],
         "stage_by_component": {},
         "robot_stage_by_name": {},
@@ -962,6 +1345,11 @@ def _capability_enabled(semantic_input: dict[str, Any], capability: str) -> bool
     return bool(value)
 
 
+def _failure_strategy_enabled(config: GeneratorConfig) -> bool:
+    rules = config.params_space.get("failure_strategy_rules", {})
+    return isinstance(rules, dict) and bool(rules.get("enabled", False))
+
+
 def _enabled_capabilities(semantic_input: dict[str, Any]) -> list[str]:
     return [
         capability
@@ -970,27 +1358,10 @@ def _enabled_capabilities(semantic_input: dict[str, Any]) -> list[str]:
     ]
 
 
-def _extend_unique(target: list[str], values: list[str]) -> None:
-    for value in values:
-        if value not in target:
-            target.append(value)
-
-
-def _require_components(
-    required: set[str],
-    component_names: set[str],
-    issues: list[ValidationIssue],
-    sample_id: str | None,
-    code: str,
-) -> None:
-    for component in sorted(required - component_names):
-        _add_issue(
-            issues,
-            sample_id,
-            code,
-            f"Missing required component: {component}",
-            "target_topology.stages",
-        )
+def _list_strings(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, str)]
 
 
 def _add_issue(

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-14T02:08:57.062441+00:00",
+  "generated_at": "2026-05-12T03:06:33.732012+00:00",
   "pipeline_version": "0.1.0",
   "generator_version": "0.1.0",
   "sample_count_requested": 100,
@@ -16,14 +16,6 @@
   "validation_issue_count": 0,
   "validation_issue_counts": {},
   "duplicate_records": [],
-  "failure_enabled_count": 100,
-  "failure_branch_count": 146,
-  "guarded_robot_ctrl_stage_count": 212,
-  "by_failure_policy": {
-    "hold_then_return": 15,
-    "safe_land": 77,
-    "safe_return": 54
-  },
   "output_files": {
     "seed_data": "raw\\seed_data.json",
     "raw_samples": "raw\\template_generated.json",
