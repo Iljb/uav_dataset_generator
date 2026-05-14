@@ -52,10 +52,16 @@ BATTERY_SERVICE_ROLES = ("service.battery.level", "service.battery.warning")
 
 ROUTE_SERVICE_ROLES = {
     "navigation.point": POSITION_SERVICE_ROLES,
+    "navigation.orbit": POSITION_SERVICE_ROLES,
     "navigation.obstacle_avoid": POSITION_SERVICE_ROLES,
     "navigation.path": WAYPOINT_SERVICE_ROLES,
     "navigation.line": WAYPOINT_SERVICE_ROLES,
     "navigation.area": WAYPOINT_SERVICE_ROLES,
+    "navigation.line.corridor": WAYPOINT_SERVICE_ROLES,
+    "navigation.area.perimeter": WAYPOINT_SERVICE_ROLES,
+    "navigation.area.spiral": POSITION_SERVICE_ROLES,
+    "navigation.area.expanding_square": POSITION_SERVICE_ROLES,
+    "observation.orbit": POSITION_SERVICE_ROLES,
 }
 
 CAPABILITY_SERVICE_ROLES = {
@@ -63,6 +69,7 @@ CAPABILITY_SERVICE_ROLES = {
     "thermal_scan": ("service.camera.thermal",),
     "object_detection": ("service.camera.visible", "service.vision.detect"),
     "target_tracking": ("service.camera.visible", "service.vision.detect"),
+    "radar_scan": ("service.radar.scan",),
     "obstacle_avoidance": ("service.radar.scan",),
 }
 
@@ -248,7 +255,10 @@ def _should_add_observation_stabilization(
     semantic_input: dict[str, Any],
     robot_roles: list[PlannedRole],
 ) -> bool:
-    if any(role.role == "observation.hover" for role in robot_roles):
+    if any(
+        role.role in {"observation.hover", "observation.orbit"}
+        for role in robot_roles
+    ):
         return False
     if not any(
         _capability_enabled(semantic_input, capability)

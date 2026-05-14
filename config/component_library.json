@@ -4,8 +4,8 @@
     "source": "component.md",
     "updated_at": "2026-05-12",
     "semantic_annotation_version": "0.1.0",
-    "component_count": 22,
-    "robot_ctrl_count": 12,
+    "component_count": 29,
+    "robot_ctrl_count": 19,
     "svr_count": 10
   },
   "scheduling_rules": {
@@ -296,6 +296,214 @@
         "max_center_distance_px",
         "max_lost_time_sec",
         "smoothing_alpha"
+      ]
+    },
+    {
+      "id": "orbit_point_flight",
+      "type": "ROBOT_CTRL",
+      "roles": ["observation.orbit", "navigation.orbit"],
+      "consumes_topics": ["/position/positon_3d"],
+      "provides_topics": ["/orbit_point_flight/current_setpoint"],
+      "lifecycle": "control_once",
+      "selection_weight": 1.0,
+      "enabled": true,
+      "status": "active",
+      "launch_command": "roslaunch orbit_point_flight orbit_point_flight.launch",
+      "control_port": {"start": true, "stop": false},
+      "input_channels": [
+        {"topic": "/position/positon_3d", "message_type": "geometry_msgs/PoseStamped", "optional": true}
+      ],
+      "output_channels": [
+        {"topic": "/orbit_point_flight/current_setpoint", "message_type": "geometry_msgs/PoseStamped"}
+      ],
+      "control_outputs": ["success", "failed"],
+      "params": [
+        "center_x",
+        "center_y",
+        "center_z",
+        "altitude",
+        "radius",
+        "laps",
+        "speed_mps",
+        "clockwise",
+        "timeout_sec",
+        "position_tolerance"
+      ]
+    },
+    {
+      "id": "corridor_patrol_flight",
+      "type": "ROBOT_CTRL",
+      "roles": ["navigation.line.corridor"],
+      "consumes_topics": ["/position/positon_3d_array"],
+      "provides_topics": ["/corridor_patrol_flight/current_setpoint"],
+      "lifecycle": "control_once",
+      "selection_weight": 1.0,
+      "enabled": true,
+      "status": "active",
+      "launch_command": "roslaunch corridor_patrol_flight corridor_patrol_flight.launch",
+      "control_port": {"start": true, "stop": false},
+      "input_channels": [
+        {"topic": "/position/positon_3d_array", "message_type": "gnss_to_position_3d/Position3DWaypointArray", "optional": true}
+      ],
+      "output_channels": [
+        {"topic": "/corridor_patrol_flight/current_setpoint", "message_type": "geometry_msgs/PoseStamped"}
+      ],
+      "control_outputs": ["success", "failed"],
+      "params": [
+        "route_points",
+        "altitude",
+        "corridor_width",
+        "speed_mps",
+        "repeat_count",
+        "timeout_sec",
+        "position_tolerance"
+      ]
+    },
+    {
+      "id": "perimeter_patrol_flight",
+      "type": "ROBOT_CTRL",
+      "roles": ["navigation.area.perimeter"],
+      "consumes_topics": ["/position/positon_3d_array"],
+      "provides_topics": ["/perimeter_patrol_flight/current_setpoint"],
+      "lifecycle": "control_once",
+      "selection_weight": 1.0,
+      "enabled": true,
+      "status": "active",
+      "launch_command": "roslaunch perimeter_patrol_flight perimeter_patrol_flight.launch",
+      "control_port": {"start": true, "stop": false},
+      "input_channels": [
+        {"topic": "/position/positon_3d_array", "message_type": "gnss_to_position_3d/Position3DWaypointArray", "optional": true}
+      ],
+      "output_channels": [
+        {"topic": "/perimeter_patrol_flight/current_setpoint", "message_type": "geometry_msgs/PoseStamped"}
+      ],
+      "control_outputs": ["success", "failed"],
+      "params": [
+        "boundary_points",
+        "altitude",
+        "speed_mps",
+        "repeat_count",
+        "clockwise",
+        "timeout_sec",
+        "position_tolerance"
+      ]
+    },
+    {
+      "id": "lawnmower_search_flight",
+      "type": "ROBOT_CTRL",
+      "roles": ["navigation.area.lawnmower"],
+      "consumes_topics": [],
+      "provides_topics": ["/lawnmower_search_flight/current_setpoint"],
+      "lifecycle": "control_once",
+      "selection_weight": 1.0,
+      "enabled": true,
+      "status": "active",
+      "launch_command": "roslaunch lawnmower_search_flight lawnmower_search_flight.launch",
+      "control_port": {"start": true, "stop": false},
+      "input_channels": [],
+      "output_channels": [
+        {"topic": "/lawnmower_search_flight/current_setpoint", "message_type": "geometry_msgs/PoseStamped"}
+      ],
+      "control_outputs": ["success", "failed"],
+      "params": [
+        "center_x",
+        "center_y",
+        "altitude",
+        "length",
+        "width",
+        "lane_spacing",
+        "speed_mps",
+        "timeout_sec",
+        "position_tolerance"
+      ]
+    },
+    {
+      "id": "grid_search_flight",
+      "type": "ROBOT_CTRL",
+      "roles": ["navigation.area.grid"],
+      "consumes_topics": [],
+      "provides_topics": ["/grid_search_flight/current_setpoint"],
+      "lifecycle": "control_once",
+      "selection_weight": 1.0,
+      "enabled": true,
+      "status": "active",
+      "launch_command": "roslaunch grid_search_flight grid_search_flight.launch",
+      "control_port": {"start": true, "stop": false},
+      "input_channels": [],
+      "output_channels": [
+        {"topic": "/grid_search_flight/current_setpoint", "message_type": "geometry_msgs/PoseStamped"}
+      ],
+      "control_outputs": ["success", "failed"],
+      "params": [
+        "center_x",
+        "center_y",
+        "altitude",
+        "length",
+        "width",
+        "grid_spacing",
+        "speed_mps",
+        "timeout_sec",
+        "position_tolerance"
+      ]
+    },
+    {
+      "id": "spiral_search_flight",
+      "type": "ROBOT_CTRL",
+      "roles": ["navigation.area.spiral"],
+      "consumes_topics": ["/position/positon_3d"],
+      "provides_topics": ["/spiral_search_flight/current_setpoint"],
+      "lifecycle": "control_once",
+      "selection_weight": 1.0,
+      "enabled": true,
+      "status": "active",
+      "launch_command": "roslaunch spiral_search_flight spiral_search_flight.launch",
+      "control_port": {"start": true, "stop": false},
+      "input_channels": [
+        {"topic": "/position/positon_3d", "message_type": "geometry_msgs/PoseStamped", "optional": true}
+      ],
+      "output_channels": [
+        {"topic": "/spiral_search_flight/current_setpoint", "message_type": "geometry_msgs/PoseStamped"}
+      ],
+      "control_outputs": ["success", "failed"],
+      "params": [
+        "center_x",
+        "center_y",
+        "altitude",
+        "max_radius",
+        "spacing",
+        "speed_mps",
+        "timeout_sec",
+        "position_tolerance"
+      ]
+    },
+    {
+      "id": "expanding_square_search",
+      "type": "ROBOT_CTRL",
+      "roles": ["navigation.area.expanding_square"],
+      "consumes_topics": ["/position/positon_3d"],
+      "provides_topics": ["/expanding_square_search/current_setpoint"],
+      "lifecycle": "control_once",
+      "selection_weight": 1.0,
+      "enabled": true,
+      "status": "active",
+      "launch_command": "roslaunch expanding_square_search expanding_square_search.launch",
+      "control_port": {"start": true, "stop": false},
+      "input_channels": [
+        {"topic": "/position/positon_3d", "message_type": "geometry_msgs/PoseStamped", "optional": true}
+      ],
+      "output_channels": [
+        {"topic": "/expanding_square_search/current_setpoint", "message_type": "geometry_msgs/PoseStamped"}
+      ],
+      "control_outputs": ["success", "failed"],
+      "params": [
+        "center_x",
+        "center_y",
+        "altitude",
+        "max_size",
+        "spacing",
+        "speed_mps",
+        "timeout_sec",
+        "position_tolerance"
       ]
     },
     {

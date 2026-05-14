@@ -37,7 +37,7 @@
       "assignment": ["assigned_area", "route_mode"],
       "platform": ["payload"],
       "flight": ["height_level", "speed_level", "hover_required", "return_home"],
-      "capabilities": ["object_detection", "target_tracking", "obstacle_avoidance", "thermal_scan", "image_capture"],
+      "capabilities": ["object_detection", "target_tracking", "obstacle_avoidance", "radar_scan", "thermal_scan", "image_capture"],
       "safety": ["preflight_check", "battery_monitor", "battery_risk_level", "gps_required"]
     },
     "capability_schema": {
@@ -54,7 +54,12 @@
       "obstacle_avoidance": {
         "enabled": "boolean",
         "obstacle_level": "low|medium|high|null",
-        "notes": "Obstacle avoidance maps to radar scan plus obstacle_avoid_flight when the payload supports it."
+        "notes": "Obstacle avoidance maps to radar scan plus obstacle_avoid_flight only when explicitly enabled."
+      },
+      "radar_scan": {
+        "enabled": "boolean",
+        "scan_mode": "single|continuous|null",
+        "notes": "Radar scan starts sensor_radar_scan as an SVR sensing service and does not change the main flight mode."
       },
       "thermal_scan": {
         "enabled": "boolean",
@@ -72,22 +77,29 @@
       "id": "single_uav_area_search",
       "name": "single UAV area search",
       "roles": ["search_unit", "observer"],
-      "route_modes": ["waypoint", "grid", "lawnmower"],
-      "typical_capabilities": ["image_capture", "object_detection", "target_tracking", "thermal_scan", "obstacle_avoidance"]
+      "route_modes": [
+        "waypoint",
+        "grid",
+        "lawnmower",
+        "perimeter_patrol",
+        "spiral_search",
+        "expanding_square"
+      ],
+      "typical_capabilities": ["image_capture", "object_detection", "target_tracking", "thermal_scan", "radar_scan", "obstacle_avoidance"]
     },
     {
       "id": "single_uav_route_inspection",
       "name": "single UAV route inspection",
       "roles": ["inspection_unit"],
-      "route_modes": ["waypoint", "line_follow"],
-      "typical_capabilities": ["image_capture", "object_detection", "thermal_scan", "obstacle_avoidance"]
+      "route_modes": ["waypoint", "line_follow", "corridor_patrol"],
+      "typical_capabilities": ["image_capture", "object_detection", "thermal_scan", "radar_scan", "obstacle_avoidance"]
     },
     {
       "id": "single_uav_fixed_point_observation",
       "name": "single UAV fixed-point observation",
       "roles": ["observer"],
-      "route_modes": ["goto_point", "hover"],
-      "typical_capabilities": ["image_capture", "object_detection", "target_tracking", "thermal_scan"]
+      "route_modes": ["goto_point", "hover", "orbit"],
+      "typical_capabilities": ["image_capture", "object_detection", "target_tracking", "thermal_scan", "radar_scan"]
     }
   ]
 }

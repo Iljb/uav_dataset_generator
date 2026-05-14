@@ -20,7 +20,10 @@
     "failure_strategy_default_enabled": true,
     "object_detection_requires_target_classes": true,
     "target_tracking_requires_target_class": true,
-    "target_tracking_requires_object_detection": true
+    "target_tracking_requires_object_detection": true,
+    "payload_does_not_imply_robot_ctrl_override": true,
+    "radar_payload_scan_without_obstacle_avoidance_allowed": true,
+    "infrared_payload_scan_without_route_restriction_allowed": true
   },
   "semantic_params": {
     "uav_id": ["uav_01", "uav_02", "uav_03", "uav_04", "uav_05", "uav_06"],
@@ -41,7 +44,19 @@
       "point_C2",
       "point_C3"
     ],
-    "route_mode": ["waypoint", "grid", "lawnmower", "line_follow", "goto_point", "hover"],
+    "route_mode": [
+      "waypoint",
+      "grid",
+      "lawnmower",
+      "perimeter_patrol",
+      "spiral_search",
+      "expanding_square",
+      "line_follow",
+      "corridor_patrol",
+      "goto_point",
+      "hover",
+      "orbit"
+    ],
     "payload": ["visible_camera", "infrared_camera", "radar"],
     "complexity": ["simple", "medium", "complex"]
   },
@@ -49,19 +64,26 @@
     "single_uav_area_search": {
       "target_types": ["area"],
       "roles": ["search_unit", "observer"],
-      "route_modes": ["waypoint", "grid", "lawnmower"],
+      "route_modes": [
+        "waypoint",
+        "grid",
+        "lawnmower",
+        "perimeter_patrol",
+        "spiral_search",
+        "expanding_square"
+      ],
       "payloads": ["visible_camera", "infrared_camera", "radar"]
     },
     "single_uav_route_inspection": {
       "target_types": ["line"],
       "roles": ["inspection_unit"],
-      "route_modes": ["waypoint", "line_follow"],
+      "route_modes": ["waypoint", "line_follow", "corridor_patrol"],
       "payloads": ["visible_camera", "infrared_camera", "radar"]
     },
     "single_uav_fixed_point_observation": {
       "target_types": ["point"],
       "roles": ["observer"],
-      "route_modes": ["goto_point", "hover"],
+      "route_modes": ["goto_point", "hover", "orbit"],
       "payloads": ["visible_camera", "infrared_camera", "radar"]
     }
   },
@@ -112,9 +134,17 @@
       "target_types": ["point"],
       "sequence": ["goto_point", "hover"]
     },
+    "orbit": {
+      "target_types": ["point"],
+      "sequence": ["goto_point", "orbit_point_flight"]
+    },
     "line_follow": {
       "target_types": ["line"],
       "sequence": ["waypoint_flight"]
+    },
+    "corridor_patrol": {
+      "target_types": ["line"],
+      "sequence": ["corridor_patrol_flight"]
     },
     "waypoint": {
       "target_types": ["line", "area"],
@@ -122,11 +152,23 @@
     },
     "grid": {
       "target_types": ["area"],
-      "sequence": ["waypoint_flight"]
+      "sequence": ["grid_search_flight"]
     },
     "lawnmower": {
       "target_types": ["area"],
-      "sequence": ["waypoint_flight"]
+      "sequence": ["lawnmower_search_flight"]
+    },
+    "perimeter_patrol": {
+      "target_types": ["area"],
+      "sequence": ["perimeter_patrol_flight"]
+    },
+    "spiral_search": {
+      "target_types": ["area"],
+      "sequence": ["spiral_search_flight"]
+    },
+    "expanding_square": {
+      "target_types": ["area"],
+      "sequence": ["expanding_square_search"]
     }
   },
   "route_to_roles": {
@@ -138,9 +180,17 @@
       "target_types": ["point"],
       "sequence": ["navigation.point", "observation.hover"]
     },
+    "orbit": {
+      "target_types": ["point"],
+      "sequence": ["navigation.point", "observation.orbit"]
+    },
     "line_follow": {
       "target_types": ["line"],
       "sequence": ["navigation.line"]
+    },
+    "corridor_patrol": {
+      "target_types": ["line"],
+      "sequence": ["navigation.line.corridor"]
     },
     "waypoint": {
       "target_types": ["line", "area"],
@@ -148,11 +198,23 @@
     },
     "grid": {
       "target_types": ["area"],
-      "sequence": ["navigation.area"]
+      "sequence": ["navigation.area.grid"]
     },
     "lawnmower": {
       "target_types": ["area"],
-      "sequence": ["navigation.area"]
+      "sequence": ["navigation.area.lawnmower"]
+    },
+    "perimeter_patrol": {
+      "target_types": ["area"],
+      "sequence": ["navigation.area.perimeter"]
+    },
+    "spiral_search": {
+      "target_types": ["area"],
+      "sequence": ["navigation.area.spiral"]
+    },
+    "expanding_square": {
+      "target_types": ["area"],
+      "sequence": ["navigation.area.expanding_square"]
     }
   },
   "flight": {
@@ -179,7 +241,7 @@
     },
     "radar": {
       "display_name": "radar",
-      "supports": ["obstacle_avoidance"],
+      "supports": ["radar_scan", "obstacle_avoidance"],
       "candidate_svr_components": ["sensor_radar_scan"],
       "candidate_robot_ctrl_components": ["obstacle_avoid_flight"]
     }
@@ -212,6 +274,11 @@
       "target_class": ["person", "vehicle", "animal"],
       "tracking_priority": ["low", "medium", "high"]
     },
+    "radar_scan": {
+      "enabled": [true, false],
+      "scan_mode": ["single", "continuous"],
+      "detection_range_level": ["short", "medium", "long"]
+    },
     "obstacle_avoidance": {
       "enabled": [true, false],
       "obstacle_level": ["low", "medium", "high"]
@@ -222,6 +289,7 @@
     "thermal_scan": ["sensor_ir_scan"],
     "object_detection": ["sensor_camera_scan", "object_detect"],
     "target_tracking": ["sensor_camera_scan", "object_detect"],
+    "radar_scan": ["sensor_radar_scan"],
     "obstacle_avoidance": ["sensor_radar_scan"]
   },
   "capability_to_robot_ctrl": {
@@ -255,7 +323,21 @@
     },
     "policies": {
       "safe_return": {
-        "trigger_roles": ["navigation.path", "navigation.line", "navigation.area", "navigation.point", "navigation.obstacle_avoid"],
+        "trigger_roles": [
+          "navigation.path",
+          "navigation.line",
+          "navigation.area",
+          "navigation.point",
+          "navigation.obstacle_avoid",
+          "observation.orbit",
+          "navigation.orbit",
+          "navigation.line.corridor",
+          "navigation.area.perimeter",
+          "navigation.area.grid",
+          "navigation.area.lawnmower",
+          "navigation.area.spiral",
+          "navigation.area.expanding_square"
+        ],
         "on_failed": ["flight.return", "flight.land"],
         "selection_weight": 1.0
       },
@@ -265,7 +347,7 @@
         "selection_weight": 0.5
       },
       "hold_then_return": {
-        "trigger_roles": ["tracking.target", "observation.hover"],
+        "trigger_roles": ["tracking.target", "observation.hover", "observation.orbit"],
         "on_failed": ["observation.hover", "flight.return", "flight.land"],
         "selection_weight": 0.5
       }
@@ -286,7 +368,11 @@
     },
     {
       "if": {"payload": "radar"},
-      "allowed_capabilities": ["obstacle_avoidance"]
+      "allowed_capabilities": ["radar_scan", "obstacle_avoidance"]
+    },
+    {
+      "if": {"capability": "obstacle_avoidance", "enabled": true},
+      "requires": [{"capability": "radar_scan", "enabled": true}]
     },
     {
       "if": {"capability": "target_tracking", "enabled": true},
@@ -303,6 +389,10 @@
     {
       "if": {"capability": "thermal_scan", "enabled": true},
       "allowed_payloads": ["infrared_camera"]
+    },
+    {
+      "if": {"capability": "radar_scan", "enabled": true},
+      "allowed_payloads": ["radar"]
     },
     {
       "if": {"capability": "obstacle_avoidance", "enabled": true},

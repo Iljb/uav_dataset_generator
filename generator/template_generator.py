@@ -577,11 +577,19 @@ def _sample_capabilities(
             ),
         }
     elif payload == "radar":
-        capabilities["obstacle_avoidance"] = {
+        radar_mode = rng.choice(["scan", "scan", "avoid"])
+        capabilities["radar_scan"] = {
             "enabled": True,
+            "scan_mode": rng.choice(capability_defs["radar_scan"]["scan_mode"]),
+            "detection_range_level": rng.choice(
+                capability_defs["radar_scan"]["detection_range_level"]
+            ),
+        }
+        capabilities["obstacle_avoidance"] = {
+            "enabled": radar_mode == "avoid",
             "obstacle_level": rng.choice(
                 capability_defs["obstacle_avoidance"]["obstacle_level"]
-            ),
+            ) if radar_mode == "avoid" else None,
         }
 
     for capability in list(capabilities):

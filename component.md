@@ -1,8 +1,8 @@
 # ATSComponents 组件总览
 
 本文档按当前仓库 `src/*/launch/component.ats` 实际配置整理。  
-更新时间：2026-05-10  
-组件总数：22（`ROBOT_CTRL` 12，`SVR` 10）
+更新时间：2026-05-13  
+组件总数：29（`ROBOT_CTRL` 19，`SVR` 10）
 
 ## 类型规则
 
@@ -18,7 +18,7 @@
 - `控制输出`：`outports`（`ROBOT_CTRL` 可使用 `success` / `failed`；`SVR` 统一无控制输出）。
 - `关键参数`：仅列参数名，具体含义见对应 `component.ats` 的 `description`。
 
-## ROBOT_CTRL 组件（12）
+## ROBOT_CTRL 组件（19）
 
 | 组件 | 启动命令 | 控制端口 | 输入通道 | 输出通道 | 控制输出 | 关键参数 |
 |---|---|---|---|---|---|---|
@@ -34,6 +34,13 @@
 | `return_home` | `roslaunch return_home return_home.launch` | `start=true, stop=false` | `/battery_level/state` (`sensor_msgs/BatteryState`, 可选) | 无 | `success, failed` | `timeout_sec, landed_height_threshold, enable_low_battery_auto_return, low_battery_threshold_percent` |
 | `obstacle_avoid_flight` | `roslaunch obstacle_avoid_flight obstacle_avoid_flight.launch` | `start=true, stop=true` | `/position/positon_3d` (`geometry_msgs/PoseStamped`), `/sensor_radar_scan/scan` (`sensor_msgs/LaserScan`) | `/obstacle_avoid_flight/planned_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `x, y, z, yaw, timeout_sec, position_tolerance, yaw_tolerance_deg, obstacle_distance_threshold_m, front_fov_deg, side_fov_deg, avoid_lateral_step_m, avoid_forward_step_m, avoid_vertical_step_m, avoid_hold_sec, max_altitude_m, scan_timeout_sec` |
 | `target_tracking` | `roslaunch target_tracking target_tracking.launch` | `start=true, stop=true` | `/vision/object_detect/bounding_boxes` (`object_detect/BoundingBoxes`) | 无 | `success, failed` | `target_class_id, min_confidence, min_iou_for_association, max_center_distance_px, max_lost_time_sec, smoothing_alpha` |
+| `orbit_point_flight` | `roslaunch orbit_point_flight orbit_point_flight.launch` | `start=true, stop=false` | `/position/positon_3d` (`geometry_msgs/PoseStamped`, 可选) | `/orbit_point_flight/current_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `center_x, center_y, center_z, altitude, radius, laps, speed_mps, clockwise, timeout_sec, position_tolerance` |
+| `corridor_patrol_flight` | `roslaunch corridor_patrol_flight corridor_patrol_flight.launch` | `start=true, stop=false` | `/position/positon_3d_array` (`gnss_to_position_3d/Position3DWaypointArray`, 可选) | `/corridor_patrol_flight/current_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `route_points, altitude, corridor_width, speed_mps, repeat_count, timeout_sec, position_tolerance` |
+| `perimeter_patrol_flight` | `roslaunch perimeter_patrol_flight perimeter_patrol_flight.launch` | `start=true, stop=false` | `/position/positon_3d_array` (`gnss_to_position_3d/Position3DWaypointArray`, 可选) | `/perimeter_patrol_flight/current_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `boundary_points, altitude, speed_mps, repeat_count, clockwise, timeout_sec, position_tolerance` |
+| `lawnmower_search_flight` | `roslaunch lawnmower_search_flight lawnmower_search_flight.launch` | `start=true, stop=false` | 无 | `/lawnmower_search_flight/current_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `center_x, center_y, altitude, length, width, lane_spacing, speed_mps, timeout_sec, position_tolerance` |
+| `grid_search_flight` | `roslaunch grid_search_flight grid_search_flight.launch` | `start=true, stop=false` | 无 | `/grid_search_flight/current_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `center_x, center_y, altitude, length, width, grid_spacing, speed_mps, timeout_sec, position_tolerance` |
+| `spiral_search_flight` | `roslaunch spiral_search_flight spiral_search_flight.launch` | `start=true, stop=false` | `/position/positon_3d` (`geometry_msgs/PoseStamped`, 可选) | `/spiral_search_flight/current_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `center_x, center_y, altitude, max_radius, spacing, speed_mps, timeout_sec, position_tolerance` |
+| `expanding_square_search` | `roslaunch expanding_square_search expanding_square_search.launch` | `start=true, stop=false` | `/position/positon_3d` (`geometry_msgs/PoseStamped`, 可选) | `/expanding_square_search/current_setpoint` (`geometry_msgs/PoseStamped`) | `success, failed` | `center_x, center_y, altitude, max_size, spacing, speed_mps, timeout_sec, position_tolerance` |
 
 ## SVR 组件（10）
 
@@ -56,3 +63,4 @@
 - 如果后续统一修正命名，建议同步更新 `component.ats`、节点代码和本总览文档。
 - `sensor_camera_init` 已删除，相机就绪检查由 `sensor_camera_scan` 启动后的图像流等待与超时日志承担。
 - `object_detect` 输入图像源优先取 `sub_channels[0]`；若未配置输入通道，则回退到参数 `camera_topic`（默认 `/sensors/visible_camera/image_raw`）。
+- 新增侦察巡检飞行任务组件按点、线、面组织：点任务为绕点飞行；线任务为走廊巡检和周界巡检；面任务为割草机、网格、螺旋和扩展方形搜索。

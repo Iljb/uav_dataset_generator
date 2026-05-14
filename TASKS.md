@@ -330,6 +330,97 @@ responsibilities and are not part of the first implementation.
   - exact duplicate topology groups reduced to 4
   - largest exact topology group size reduced to 2
   - saved per-component stage distributions in `stats/topology_duplicate_report.json`
+- Integrated the expanded `component.md` component set:
+  - updated `component_library.json` from 22 to 29 components
+  - updated `ROBOT_CTRL` count from 12 to 19
+  - kept `SVR` count at 10
+  - added active ROBOT_CTRL components:
+    - `orbit_point_flight`
+    - `corridor_patrol_flight`
+    - `perimeter_patrol_flight`
+    - `lawnmower_search_flight`
+    - `grid_search_flight`
+    - `spiral_search_flight`
+    - `expanding_square_search`
+  - added fine-grained route roles:
+    - `observation.orbit`
+    - `navigation.orbit`
+    - `navigation.line.corridor`
+    - `navigation.area.perimeter`
+    - `navigation.area.grid`
+    - `navigation.area.lawnmower`
+    - `navigation.area.spiral`
+    - `navigation.area.expanding_square`
+  - expanded route modes:
+    - point: `goto_point`, `hover`, `orbit`
+    - line: `waypoint`, `line_follow`, `corridor_patrol`
+    - area: `waypoint`, `grid`, `lawnmower`, `perimeter_patrol`, `spiral_search`, `expanding_square`
+  - connected new roles to planner service dependencies and SVR placement priorities
+  - extended failure strategy trigger roles to cover the new route roles
+  - extended config lint required active role checks for the new roles
+  - updated `task_templates.py` route-mode rules and example templates
+- Regenerated persisted samples after expanded component integration:
+  - config lint valid: true
+  - config lint errors: 0
+  - config lint warnings: 0
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates by current sample-id/content dedupe
+  - failure-enabled samples: 100
+  - failure branches: 142
+  - guarded ROBOT_CTRL stages: 217
+  - `by_failure_policy`: `safe_land` 62, `safe_return` 56, `hold_then_return` 24
+  - new component usage:
+    - `corridor_patrol_flight`: 13
+    - `orbit_point_flight`: 7
+    - `expanding_square_search`: 5
+    - `perimeter_patrol_flight`: 4
+    - `spiral_search_flight`: 4
+    - `lawnmower_search_flight`: 2
+    - `grid_search_flight`: 1
+  - exact `target_topology` unique count: 94 / 100
+  - exact duplicate topology groups: 5
+  - largest exact topology group size: 3
+- Decoupled sensing payloads from flight-control overrides:
+  - added `radar_scan` as a radar-only SVR sensing capability
+  - kept `thermal_scan` as an infrared-only SVR sensing capability across all route modes
+  - changed radar sampling so `payload=radar` always enables `radar_scan`
+  - changed obstacle avoidance so `obstacle_avoidance.enabled=true` is optional and explicit
+  - preserved `obstacle_avoid_flight` replacement only for explicit obstacle-avoidance semantics
+  - updated planner service-role mappings so `radar_scan` starts `sensor_radar_scan` without changing the main ROBOT_CTRL route
+  - updated SVR placement so radar sensing can attach to point, line, area, orbit, and search flight modes
+  - updated task type and template capability descriptions for `radar_scan`
+- Regenerated persisted samples after payload/control decoupling:
+  - config lint valid: true
+  - config lint errors: 0
+  - config lint warnings: 0
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates by current sample-id/content dedupe
+  - enabled capability coverage:
+    - `thermal_scan`: 35
+    - `radar_scan`: 34
+    - `object_detection`: 19
+    - `obstacle_avoidance`: 13
+    - `image_capture`: 12
+    - `target_tracking`: 12
+  - radar samples:
+    - `radar_scan` total: 34
+    - scan-only radar samples without obstacle avoidance: 21
+    - radar samples with obstacle avoidance: 13
+  - new component usage became more balanced:
+    - `orbit_point_flight`: 15
+    - `corridor_patrol_flight`: 8
+    - `expanding_square_search`: 6
+    - `spiral_search_flight`: 6
+    - `grid_search_flight`: 5
+    - `lawnmower_search_flight`: 5
+    - `perimeter_patrol_flight`: 4
+  - exact `target_topology` unique count: 99 / 100
+  - exact duplicate topology groups: 1
+  - largest exact topology group size: 2
 
 ## Current Output Shape
 
@@ -377,6 +468,10 @@ responsibilities and are not part of the first implementation.
   - confirm supported single-UAV task types
   - confirm required and optional semantic fields
   - confirm role and route-mode values
+- Review expanded component usage:
+  - tune route-mode sampling weights if `grid` and `lawnmower` coverage is too low
+  - decide whether radar obstacle avoidance should replace or wrap new search-route components
+  - decide whether `orbit_point_flight` should always follow `goto_point` for point observation
 - Review `params_space.json` against real platform values when available:
   - replace placeholder target labels with real mission-area identifiers
   - tune semantic value distributions from simulator or operational data

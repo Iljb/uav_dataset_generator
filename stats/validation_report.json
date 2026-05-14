@@ -1,5 +1,5 @@
 {
-  "validated_at": "2026-05-14T02:29:45.247721+00:00",
+  "validated_at": "2026-05-14T08:42:29.018296+00:00",
   "total": 100,
   "valid": 100,
   "invalid": 0,
@@ -7,22 +7,27 @@
   "issue_count": 0,
   "issue_counts": {},
   "by_task_type": {
-    "single_uav_area_search": 28,
-    "single_uav_fixed_point_observation": 35,
-    "single_uav_route_inspection": 37
+    "single_uav_area_search": 31,
+    "single_uav_fixed_point_observation": 38,
+    "single_uav_route_inspection": 31
   },
   "by_payload": {
-    "infrared_camera": 28,
-    "radar": 40,
-    "visible_camera": 32
+    "infrared_camera": 35,
+    "radar": 34,
+    "visible_camera": 31
   },
   "by_route_mode": {
-    "goto_point": 16,
-    "grid": 7,
-    "hover": 19,
-    "lawnmower": 10,
-    "line_follow": 20,
-    "waypoint": 28
+    "corridor_patrol": 8,
+    "expanding_square": 7,
+    "goto_point": 10,
+    "grid": 6,
+    "hover": 13,
+    "lawnmower": 5,
+    "line_follow": 12,
+    "orbit": 15,
+    "perimeter_patrol": 5,
+    "spiral_search": 6,
+    "waypoint": 13
   },
   "output_files": {
     "valid_samples": "processed\\validated_samples.json",

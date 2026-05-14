@@ -170,9 +170,19 @@ ROUTE_MODE_RULES = {
         "robot_ctrl_sequence": ["goto_point", "hover"],
         "support_svr_groups": ["position_support"],
     },
+    "orbit": {
+        "target_types": ["point"],
+        "robot_ctrl_sequence": ["goto_point", "orbit_point_flight"],
+        "support_svr_groups": ["position_support"],
+    },
     "line_follow": {
         "target_types": ["line"],
         "robot_ctrl_sequence": ["waypoint_flight"],
+        "support_svr_groups": ["waypoint_support"],
+    },
+    "corridor_patrol": {
+        "target_types": ["line"],
+        "robot_ctrl_sequence": ["corridor_patrol_flight"],
         "support_svr_groups": ["waypoint_support"],
     },
     "waypoint": {
@@ -182,13 +192,28 @@ ROUTE_MODE_RULES = {
     },
     "grid": {
         "target_types": ["area"],
-        "robot_ctrl_sequence": ["waypoint_flight"],
-        "support_svr_groups": ["waypoint_support"],
+        "robot_ctrl_sequence": ["grid_search_flight"],
+        "support_svr_groups": [],
     },
     "lawnmower": {
         "target_types": ["area"],
-        "robot_ctrl_sequence": ["waypoint_flight"],
+        "robot_ctrl_sequence": ["lawnmower_search_flight"],
+        "support_svr_groups": [],
+    },
+    "perimeter_patrol": {
+        "target_types": ["area"],
+        "robot_ctrl_sequence": ["perimeter_patrol_flight"],
         "support_svr_groups": ["waypoint_support"],
+    },
+    "spiral_search": {
+        "target_types": ["area"],
+        "robot_ctrl_sequence": ["spiral_search_flight"],
+        "support_svr_groups": ["position_support"],
+    },
+    "expanding_square": {
+        "target_types": ["area"],
+        "robot_ctrl_sequence": ["expanding_square_search"],
+        "support_svr_groups": ["position_support"],
     },
 }
 
@@ -219,10 +244,18 @@ CAPABILITY_RULES = {
         "robot_ctrl_components": [],
         "requires_input_fields": [],
     },
+    "radar_scan": {
+        "requires_payload": "radar",
+        "svr_groups": ["radar_scan"],
+        "robot_ctrl_components": [],
+        "requires_input_fields": [],
+        "reason": "radar can be used as a sensing payload without changing the main flight-control component",
+    },
     "obstacle_avoidance": {
         "requires_payload": "radar",
         "svr_groups": ["radar_scan"],
         "robot_ctrl_override": "obstacle_avoid_flight",
+        "requires_capabilities": ["radar_scan"],
         "requires_input_fields": ["obstacle_level"],
     },
 }
@@ -232,11 +265,18 @@ TASK_TEMPLATES = {
     "single_uav_area_search": {
         "description": "Area coverage or search after upstream cluster allocation.",
         "target_types": ["area"],
-        "allowed_route_modes": ["waypoint", "grid", "lawnmower"],
+        "allowed_route_modes": [
+            "waypoint",
+            "grid",
+            "lawnmower",
+            "perimeter_patrol",
+            "spiral_search",
+            "expanding_square",
+        ],
         "robot_ctrl_backbone": [
             "preflight_check",
             "takeoff",
-            "waypoint_flight",
+            "grid_search_flight",
             "return_home",
             "land",
         ],
@@ -260,22 +300,21 @@ TASK_TEMPLATES = {
                 {
                     "stage": 2,
                     "component": [
-                        {"id": "c2", "name": "waypoint_flight", "cmd": "start", "prev": "c1.success"},
-                        {"id": "c3", "name": "waypoint_list_create", "cmd": "start", "prev": "c1.success"},
-                        {"id": "c4", "name": "sensor_camera_scan", "cmd": "start", "prev": "c1.success"},
-                        {"id": "c5", "name": "object_detect", "cmd": "start", "prev": "c1.success"},
+                        {"id": "c2", "name": "grid_search_flight", "cmd": "start", "prev": "c1.success"},
+                        {"id": "c3", "name": "sensor_camera_scan", "cmd": "start", "prev": "c1.success"},
+                        {"id": "c4", "name": "object_detect", "cmd": "start", "prev": "c1.success"},
                     ],
                 },
                 {
                     "stage": 3,
                     "component": [
-                        {"id": "c6", "name": "return_home", "cmd": "start", "prev": "c2.success"},
+                        {"id": "c5", "name": "return_home", "cmd": "start", "prev": "c2.success"},
                     ],
                 },
                 {
                     "stage": 4,
                     "component": [
-                        {"id": "c7", "name": "land", "cmd": "start", "prev": "c6.success"},
+                        {"id": "c6", "name": "land", "cmd": "start", "prev": "c5.success"},
                     ],
                 },
             ]
@@ -284,11 +323,11 @@ TASK_TEMPLATES = {
     "single_uav_route_inspection": {
         "description": "Line or waypoint inspection for a preallocated route segment.",
         "target_types": ["line"],
-        "allowed_route_modes": ["waypoint", "line_follow"],
+        "allowed_route_modes": ["waypoint", "line_follow", "corridor_patrol"],
         "robot_ctrl_backbone": [
             "preflight_check",
             "takeoff",
-            "waypoint_flight",
+            "corridor_patrol_flight",
             "return_home",
             "land",
         ],
@@ -312,7 +351,7 @@ TASK_TEMPLATES = {
                 {
                     "stage": 2,
                     "component": [
-                        {"id": "c2", "name": "waypoint_flight", "cmd": "start", "prev": "c1.success"},
+                        {"id": "c2", "name": "corridor_patrol_flight", "cmd": "start", "prev": "c1.success"},
                         {"id": "c3", "name": "waypoint_list_create", "cmd": "start", "prev": "c1.success"},
                         {"id": "c4", "name": "sensor_ir_scan", "cmd": "start", "prev": "c1.success"},
                     ],
@@ -335,12 +374,12 @@ TASK_TEMPLATES = {
     "single_uav_fixed_point_observation": {
         "description": "Point observation after a single UAV is assigned a fixed target.",
         "target_types": ["point"],
-        "allowed_route_modes": ["goto_point", "hover"],
+        "allowed_route_modes": ["goto_point", "hover", "orbit"],
         "robot_ctrl_backbone": [
             "preflight_check",
             "takeoff",
             "goto_point",
-            "hover",
+            "orbit_point_flight",
             "target_tracking",
             "return_home",
             "land",
@@ -373,7 +412,7 @@ TASK_TEMPLATES = {
                 {
                     "stage": 3,
                     "component": [
-                        {"id": "c5", "name": "hover", "cmd": "start", "prev": "c2.success"},
+                        {"id": "c5", "name": "orbit_point_flight", "cmd": "start", "prev": "c2.success"},
                         {"id": "c6", "name": "sensor_camera_scan", "cmd": "start", "prev": "c2.success"},
                         {"id": "c7", "name": "object_detect", "cmd": "start", "prev": "c2.success"},
                     ],
