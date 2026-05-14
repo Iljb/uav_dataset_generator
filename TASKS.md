@@ -1,6 +1,6 @@
 # Task Execution Log
 
-Updated: 2026-05-12
+Updated: 2026-05-14
 
 ## Current Scope
 
@@ -302,6 +302,34 @@ responsibilities and are not part of the first implementation.
   - exact `target_topology` unique count improved to 67 / 100
   - exact duplicate topology groups reduced to 18
   - largest exact topology group size reduced to 6
+- Added default topology diversity strategies without a plugin switch:
+  - height action variants:
+    - `high` height always inserts `ascend`
+    - `medium` height inserts `ascend` by deterministic complexity-weighted choice
+    - `high` height inserts `descend` by deterministic complexity-weighted choice
+  - optional observation/stabilization stages:
+    - observation-related tasks may add a `hover` control stage before tracking or mission tail
+    - existing `hover` route stages are not duplicated
+  - SVR service start-stage variants:
+    - non-global SVR services may start one or two stages earlier by deterministic complexity-weighted choice
+    - topic provider order is still enforced so providers never start later than consumers
+- Regenerated persisted samples after default topology diversity:
+  - generated 100 samples
+  - accepted 100 samples
+  - rejected 0 samples
+  - removed 0 duplicates by current sample-id/content dedupe
+  - failure-enabled samples: 100
+  - failure branches: 148
+  - guarded ROBOT_CTRL stages: 217
+  - `by_failure_policy`: `safe_land` 69, `safe_return` 51, `hold_then_return` 28
+  - component usage highlights:
+    - `ascend`: 52
+    - `descend`: 18
+    - `hover`: 71
+  - exact `target_topology` unique count improved to 96 / 100
+  - exact duplicate topology groups reduced to 4
+  - largest exact topology group size reduced to 2
+  - saved per-component stage distributions in `stats/topology_duplicate_report.json`
 
 ## Current Output Shape
 
@@ -364,8 +392,8 @@ responsibilities and are not part of the first implementation.
   - decide whether failure branch metadata should remain outside the model training target
 - Reduce topology-only duplicates:
   - add topology-structure deduplication or coverage-aware rejection in `pipeline.py`
-  - diversify failure policies instead of always selecting `safe_return`
-  - consider policy selection based on trigger role, task type, risk level, or payload
+  - consider policy selection based on task type, risk level, or payload
+  - consider whether remaining exact duplicate topologies should be filtered or kept as semantic paraphrase variants
 - Add focused automated smoke tests:
   - config lint
   - template generation

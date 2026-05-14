@@ -1,216 +1,251 @@
 {
+  "generated_at": "2026-05-14T02:37:39.578144+00:00",
   "sample_count": 100,
+  "exact_target_topology": {
+    "unique_count": 96,
+    "duplicate_group_count": 4,
+    "duplicate_sample_count": 8,
+    "max_group_size": 2,
+    "top_duplicate_groups": [
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_f83aebac5e31",
+          "sample_3734ec3d1910"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_9f60a02299ba",
+          "sample_2d5e4a45f69e"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_e7bbf5820866",
+          "sample_ffbdd6897da6"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_2fb01a426c0b",
+          "sample_db72135e05c9"
+        ]
+      }
+    ]
+  },
+  "component_stage_signature": {
+    "unique_count": 96,
+    "duplicate_group_count": 4,
+    "duplicate_sample_count": 8,
+    "max_group_size": 2,
+    "top_duplicate_groups": [
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_f83aebac5e31",
+          "sample_3734ec3d1910"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_9f60a02299ba",
+          "sample_2d5e4a45f69e"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_e7bbf5820866",
+          "sample_ffbdd6897da6"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_2fb01a426c0b",
+          "sample_db72135e05c9"
+        ]
+      }
+    ]
+  },
+  "normalized_prev_shape": {
+    "unique_count": 96,
+    "duplicate_group_count": 4,
+    "duplicate_sample_count": 8,
+    "max_group_size": 2,
+    "top_duplicate_groups": [
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_f83aebac5e31",
+          "sample_3734ec3d1910"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_9f60a02299ba",
+          "sample_2d5e4a45f69e"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_e7bbf5820866",
+          "sample_ffbdd6897da6"
+        ]
+      },
+      {
+        "count": 2,
+        "sample_ids": [
+          "sample_2fb01a426c0b",
+          "sample_db72135e05c9"
+        ]
+      }
+    ]
+  },
+  "by_component": {
+    "ascend": 52,
+    "battery_level": 100,
+    "battery_warning": 100,
+    "descend": 18,
+    "get_gnss_position": 62,
+    "gnss_to_position_3d": 62,
+    "goto_point": 22,
+    "hover": 71,
+    "land": 248,
+    "object_detect": 21,
+    "obstacle_avoid_flight": 40,
+    "preflight_check": 100,
+    "return_home": 179,
+    "sensor_camera_scan": 32,
+    "sensor_ir_scan": 28,
+    "sensor_radar_scan": 40,
+    "takeoff": 100,
+    "target_tracking": 9,
+    "waypoint_flight": 38,
+    "waypoint_list_create": 38
+  },
   "by_complexity": {
     "complex": 34,
     "medium": 33,
     "simple": 33
   },
-  "branches_by_complexity": {
-    "complex:2": 18,
-    "complex:3": 16,
+  "by_complexity_and_failure_branch_count": {
+    "complex:2": 16,
+    "complex:3": 18,
     "medium:1": 18,
     "medium:2": 15,
     "simple:0": 19,
     "simple:1": 14
   },
-  "policy_by_complexity": {
-    "complex:hold_then_return": 6,
-    "complex:safe_land": 45,
-    "complex:safe_return": 33,
-    "medium:hold_then_return": 7,
-    "medium:safe_land": 23,
-    "medium:safe_return": 18,
-    "simple:hold_then_return": 2,
-    "simple:safe_land": 9,
-    "simple:safe_return": 3
+  "by_svr_stage": {
+    "battery_level": {
+      "0": 100
+    },
+    "battery_warning": {
+      "0": 100
+    },
+    "get_gnss_position": {
+      "0": 2,
+      "1": 16,
+      "2": 32,
+      "3": 12
+    },
+    "gnss_to_position_3d": {
+      "0": 1,
+      "1": 9,
+      "2": 31,
+      "3": 21
+    },
+    "object_detect": {
+      "1": 1,
+      "2": 3,
+      "3": 11,
+      "4": 6
+    },
+    "sensor_camera_scan": {
+      "1": 4,
+      "2": 9,
+      "3": 13,
+      "4": 6
+    },
+    "sensor_ir_scan": {
+      "1": 3,
+      "2": 11,
+      "3": 12,
+      "4": 2
+    },
+    "sensor_radar_scan": {
+      "0": 2,
+      "1": 10,
+      "2": 17,
+      "3": 11
+    },
+    "waypoint_list_create": {
+      "0": 2,
+      "1": 11,
+      "2": 17,
+      "3": 8
+    }
   },
-  "exact_topology": {
-    "unique_count": 67,
-    "duplicate_group_count": 18,
-    "duplicate_sample_count": 51,
-    "max_group_size": 6,
-    "top_groups": [
-      [
-        "sample_43157d839f41",
-        "sample_25e6f2713955",
-        "sample_d3cf41ac7af6",
-        "sample_5900ff0a67c5",
-        "sample_328e7897709f",
-        "sample_9fb950397f6c"
-      ],
-      [
-        "sample_6df5e36f95f4",
-        "sample_f83aebac5e31",
-        "sample_3734ec3d1910",
-        "sample_11bb9ef2cba1"
-      ],
-      [
-        "sample_12b182a1bbcf",
-        "sample_4ac29adb4940",
-        "sample_4f3a5faf2376",
-        "sample_2a680b7a997c"
-      ],
-      [
-        "sample_3a648a30aa8b",
-        "sample_94eaaa24bf66",
-        "sample_4df33c2b0e78",
-        "sample_6ecf2ffe5661"
-      ],
-      [
-        "sample_a63a65ef21ad",
-        "sample_951fed01b25d",
-        "sample_5c4566c5077f"
-      ],
-      [
-        "sample_5b78acab1ad4",
-        "sample_aba53868aedb",
-        "sample_718641cdf194"
-      ],
-      [
-        "sample_062155ecd96e",
-        "sample_45391da9224d",
-        "sample_efce113a5213"
-      ],
-      [
-        "sample_e53ce6a9c64f",
-        "sample_93058f1579d4",
-        "sample_42dfa0699134"
-      ],
-      [
-        "sample_ced9ef6cc186",
-        "sample_3c0e487e5da2",
-        "sample_b4e46b55900d"
-      ],
-      [
-        "sample_b4db6c2869f1",
-        "sample_8566edf91a38"
-      ]
-    ]
-  },
-  "component_stage_signature": {
-    "unique_count": 67,
-    "duplicate_group_count": 18,
-    "duplicate_sample_count": 51,
-    "max_group_size": 6,
-    "top_groups": [
-      [
-        "sample_43157d839f41",
-        "sample_25e6f2713955",
-        "sample_d3cf41ac7af6",
-        "sample_5900ff0a67c5",
-        "sample_328e7897709f",
-        "sample_9fb950397f6c"
-      ],
-      [
-        "sample_6df5e36f95f4",
-        "sample_f83aebac5e31",
-        "sample_3734ec3d1910",
-        "sample_11bb9ef2cba1"
-      ],
-      [
-        "sample_12b182a1bbcf",
-        "sample_4ac29adb4940",
-        "sample_4f3a5faf2376",
-        "sample_2a680b7a997c"
-      ],
-      [
-        "sample_3a648a30aa8b",
-        "sample_94eaaa24bf66",
-        "sample_4df33c2b0e78",
-        "sample_6ecf2ffe5661"
-      ],
-      [
-        "sample_a63a65ef21ad",
-        "sample_951fed01b25d",
-        "sample_5c4566c5077f"
-      ],
-      [
-        "sample_5b78acab1ad4",
-        "sample_aba53868aedb",
-        "sample_718641cdf194"
-      ],
-      [
-        "sample_062155ecd96e",
-        "sample_45391da9224d",
-        "sample_efce113a5213"
-      ],
-      [
-        "sample_e53ce6a9c64f",
-        "sample_93058f1579d4",
-        "sample_42dfa0699134"
-      ],
-      [
-        "sample_ced9ef6cc186",
-        "sample_3c0e487e5da2",
-        "sample_b4e46b55900d"
-      ],
-      [
-        "sample_b4db6c2869f1",
-        "sample_8566edf91a38"
-      ]
-    ]
-  },
-  "normalized_prev_shape": {
-    "unique_count": 67,
-    "duplicate_group_count": 18,
-    "duplicate_sample_count": 51,
-    "max_group_size": 6,
-    "top_groups": [
-      [
-        "sample_43157d839f41",
-        "sample_25e6f2713955",
-        "sample_d3cf41ac7af6",
-        "sample_5900ff0a67c5",
-        "sample_328e7897709f",
-        "sample_9fb950397f6c"
-      ],
-      [
-        "sample_6df5e36f95f4",
-        "sample_f83aebac5e31",
-        "sample_3734ec3d1910",
-        "sample_11bb9ef2cba1"
-      ],
-      [
-        "sample_12b182a1bbcf",
-        "sample_4ac29adb4940",
-        "sample_4f3a5faf2376",
-        "sample_2a680b7a997c"
-      ],
-      [
-        "sample_3a648a30aa8b",
-        "sample_94eaaa24bf66",
-        "sample_4df33c2b0e78",
-        "sample_6ecf2ffe5661"
-      ],
-      [
-        "sample_a63a65ef21ad",
-        "sample_951fed01b25d",
-        "sample_5c4566c5077f"
-      ],
-      [
-        "sample_5b78acab1ad4",
-        "sample_aba53868aedb",
-        "sample_718641cdf194"
-      ],
-      [
-        "sample_062155ecd96e",
-        "sample_45391da9224d",
-        "sample_efce113a5213"
-      ],
-      [
-        "sample_e53ce6a9c64f",
-        "sample_93058f1579d4",
-        "sample_42dfa0699134"
-      ],
-      [
-        "sample_ced9ef6cc186",
-        "sample_3c0e487e5da2",
-        "sample_b4e46b55900d"
-      ],
-      [
-        "sample_b4db6c2869f1",
-        "sample_8566edf91a38"
-      ]
-    ]
+  "by_robot_ctrl_stage": {
+    "ascend": {
+      "2": 52
+    },
+    "descend": {
+      "4": 8,
+      "5": 9,
+      "6": 1
+    },
+    "goto_point": {
+      "2": 15,
+      "3": 7
+    },
+    "hover": {
+      "3": 20,
+      "4": 30,
+      "5": 20,
+      "6": 1
+    },
+    "land": {
+      "2": 50,
+      "3": 19,
+      "4": 49,
+      "5": 65,
+      "6": 32,
+      "7": 31,
+      "8": 2
+    },
+    "obstacle_avoid_flight": {
+      "2": 14,
+      "3": 26
+    },
+    "preflight_check": {
+      "0": 100
+    },
+    "return_home": {
+      "3": 49,
+      "4": 65,
+      "5": 32,
+      "6": 31,
+      "7": 2
+    },
+    "takeoff": {
+      "1": 100
+    },
+    "target_tracking": {
+      "4": 6,
+      "5": 3
+    },
+    "waypoint_flight": {
+      "2": 19,
+      "3": 19
+    }
   }
 }

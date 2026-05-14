@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-14T02:08:57.062441+00:00",
+  "generated_at": "2026-05-14T02:29:45.255134+00:00",
   "pipeline_version": "0.1.0",
   "generator_version": "0.1.0",
   "sample_count_requested": 100,
@@ -17,12 +17,12 @@
   "validation_issue_counts": {},
   "duplicate_records": [],
   "failure_enabled_count": 100,
-  "failure_branch_count": 146,
-  "guarded_robot_ctrl_stage_count": 212,
+  "failure_branch_count": 148,
+  "guarded_robot_ctrl_stage_count": 217,
   "by_failure_policy": {
-    "hold_then_return": 15,
-    "safe_land": 77,
-    "safe_return": 54
+    "hold_then_return": 28,
+    "safe_land": 69,
+    "safe_return": 51
   },
   "output_files": {
     "seed_data": "raw\\seed_data.json",

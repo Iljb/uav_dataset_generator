@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import random
 from dataclasses import asdict, dataclass
@@ -22,6 +23,28 @@ RETURN_ROLE = "flight.return"
 LAND_ROLE = "flight.land"
 OBSTACLE_AVOID_ROLE = "navigation.obstacle_avoid"
 TARGET_TRACKING_ROLE = "tracking.target"
+
+OBSERVATION_CAPABILITIES = (
+    "image_capture",
+    "thermal_scan",
+    "object_detection",
+    "target_tracking",
+)
+MEDIUM_HEIGHT_ASCEND_PROBABILITY = {
+    "simple": 0.45,
+    "medium": 0.70,
+    "complex": 0.90,
+}
+HIGH_HEIGHT_DESCEND_PROBABILITY = {
+    "simple": 0.45,
+    "medium": 0.65,
+    "complex": 0.85,
+}
+OBSERVATION_STABILIZATION_PROBABILITY = {
+    "simple": 0.20,
+    "medium": 0.45,
+    "complex": 0.75,
+}
 
 POSITION_SERVICE_ROLES = ("service.position.gnss", "service.position.local_pose")
 WAYPOINT_SERVICE_ROLES = ("service.route.waypoint_list",)
@@ -112,6 +135,14 @@ def build_abstract_plan(
     for role in route_roles:
         _append_role(robot_roles, role, "ROBOT_CTRL", f"route_mode.{route_mode}")
 
+    if _should_add_observation_stabilization(semantic_input, robot_roles):
+        _append_role(
+            robot_roles,
+            "observation.hover",
+            "ROBOT_CTRL",
+            "variant.observation_stabilization",
+        )
+
     if _capability_enabled(semantic_input, "target_tracking"):
         _append_role(
             robot_roles,
@@ -141,10 +172,11 @@ def build_abstract_plan(
         robot_roles=tuple(robot_roles),
         service_roles=tuple(service_roles),
         metadata={
-            "planner_version": "0.1.0",
+            "planner_version": "0.2.0",
             "contains_component_ids": False,
             "component_resolution": "deferred",
             "legacy_generator_replaced": False,
+            "uses_default_diversity_variants": True,
         },
     )
 
@@ -190,16 +222,44 @@ def _replace_primary_navigation_role(route_roles: list[str]) -> list[str]:
 
 def _height_entry_roles(semantic_input: dict[str, Any]) -> list[str]:
     height_level = semantic_input.get("flight", {}).get("height_level")
-    if height_level in {"medium", "high"}:
+    if height_level == "high":
+        return [ALTITUDE_UP_ROLE]
+    if height_level == "medium" and _stable_probability_enabled(
+        semantic_input,
+        "height.medium.ascend",
+        MEDIUM_HEIGHT_ASCEND_PROBABILITY,
+    ):
         return [ALTITUDE_UP_ROLE]
     return []
 
 
 def _height_exit_roles(semantic_input: dict[str, Any]) -> list[str]:
     height_level = semantic_input.get("flight", {}).get("height_level")
-    if height_level == "high":
+    if height_level == "high" and _stable_probability_enabled(
+        semantic_input,
+        "height.high.descend",
+        HIGH_HEIGHT_DESCEND_PROBABILITY,
+    ):
         return [ALTITUDE_DOWN_ROLE]
     return []
+
+
+def _should_add_observation_stabilization(
+    semantic_input: dict[str, Any],
+    robot_roles: list[PlannedRole],
+) -> bool:
+    if any(role.role == "observation.hover" for role in robot_roles):
+        return False
+    if not any(
+        _capability_enabled(semantic_input, capability)
+        for capability in OBSERVATION_CAPABILITIES
+    ):
+        return False
+    return _stable_probability_enabled(
+        semantic_input,
+        "observation.stabilization_hover",
+        OBSERVATION_STABILIZATION_PROBABILITY,
+    )
 
 
 def _safety_service_roles(semantic_input: dict[str, Any]) -> tuple[str, ...]:
@@ -260,6 +320,27 @@ def _capability_enabled(semantic_input: dict[str, Any], capability: str) -> bool
     if isinstance(value, dict):
         return bool(value.get("enabled", False))
     return bool(value)
+
+
+def _stable_probability_enabled(
+    semantic_input: dict[str, Any],
+    scope: str,
+    probabilities: dict[str, float],
+) -> bool:
+    complexity = _complexity(semantic_input)
+    threshold = probabilities.get(complexity, probabilities.get("medium", 0.0))
+    return _stable_unit_interval({"semantic": semantic_input, "scope": scope}) < threshold
+
+
+def _complexity(semantic_input: dict[str, Any]) -> str:
+    value = semantic_input.get("complexity", "medium")
+    return value if isinstance(value, str) else "medium"
+
+
+def _stable_unit_interval(value: Any) -> float:
+    payload = json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
+    digest = hashlib.sha1(payload.encode("utf-8")).hexdigest()[:12]
+    return int(digest, 16) / float(0xFFFFFFFFFFFF)
 
 
 def _parse_args() -> argparse.Namespace:

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import asdict, dataclass
 from typing import Any
 
@@ -20,6 +22,17 @@ from generator.template_generator import GeneratorConfig, load_configs
 GLOBAL_SERVICE_ROLES = {
     "service.battery.level",
     "service.battery.warning",
+}
+
+SERVICE_START_SHIFT_PROBABILITY = {
+    "simple": 0.25,
+    "medium": 0.50,
+    "complex": 0.75,
+}
+SERVICE_START_SHIFT_MAX_DISTANCE = {
+    "simple": 1,
+    "medium": 1,
+    "complex": 2,
 }
 
 SERVICE_STAGE_ROLE_PRIORITIES = {
@@ -122,15 +135,26 @@ def resolve_service_plan(
         index,
     )
 
-    placements: list[ServicePlacement] = []
-    stage_services: list[list[str]] = [[] for _ in robot_ctrl_chain]
-    for service in resolved_services:
-        stage_index = _service_stage_index(
+    base_stage_by_component = {
+        service.component: _service_stage_index(
             service,
             robot_roles,
             robot_ctrl_chain,
             index,
         )
+        for service in resolved_services
+    }
+    stage_by_component = _apply_service_stage_variants(
+        resolved_services,
+        base_stage_by_component,
+        semantic_input,
+        index,
+    )
+
+    placements: list[ServicePlacement] = []
+    stage_services: list[list[str]] = [[] for _ in robot_ctrl_chain]
+    for service in resolved_services:
+        stage_index = stage_by_component[service.component]
         placement = ServicePlacement(
             role=service.role,
             component=service.component,
@@ -149,6 +173,7 @@ def resolve_service_plan(
             "service_resolver_version": "0.1.0",
             "uses_service_roles": True,
             "uses_topic_dependencies": True,
+            "uses_default_stage_start_variants": True,
             "legacy_component_name_rules_replaced": True,
         },
     )
@@ -249,6 +274,97 @@ def _service_stage_index(
     return 0
 
 
+def _apply_service_stage_variants(
+    services: tuple[ResolvedRole, ...],
+    base_stage_by_component: dict[str, int],
+    semantic_input: dict[str, Any],
+    index: ComponentIndex,
+) -> dict[str, int]:
+    stage_by_component = dict(base_stage_by_component)
+
+    for service in services:
+        base_stage = base_stage_by_component[service.component]
+        if not _should_shift_service_start(service, base_stage, semantic_input):
+            continue
+        distance = _service_shift_distance(service, base_stage, semantic_input)
+        stage_by_component[service.component] = max(0, base_stage - distance)
+
+    return _enforce_service_topic_order(stage_by_component, services, index)
+
+
+def _should_shift_service_start(
+    service: ResolvedRole,
+    base_stage: int,
+    semantic_input: dict[str, Any],
+) -> bool:
+    if service.role in GLOBAL_SERVICE_ROLES or base_stage <= 0:
+        return False
+    probability = SERVICE_START_SHIFT_PROBABILITY.get(
+        _complexity(semantic_input),
+        SERVICE_START_SHIFT_PROBABILITY["medium"],
+    )
+    return _stable_unit_interval(
+        {
+            "semantic": semantic_input,
+            "scope": "service.stage_shift",
+            "role": service.role,
+            "component": service.component,
+        }
+    ) < probability
+
+
+def _service_shift_distance(
+    service: ResolvedRole,
+    base_stage: int,
+    semantic_input: dict[str, Any],
+) -> int:
+    max_distance = min(
+        base_stage,
+        SERVICE_START_SHIFT_MAX_DISTANCE.get(
+            _complexity(semantic_input),
+            SERVICE_START_SHIFT_MAX_DISTANCE["medium"],
+        ),
+    )
+    if max_distance <= 0:
+        return 0
+    return 1 + (
+        _stable_int(
+            {
+                "semantic": semantic_input,
+                "scope": "service.stage_shift_distance",
+                "role": service.role,
+                "component": service.component,
+            }
+        )
+        % max_distance
+    )
+
+
+def _enforce_service_topic_order(
+    stage_by_component: dict[str, int],
+    services: tuple[ResolvedRole, ...],
+    index: ComponentIndex,
+) -> dict[str, int]:
+    service_components = {service.component for service in services}
+    output = dict(stage_by_component)
+    changed = True
+
+    while changed:
+        changed = False
+        for service in services:
+            component = index.component(service.component)
+            minimum_stage = 0
+            for topic in _required_consumed_topics(component):
+                provider = _select_topic_provider(topic, index)
+                if provider in service_components:
+                    minimum_stage = max(minimum_stage, output[provider])
+            if output[service.component] < minimum_stage:
+                output[service.component] = minimum_stage
+                changed = True
+
+    return output
+
+
 def _first_direct_topic_consumer_stage(
     service_component_id: str,
     robot_ctrl_chain: list[str],
@@ -338,3 +454,17 @@ def _component_weight(component: dict[str, Any]) -> float:
     if isinstance(weight, bool) or not isinstance(weight, int | float):
         return 0.0
     return float(weight)
+
+
+def _complexity(semantic_input: dict[str, Any]) -> str:
+    value = semantic_input.get("complexity", "medium")
+    return value if isinstance(value, str) else "medium"
+
+
+def _stable_int(value: Any) -> int:
+    payload = json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
+    return int(hashlib.sha1(payload.encode("utf-8")).hexdigest()[:12], 16)
+
+
+def _stable_unit_interval(value: Any) -> float:
+    return _stable_int(value) / float(0xFFFFFFFFFFFF)

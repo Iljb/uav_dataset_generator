@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-14T02:08:57.062124+00:00",
+  "generated_at": "2026-05-14T02:29:45.254816+00:00",
   "pipeline_version": "0.1.0",
   "generator_version": "0.1.0",
   "seed": 42,
@@ -28,39 +28,39 @@
     "waypoint": 28
   },
   "by_stage_count": {
-    "5": 26,
-    "6": 37,
-    "7": 19,
-    "8": 17,
-    "9": 1
+    "5": 28,
+    "6": 28,
+    "7": 20,
+    "8": 22,
+    "9": 2
   },
   "by_action_count": {
-    "9": 3,
-    "10": 6,
-    "11": 16,
-    "12": 17,
-    "13": 15,
-    "14": 12,
-    "15": 13,
-    "16": 6,
-    "17": 5,
-    "18": 5,
-    "19": 2
+    "9": 2,
+    "10": 12,
+    "11": 13,
+    "12": 13,
+    "13": 13,
+    "14": 9,
+    "15": 12,
+    "16": 7,
+    "17": 7,
+    "18": 11,
+    "19": 1
   },
   "by_component": {
-    "ascend": 68,
+    "ascend": 52,
     "battery_level": 100,
     "battery_warning": 100,
-    "descend": 25,
+    "descend": 18,
     "get_gnss_position": 62,
     "gnss_to_position_3d": 62,
     "goto_point": 22,
-    "hover": 34,
-    "land": 246,
+    "hover": 71,
+    "land": 248,
     "object_detect": 21,
     "obstacle_avoid_flight": 40,
     "preflight_check": 100,
-    "return_home": 169,
+    "return_home": 179,
     "sensor_camera_scan": 32,
     "sensor_ir_scan": 28,
     "sensor_radar_scan": 40,
@@ -70,14 +70,14 @@
     "waypoint_list_create": 38
   },
   "by_robot_ctrl": {
-    "ascend": 68,
-    "descend": 25,
+    "ascend": 52,
+    "descend": 18,
     "goto_point": 22,
-    "hover": 34,
-    "land": 246,
+    "hover": 71,
+    "land": 248,
     "obstacle_avoid_flight": 40,
     "preflight_check": 100,
-    "return_home": 169,
+    "return_home": 179,
     "takeoff": 100,
     "target_tracking": 9,
     "waypoint_flight": 38
@@ -94,11 +94,11 @@
     "waypoint_list_create": 38
   },
   "failure_enabled_count": 100,
-  "failure_branch_count": 146,
-  "guarded_robot_ctrl_stage_count": 212,
+  "failure_branch_count": 148,
+  "guarded_robot_ctrl_stage_count": 217,
   "by_failure_policy": {
-    "hold_then_return": 15,
-    "safe_land": 77,
-    "safe_return": 54
+    "hold_then_return": 28,
+    "safe_land": 69,
+    "safe_return": 51
   }
 }
